@@ -1,6 +1,20 @@
 # product-hydra-sales-web
-
 > The Sales-Web frontend for the Green Coco Land web app. 
+
+This Project using Angular ABP, For details feautures you can check this link https://aspnetboilerplate.com/Pages/Documents/Feature-Management.
+
+The most difficult project that i have made is
+
+1. Diagrammatic 
+Diagram yang menampilkan Unit & Floor berdasarkan Project & Cluster yang dipilih.
+Metode yang dipakai adalah mencocokan antara header(unitcode) dan floor untuk menampilkan unit tsb.
+Component yang digunakan : https://l-lin.github.io/angular-datatables/.
+Source Code : \src\app\main\diagrammatic
+
+2. Siteplan SVG
+Denah yang menampilkan lokasi/letak Unit berdasarkan Project & Cluster yang dipilih.
+Metode yang dipakai adalah mencocokan antara images svg dari server dengan units dari get API untuk diassign ke dalam component maps SVG.
+Component yang digunakan : https://mapsvg.com/
 
 ## Background
 
