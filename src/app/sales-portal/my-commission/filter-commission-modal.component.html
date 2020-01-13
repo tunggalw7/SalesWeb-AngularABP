@@ -1,0 +1,187 @@
+<div bsModal #filterCommissionModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detailBookingModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="m-form m-form--fit m-form--label-align-right" method="post" novalidate>
+                <div class="modal-header custom">
+                    <!-- <h5 class="modal-title" id="exampleModalLabel">
+                        Filter - Commission List
+                    </h5> -->
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                            Filter - Commission List
+                        </h3>
+                        <small class="m-form__help">
+                            (*) to display a list using a filter, you must enable it first in the checkbox
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-body" [busyIf]="keyfeatureLoading">
+                    <div class="row m--margin-bottom-10">                       
+                        <div class="col-lg-1">
+                            <div class="m-checkbox-inline">
+                                <label class="m-checkbox">
+                                    <input type="checkbox" name="projectFilter" [(ngModel)]="projectFilter">
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                        <label for="project" class="col-lg-4 col-form-label text-left">
+                            Project
+                        </label>
+                        <div class="col-lg-7">
+                            <div [busyIf]="projectLoading" *ngIf="!projectFilter">
+                                <select id="project" [disabled]="true" class="form-control project" title="Select project"  jq-plugin="selectpicker" data-live-search="true">
+                                    <option *ngFor="let project of _projectList" [value]="project.id">
+                                        {{project.projectName}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div [busyIf]="projectLoading" *ngIf="projectFilter">
+                                <select id="project" [disabled]="false" class="form-control project" title="Select project"  jq-plugin="selectpicker" data-live-search="true" [(ngModel)]="projectFilters" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChangeProject($event)">
+                                    <option *ngFor="let project of _projectList" [value]="project.id">
+                                        {{project.projectName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m--margin-bottom-10" *ngIf="projectFilter">                       
+                        <div class="col-lg-1">
+                            <div class="m-checkbox-inline">
+                                <label class="m-checkbox">
+                                    <input type="checkbox" name="termFilter" [(ngModel)]="termFilter">
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                        <label for="termOfPayment" class="col-lg-4 col-form-label text-left">
+                            Term of Payment
+                        </label>
+                        <div class="col-lg-7">
+                            <div [busyIf]="termLoading" *ngIf="!termFilter">
+                                <select id="termOfPayment" [disabled]="true" class="form-control term" title="Select term of payment"  jq-plugin="selectpicker" data-live-search="true">
+                                    <option *ngFor="let term of _termOfPayment" [value]="term.id">
+                                        {{term.remarks}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div [busyIf]="termLoading" *ngIf="termFilter">
+                                <select id="termOfPayment" [disabled]="false" class="form-control term" title="Select term of payment"  jq-plugin="selectpicker" data-live-search="true" [(ngModel)]="termFilters" [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let term of _termOfPayment" [value]="term.id">
+                                        {{term.remarks}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m--margin-bottom-10">                       
+                        <div class="col-lg-1">
+                            <div class="m-checkbox-inline">
+                                <label class="m-checkbox">
+                                    <input type="checkbox" name="statusFilter" [(ngModel)]="statusFilter">
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                        <label for="status" class="col-lg-4 col-form-label text-left">
+                            Status
+                        </label>
+                        <div class="col-lg-7">
+                            <div [busyIf]="statusLoading" *ngIf="!statusFilter">
+                                <select id="status" [disabled]="true" class="form-control status" title="Select status"  jq-plugin="selectpicker" data-live-search="true">
+                                    <option *ngFor="let status of _statusList" [value]="status.statusID">
+                                        {{status.statusName}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div [busyIf]="statusLoading" *ngIf="statusFilter">
+                                <select id="status" [disabled]="false" class="form-control status" title="Select status"  jq-plugin="selectpicker" data-live-search="true" [(ngModel)]="statusFilters" [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let status of _statusList" [value]="status.statusID">
+                                        {{status.statusName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m--margin-bottom-10">                       
+                        <div class="col-lg-1">
+                            <div class="m-checkbox-inline">
+                                <label class="m-checkbox">
+                                    <input type="checkbox" name="summaryFilter" [(ngModel)]="summaryFilter">
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                        <label for="summary" class="col-lg-4 col-form-label text-left">
+                            Summary
+                        </label>
+                        <div class="col-lg-7">
+                            <div [busyIf]="summaryLoading" *ngIf="!summaryFilter">
+                                <select id="summary" [disabled]="true" class="form-control summary" title="Select summary"  jq-plugin="selectpicker" data-live-search="true">
+                                    <option *ngFor="let summary of _summaryList" [value]="summary.summaryCode" >
+                                        {{summary.summaryName}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div [busyIf]="summaryLoading" *ngIf="summaryFilter">
+                                <select id="summary" [disabled]="false" (change)="onChangeSummary($event)" class="form-control summary" title="Select summary"  jq-plugin="selectpicker" data-live-search="true">
+                                    <option *ngFor="let summary of _summaryList" [value]="summary.summaryCode">
+                                        {{summary.summaryName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m--margin-bottom-10">                       
+                        <div class="col-lg-1">
+                            <div class="m-checkbox-inline">
+                                <label class="m-checkbox">
+                                    <input type="checkbox" name="specDateFilter" [(ngModel)]="specDateFilter">
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                        <label for="specificDate" class="col-lg-4 col-form-label text-left">
+                            Specific Date
+                        </label>
+                        <div class="col-lg-7">
+                            <div class="row m--margin-bottom-10">
+                                <div class="col-lg-12">
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input datePicker="datepicker" #ActiveStartDate name="ActiveStartDate" class="form-control" placeholder="Start Date: DD/MM/YYYY"
+                                        required readonly [disabled]="!specDateFilter">
+
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="la la-calendar"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="isWeekly && summaryFilter">
+                                <div class="col-lg-12">
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input datePicker="datepicker" #ActiveEndDate name="ActiveEndDate" class="form-control" placeholder="End Date: DD/MM/YYYY"
+                                        required readonly [disabled]="!specDateFilter">
+
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="la la-calendar"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-form__actions m-form__actions--solid">
+                    <button type="button" class="btn btn-metal m-btn--pill m-btn--air m-btn--square m-btn--bolder m-btn--uppercase" [disabled]="keyfeatureLoading" (click)="close()" style="border-radius: 0.2rem !important;">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-danger m-btn--pill m-btn--air m-btn--square m-btn--bolder m-btn--uppercase" [disabled]="keyfeatureLoading" (click)="save()" style="border-radius: 0.2rem !important;"><i class="la la-filter"></i> Filter Commission</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

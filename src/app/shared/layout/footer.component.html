@@ -1,0 +1,38 @@
+<style type="text/css">
+    .m-footer__copyright {
+        color: #fff;
+    }
+    
+    .right {
+        float: right !important;
+    }
+    
+    .footer {
+        height: 47px;
+        font-size: 0.9rem;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background: #444;
+        padding: 7px 40px;
+        font-family: poppins;
+    }
+</style>
+
+<footer class="m-grid__item footer">
+    <div class="m-container m-container--fluid m-container--full-height m-page__container">
+        <span class="m-footer__copyright">
+            <button (click)="openUserModal()" class="btn btn-sm btn-outline-primary m-btn m-btn--outline-2x" style="border: 0 !important;margin-top: 3px; color: white;">
+                <i class="fa fa-book"></i> User Manual Infinity 8
+            </button>
+            <!-- <i class="fa fa-book" style="margin-top: 8px"></i> -->
+        </span>
+        <span class="m-footer__copyright right m--margin-top-10">
+            Sales Web
+            <!-- Demo<span *ngIf="appSession.tenant && appSession.tenant.edition && appSession.tenant.edition.displayName"> {{appSession.tenant.edition.displayName}}</span> -->
+        <!-- <br /> -->
+        V.1.0.39 [{{releaseDate}}]
+        </span>
+    </div>
+</footer>

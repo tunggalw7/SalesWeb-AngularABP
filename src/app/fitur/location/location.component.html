@@ -1,0 +1,117 @@
+<p-panel >
+    <p-header>
+        <div class="ui-helper-clearfix">
+            <span class="ui-panel-title" style="font-size:16px;font-weight:bold;display:inline-block;margin-top:2px">Location</span>
+            <span class="ui-panel-title pnl-cls">                
+                <label class="m-checkbox m-checkbox--square">
+                    <input (change)="locationChanged()" value="true" [(ngModel)]="show_location" type="checkbox">
+                    Show in main page?
+                    <span></span>
+                </label>
+            </span>
+        </div>
+    </p-header>
+        <div class="m-portlet__body" style="padding: 0px 20px 20px 20px">
+            <div class="form-group m-form__group row">
+                <div class="m-radio-inline">
+                    <label class="m-radio m-radio--solid">
+                        <input  (ngModelChange)="loadData(1)" type="radio" name="loc_type" [(ngModel)]="type" [value]="1">
+                        <div class="m-portlet__head-title" style="margin-bottom:10px">
+                            <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                                By Google Maps
+                            </h3>
+                            <small class="m-form__help">
+                                Set project location based on Lattitude & Longitude
+                            </small>
+                        </div>
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+            <div style="padding:0px 20px">
+                <div class="form-group m-form__group row">                    
+                    <div class="col-lg-6">
+                        <label for="latitude">
+                            Lattitude
+                        </label>
+                        <div class="m-input-icon m-input-icon--left">
+                            <input (focusout)="locationChanged()" (ngModelChange)="locationChanged()" id="latitude" class="form-control m-input" type="text" placeholder="Enter lattitude coordinate" [(ngModel)]="model_map.latitude"
+                                [readonly]="type!=1">
+                            <span class="m-input-icon__icon m-input-icon__icon--left">
+                            <span>
+                                <i class="la la-map-marker"></i>
+                            </span>
+                            </span>
+                        </div>
+                        <span class="text-danger" *ngIf="(type==1 && (model_map.latitude===undefined || model_map.latitude==='')) ">Attitude cannot be empty</span>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="longitude">
+                            Longitude
+                        </label>
+                        <div class="m-input-icon m-input-icon--left">
+                            <input (focusout)="locationChanged()" (ngModelChange)="locationChanged()"  id="longitude" class="form-control m-input" type="text" placeholder="Enter longitude coordinate" [(ngModel)]="model_map.longitude"
+                                [readonly]="type!=1">
+                            <span class="m-input-icon__icon m-input-icon__icon--left">
+                            <span>
+                                <i class="la la-map-marker"></i>
+                            </span>
+                            </span>
+                        </div>
+                        <span class="text-danger" *ngIf="(type==1 && (model_map.longitude===undefined || model_map.longitude==='')) ">Longitude cannot be empty</span>
+                    </div>
+                </div>
+                
+                <div class="form-group m-form__group row">
+                    <label for="address" class="col-sm-2 col-form-label">Address</label>
+                    <div class="col-sm-10">                        
+                        <textarea (focusout)="locationChanged()"  class="form-control m-input" [(ngModel)]="model_map.maps_address" id="address" rows="3" [readonly]="type!=1" placeholder="Enter location address"></textarea>
+                        <span class="text-danger" *ngIf="(type==1 && (model_map.maps_address===undefined || model_map.maps_address==='')) ">Address cannot be empty</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-form__group row">
+                <div class="m-radio-inline">
+                    <label class="m-radio m-radio--solid">
+                        <input  (ngModelChange)="loadData(2)" type="radio" name="loc_type" [(ngModel)]="type" [value]="2">
+                        <div class="m-portlet__head-title" style="margin-bottom:10px">
+                            <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                                By Upload Image
+                            </h3>
+                            <small class="m-form__help">
+                                Set project location with image instructions
+                            </small>
+                        </div>
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+            <div style="padding:0px 20px">
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-4">
+                        <input  (ngModelChange)="locationChanged()"  type="file" class="form-control" [(ngModel)]="model_img.image" fileUpload [options]="optionsFile" (pictureUrl)="pictureUrl($event)"
+                            (onAfterFileUpload)="imgUploaded($event)" name="file" />
+                        <span class="m-form__help">
+                                You can upload JPG/JPEG/PNG file, with maximum file size 1 MB.
+                        </span>
+                        <div class="col-2 row" *ngIf="uploadedFileNamePastSrc !== '-' || uploadedFileName !== '-'">
+                            <img style="max-height:100px;width:auto" src="{{uploadedFileNamePastSrc}}" />
+                        </div>                
+                        <div class="row" style="margin-top:5px;margin-bottom:5px" class="col-2 row" *ngIf="uploadedFileNamePastSrc != null || uploadedFileName !== null">
+                                <button (click)="delImage()" class="btn btn-danger" style="padding:5px"><i class="fa fa-trash"></i>Remove File</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label for="address" class="col-sm-2 col-form-label">Address</label>
+                    <div class="col-sm-10">
+                        <textarea (focusout)="locationChanged()" (ngModelChange)="locationChanged()"  [(ngModel)]="model_map.maps_address" class="form-control m-input" id="address"
+                            rows="3" [readonly]="type!=2" placeholder="Enter location address"></textarea>
+                        <span class="text-danger" *ngIf="(type==2 && (model_map.maps_address===undefined || model_map.maps_address==='')) ">Address cannot be empty</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+</p-panel>
+
+<previewModal #previewModal></previewModal>

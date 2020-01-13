@@ -1,0 +1,33 @@
+<style>
+    .red {
+        box-shadow: 0px 0px 2px 2px red;
+    }
+    .btn-badge{
+        font-size: 15px;
+        background-color: #e72937 !important;
+        color: #ffffff;
+    }
+</style>
+<div bsModal #modal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true"
+    [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form role="form" novalidate class="m-form m-form--fit m-form--label-align-right form-validation">
+                <div class="modal-body" style="text-align:center"> <!-- [busyIf]="towerLoading"  -->
+                    <button type="button" style="cursor: pointer;" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times; 
+                        </span>
+                    </button>
+                    <h4 style="margin-bottom:30px">Setting Up New Project?</h4>
+                    <button class="btn btn-primary m-btn m-btn--icon text-right ng-tns-c9-7 ng-star-inserted" (click)="gotoProject(true)">
+                        <span>Set Up Project From Master</span>
+                    </button>
+                    <button disabled class="btn btn-primary m-btn m-btn--icon text-right ng-tns-c9-7 ng-star-inserted" (click)="gotoProject(false)">
+                        <span>Set Up External Project</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

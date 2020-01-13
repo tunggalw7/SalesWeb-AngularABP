@@ -1,0 +1,142 @@
+<div class="m-subheader ">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Cart
+			</h3>
+			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+				<li class="m-nav__item m-nav__item--home">
+					<a href="" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a href="app/main/dashboard" class="m-nav__link">
+						<span class="m-nav__link-text">
+								Online Booking
+							</span>
+					</a>
+				</li>
+				<li class="m-nav__separator">
+					-
+				</li>
+				<li class="m-nav__item">
+					<a class="m-nav__link">
+						<span class="m-nav__link-text">
+								Cart
+							</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div *ngIf="dataCart.length >= 1">
+			<span class="m-subheader__daterange" id="m_dashboard_daterangepicker">
+				<myduration></myduration>
+			</span>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content">
+	<div class="m-portlet">
+		<div class="m-portlet__body" style="padding: 0 !important">
+			<div *ngIf="!isCart" style="padding: 2.2rem 2.2rem !important;">
+				<table class="table table-hover">
+					<tbody>
+						<tr>
+							<td>
+								<p class="text-center">
+									<label>Your cart is empty.</label>
+								</p>
+								<p class="text-center">
+									<a (click)="addUnit()" class="btn btn-metal btn-lg m-btn m-btn--air">
+										ADD UNIT
+									</a>
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!--begin: Datatable -->
+			<div *ngIf="isCart" class="align-items-center">
+				<div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading" style="
+				max-height: 420px;
+				overflow-y: auto;">
+					<p-dataTable #dataTable [globalFilter]="gf" [value]="dataCart" rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}"
+					 [paginator]="false" [rowsPerPageOptions]="[10,20,50,100]" [lazy]="false" emptyMessage="{{l('NoData')}}" [responsive]="primengDatatableHelper.isResponsive"
+					 expandableRows="true">
+						<p-column expander="true" styleClass="col-icon" [style]="{'width':'35px'}"></p-column>
+						<p-column field="projectName" header="Project" [sortable]="false" [style]="{'font-size':'0.9em'}"></p-column>
+						<p-column field="clusterName" header="Tower" [sortable]="false" [style]="{'font-size':'0.9em'}"></p-column>
+						<p-column field="unitCode" header="Unit Code" [sortable]="false" [style]="{'width':'80px','font-size':'0.9em'}"></p-column>
+						<p-column field="unitNo" header="Unit No" [sortable]="false" [style]="{'width':'70px','font-size':'0.9em'}"></p-column>
+						<p-column field="termName" header="Term of payment" [sortable]="false" [style]="{'font-size':'0.9em'}"></p-column>
+						<p-column field="renovName" header="Renovation" [sortable]="false" [style]="{'font-size':'0.9em'}"></p-column>
+						<p-column field="bookingFee" header="Booking Fee" [sortable]="false" [style]="{'font-size':'0.9em'}">
+							<ng-template let-record="rowData" pTemplate="body">
+								<div class="rowData" style="text-align: right;">
+									{{record.bookingFee | currency:'Rp. '}}
+								</div>
+							</ng-template>
+						</p-column>
+						<p-column field="sellingPrice" header="Selling Price" [sortable]="false" [style]="{'font-size':'0.9em'}">
+							<ng-template let-record="rowData" pTemplate="body">
+								<div class="rowData" style="text-align: right;">
+									<!-- {{(item_detail[col.col]) | currency:'Rp. ':true:'0.0-0'}} -->
+
+									{{(record.sellingPrice) | currency:'Rp. '}}
+									<!-- {{(record.sellingPrice) | round | currency:'Rp. '}} -->
+								</div>
+							</ng-template>
+						</p-column>
+						<p-column field="action" header="Action" [sortable]="false" [style]="{'width':'100px','font-size':'0.9em'}">
+							<ng-template let-record="rowData" pTemplate="body">
+								<div class="text-center">
+									<button class="btn btn-danger m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--air" (click)="deleteCart(record.unitReservedID, record.unitNo)">
+										<i class="la la-trash-o"></i>
+									</button>
+								</div>
+							</ng-template>
+						</p-column>
+						<ng-template let-record pTemplate="rowexpansion">
+							<div style="text-align:center">
+								<img *ngIf="record.detailImage" [src]="record.detailImage" alt="{{record.clusterName}} - {{record.unitNo}}" style="width:100px">
+								<img *ngIf="!record.detailImage" style="padding:50px" src="../../../assets/project/app/images/online-booking/noimg.jpg" alt="Clients"
+								 style="width:100px">
+							</div>
+						</ng-template>
+					</p-dataTable>
+				</div>
+			</div>
+			<!--end: Datatable -->
+			<div class="row"  style="padding:10px">
+				<div class="col-md-6">	
+					<span class="m-badge  m-badge--info m-badge--wide">
+						{{dataCart.length}} {{dataCart.length > 1 ? 'Reserved Units' : (dataCart.length <= 1 ? 'Reserved Unit' : 'No Unit')}}
+					</span>
+				</div>
+				<div class="col-md-6">					
+					<div style="text-align:right">
+							<span *ngIf="PpnPreview == false" class="text-danger" style="font-weight:500!important; font-style: italic">*Price Exclude VAT (PPN)</span>
+							<span *ngIf="PpnPreview == true" class="text-danger" style="font-weight:500!important; font-style: italic">*Price Include VAT (PPN)</span>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="isCart" class="text-right pad-btm" style="margin-top: 15px !important; padding: 1rem 2.2rem 2rem !important">
+				<div class="m-form__actions">
+					<button *ngIf="!add_unit" (click)="addUnit()" class="btn btn-metal m-btn m-btn--air m-btn--uppercase">
+							Add More Unit
+						</button>
+					<button id="start" (click)="confirmOrder()" [disabled]="confirmLoading" [ngClass]="confirmLoading ? 'm-loader m-loader--light m-loader--right' : ''"
+					 class="btn btn-danger m-btn m-btn--air m-btn--uppercase">
+						Confirm Order
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

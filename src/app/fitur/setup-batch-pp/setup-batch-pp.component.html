@@ -1,0 +1,168 @@
+<style>
+    body .ui-datatable .ui-paginator {
+        border-top: solid 1px #eee;
+        padding: 5px!important;
+    }
+</style>
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Setup Batch Priority Pass
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a href="" class="m-nav__link m-nav__link--icon">
+                        <i class="m-nav__link-icon la la-home"></i>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="app/main/dashboard" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                                Web Online Booking Admin
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            Setup Batch Priority Pass
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="m-content">
+        <div class="m-portlet">
+            <div class="m-portlet__head" style="padding: 0px 1em;">
+                <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                    <label for="attitude" class="col-md-2 col-form-label">Project
+                        <i class="text-danger">*</i>
+                    </label>
+                    <div class="col-md-4">
+                        <div> <!-- [busyIf]="projectLoading" -->
+                            <select class="form-control project" (change)="onChangeProject($event)" [(ngModel)]="projectCode" jq-plugin="selectpicker"
+                                title="Choose one of project" data-live-search="true">
+                                <option *ngFor="let project of _projects" value="{{project.projectCode}}">
+                                        {{project.projectCode}} - {{project.projectName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                    <label for="attitude" class="col-md-2 col-form-label">Product
+                        <i class="text-danger">*</i>
+                    </label>
+                    <div class="col-md-4">
+                        <div>
+                            <select class="form-control product" (change)="onChangeProduct($event)" [(ngModel)]="productCode" jq-plugin="selectpicker"
+                                title="Choose one of product" data-live-search="true">
+                                <option *ngFor="let product of _products" value="{{product.productCode}}">
+                                        {{product.productCode}} - {{product.productName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="m-portlet__body">
+                <div class="row align-items-center m--margin-top-10">
+                    <div class="col-md-12">
+                        <button (click)="appSetupBatchModal.show()" class="btn btn-primary pull-right" style="margin-bottom: 10px;">
+                            <i class="fa fa-plus"></i>
+                            Create new Batch PP
+                        </button>
+                    </div>
+                    <!--<Primeng-Datatable-Start>-->
+
+                    <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                        <p-dataTable [value]="primengDatatableHelper.records" [lazy]="false" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                            <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                                <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                    {{ rowIndex+1 }}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="projectName"  header="Project" [sortable]="false">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    {{record.projectName}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="productName"  header="Product">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    {{record.productName}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="batchPPCode"  header="Batch PP">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    {{record.batchPPCode}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="ppPrice" header="PriorityPass Price">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    <span class="pull-left">Rp. </span>
+                                    <span class="pull-right">{{formatNumber(record.ppPrice)}}</span>
+                                </ng-template>
+                            </p-column>
+                            
+                            <p-column field="isActive" header="Status" [sortable]="false" [style]="{'text-align':'center'}">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    <span *ngIf="record.isActive" class="m-badge m-badge--info m-badge--wide" data-toggle="tooltip" title="{{l('ThisRecordIsActive')}}"
+                                        data-placement="top">
+                                        {{l('Yes')}}
+                                    </span>
+                                    <span *ngIf="!record.isActive" class="m-badge m-badge--metal m-badge--wide" data-toggle="tooltip" title="{{l('ThisRecordIsInactive')}}"
+                                        data-placement="top">
+                                        {{l('No')}}
+                                    </span>
+                                </ng-template>
+                            </p-column>
+                            
+                            <p-column field="action" header="" [sortable]="false" [style]="{'text-align':'center'}">
+                                <ng-template let-record="rowData" pTemplate="body">                             
+                                    <button (click)="appSetupBatchModal.show(record,'view')" class="btn btn-brand btn-md btn-primary">
+                                        <i class="fa fa-eye"></i><span class="caret"></span> {{l("View")}}
+                                    </button>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="action" header="" [sortable]="false"  [style]="{'text-align':'center'}">
+                                <ng-template let-record="rowData" pTemplate="body">                            
+                                    <button (click)="appSetupBatchModal.show(record,'edit')" class="btn btn-brand btn-md btn-primary">
+                                        <i class="fa fa-pencil"></i><span class="caret"></span> {{l("Edit")}}
+                                    </button>
+                                </ng-template>
+                            </p-column>
+                        </p-dataTable>
+                        <div class="primeng-paging-container">
+                            <!-- <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator
+                                         (onPageChange)="getLatestList($event)"
+                                         [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                            </p-paginator> -->
+                            <!-- <span class="total-records-count">
+                                    {{l('TotalRecordsCount', primengDatatableHelper.totalRecordsCount)}}
+                                </span> -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group m-form__group row" style="margin: 0px;">
+                        <span class="total-records-count">
+                            <span class="label m-badge m-badge--primary m-badge--wide">
+                                    Total ({{primengDatatableHelper.totalRecordsCount}})
+                            </span>
+                        </span>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+<appSetupBatchModal #appSetupBatchModal (modalSave)="getLatestList($event)"></appSetupBatchModal>

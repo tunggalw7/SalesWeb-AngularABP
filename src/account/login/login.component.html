@@ -1,0 +1,50 @@
+<div class="m-login__signin" [@routerTransition]>
+    <form #loginForm="ngForm" class="m-login__form m-form login-form" method="post" novalidate (ngSubmit)="login()">
+        <div class="form-group m-form__group">
+            <input (mouseleave)="loginService.authenticateModel.userNameOrEmailAddress = trimming_fn(loginService.authenticateModel.userNameOrEmailAddress)" (blur)="loginService.authenticateModel.userNameOrEmailAddress = trimming_fn(loginService.authenticateModel.userNameOrEmailAddress)"  [(ngModel)]="loginService.authenticateModel.userNameOrEmailAddress" autoFocus class="form-control m-input" type="text" autocomplete="off" placeholder="{{l('UserName')}}" name="userNameOrEmailAddress" required />
+        </div>
+
+        <div class="form-group m-form__group">
+            <input [(ngModel)]="loginService.authenticateModel.password" class="form-control m-input" type="password" autocomplete="off" placeholder="{{l('Password')}}" name="password" required maxlength="32" />
+        </div>
+
+        <div class="row m-login__form-sub">
+            <div class="col m--align-left">
+                <label class="m-checkbox m-checkbox--focus">
+                    <input class="form-control" [(ngModel)]="loginService.rememberMe" type="checkbox" name="rememberMe" value="true" />{{l("RememberMe")}}
+                    <span></span>
+                </label>
+            </div>
+            <div class="col m--align-right">
+                <a routerLink="/account/forgot-password" id="forget-password" class="m-link forget-password">{{l("ForgotPassword")}}</a>
+            </div>
+        </div>
+
+        <div class="m-login__form-action">
+            <button type="submit" [ngClass]="submitting ? 'm-loader m-loader--light m-loader--right' : ''" class="btn m-btn--pill btn-danger m-btn m-btn--custom m-btn--bolder m-btn--uppercase" [disabled]="!loginForm.form.valid">{{l("LogIn")}}</button>
+        </div>
+    </form>
+
+    <div class="login-options" *ngIf="multiTenancySideIsTeanant && loginService.externalLoginProviders.length > 0">
+        <h4>{{l("LoginWith")}}</h4>
+        <ul class="social-icons">
+            <li *ngFor="let provider of loginService.externalLoginProviders">
+                <a class="social-login-icon social-icon-color {{provider.icon}}"
+                   (click)="externalLogin(provider)"
+                   title="{{provider.name}}"></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-stack__item m-stack__item--center">
+        <div class="m-login__account">
+            <span>
+                <a routerLink="/" class="m-link m-link--danger m-login__account-link">Back to View Project</a>
+                <span class="pipe-divider"> &nbsp; | &nbsp; </span>
+            </span>    
+            <span>
+                <a routerLink="/account/member-activation" class="m-link m-link--danger m-login__account-link">Member Activation</a>
+            </span>    
+        </div>
+    </div>
+</div>

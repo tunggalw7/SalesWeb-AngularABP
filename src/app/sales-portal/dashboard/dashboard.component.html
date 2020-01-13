@@ -1,0 +1,725 @@
+<style>
+    #dailyStatistics svg { background-color: rgba(146, 233, 220, 0.1); }
+    #salesStatistics svg { background-color: rgba(232, 65, 24, 0.1); }
+    #commissionStatistics svg { background-color: rgba(226, 128, 30, 0.1); }
+</style>
+
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("Dashboard")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("DashboardHeaderInfo")}}
+                </span>
+            </div>
+            <!-- <div class="btn-group btn-group-devided" data-toggle="buttons">
+                <label class="btn m-btn--pill btn-secondary active" (click)="onChangeFilter(appSalesSummaryDateInterval.Daily)">
+                    <input type="radio"
+                            name="SalesSummaryDateInterval"
+                            class="toggle"
+                            [value]="appSalesSummaryDateInterval.Daily">
+                    {{l("Daily")}}
+                </label>
+                <label class="btn m-btn--pill btn-secondary" (click)="onChangeFilter(appSalesSummaryDateInterval.Weekly)">
+                    <input type="radio"
+                            name="SalesSummaryDateInterval"
+                            class="toggle"
+                            [value]="appSalesSummaryDateInterval.Weekly"
+                            ng-click="">
+                    {{l("Weekly")}}
+                </label>
+                <label class="btn m-btn--pill btn-secondary" (click)="onChangeFilter(appSalesSummaryDateInterval.Monthly)">
+                    <input type="radio"
+                            name="SalesSummaryDateInterval"
+                            class="toggle"
+                            [value]="appSalesSummaryDateInterval.Monthly">
+                    {{l("Monthly")}}
+                </label>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="m-content">
+
+        <div class="m-portlet">
+            <div class="m-portlet__body  m-portlet__body--no-padding">
+                <div class="row m-row--no-padding m-row--col-separator-xl">
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <div class="m-widget24">
+                            <div class="m-widget24__item">
+                                <h4 class="m-widget24__title" style="padding-bottom: 0.5rem">
+                                    Total Profit
+                                </h4>
+                                <br>
+                                <!-- <span class="m-widget24__desc">
+                                    All Customs Value
+                                </span> -->
+                                <span class="m-widget24__stats m--font-brand" >
+                                    <span counto [step]="30"
+                                            [duration]="1"
+                                            [countFrom]="0"
+                                            [countTo]="dashboardTotalProfit.totalProfit"
+                                            (countoChange)="dashboardTotalProfit.totalProfitCounter = $event"
+                                            style="font-size: 1.3rem">
+                                        {{dashboardTotalProfit.totalProfitCounter.toFixed(0)}}
+                                    </span>
+                                </span>
+                                <div class="m--space-10"></div>
+                                <div class="progress m-progress--sm">
+                                    <div class="progress-bar m--bg-brand" role="progressbar" style="width: 100%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <!-- <span class="m-widget24__change">
+                                    Change
+                                </span>
+                                <span class="m-widget24__number">
+                                    <span class="counterup">{{dashboardHeaderStats.totalProfitChange}}</span>%
+                                </span> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <div class="m-widget24">
+                            <div class="m-widget24__item">
+                                <h4 class="m-widget24__title" style="padding-bottom: 0.5rem">
+                                    Total Unit Sold
+                                </h4>
+                                <br>
+                                <!-- <span class="m-widget24__desc">
+                                    Customer Review
+                                </span> -->
+                                <span class="m-widget24__stats m--font-success" counto [step]="30" [duration]="1" [countFrom]="0" [countTo]="dashboardTotalUnitSold.totalUnit"
+                                    (countoChange)="dashboardTotalUnitSold.totalUnitCounter = $event" style="font-size: 1.3rem">
+                                    {{dashboardTotalUnitSold.totalUnitCounter.toFixed(0)}}
+                                </span>
+                                <div class="m--space-10"></div>
+                                <div class="progress m-progress--sm">
+                                    <div class="progress-bar m--bg-success" role="progressbar" style="width: 100%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <!-- <span class="m-widget24__change">
+                                    Change
+                                </span>
+                                <span class="m-widget24__number">
+                                    <span class="counterup">{{dashboardHeaderStats.newFeedbacksChange}}</span>%
+                                </span> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <div class="m-widget24">
+                            <div class="m-widget24__item">
+                                <h4 class="m-widget24__title" style="padding-bottom: 0.5rem">
+                                    Total Hot Customer
+                                </h4>
+                                <br>
+                                <!-- <span class="m-widget24__desc">
+                                    Fresh Order Amount
+                                </span> -->
+                                <span class="m-widget24__stats m--font-info" counto [step]="30" [duration]="1" [countFrom]="0" [countTo]="dashboardTotalHotCustomer.totalCustomer"
+                                    (countoChange)="dashboardTotalHotCustomer.totalCustomerCounter = $event" style="font-size: 1.3rem">
+                                    {{dashboardTotalHotCustomer.totalCustomerCounter.toFixed(0)}}
+                                </span>
+                                <div class="m--space-10"></div>
+                                <div class="progress m-progress--sm">
+                                    <div class="progress-bar m--bg-info" role="progressbar" style="width: 100%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <!-- <span class="m-widget24__change">
+                                    Change
+                                </span>
+                                <span class="m-widget24__number">
+                                    <span class="counterup">{{dashboardHeaderStats.newOrdersChange}}</span>%
+                                </span> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <div class="m-widget24">
+                            <div class="m-widget24__item">
+                                <h4 class="m-widget24__title" style="padding-bottom: 0.5rem">
+                                    Total Cancel Unit
+                                </h4>
+                                <br>
+                                <!-- <span class="m-widget24__desc">
+                                    Joined New User
+                                </span> -->
+                                <span class="m-widget24__stats m--font-warning" counto [step]="30" [duration]="1" [countFrom]="0" [countTo]="dashboardTotalCancelUnit.totalCancel"
+                                    (countoChange)="dashboardTotalCancelUnit.totalCancelCounter = $event" style="font-size: 1.3rem">
+                                    {{dashboardTotalCancelUnit.totalCancelCounter.toFixed(0)}}
+                                </span>
+                                <div class="m--space-10"></div>
+                                <div class="progress m-progress--sm">
+                                    <div class="progress-bar m--bg-warning" role="progressbar" style="width: 100%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <!-- <span class="m-widget24__change">
+                                    Change
+                                </span>
+                                <span class="m-widget24__number">
+                                    <span class="counterup">{{dashboardHeaderStats.newUsersChange}}</span>%
+                                </span> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption" style="text-align: right">
+                            <div class="m-portlet__head-title" style="width:100%">
+                                <h2 class="m-portlet__head-label m-portlet__head-label--danger">
+                                    <span>
+                                        Sales Summary
+                                    </span>
+                                </h2>
+                                <div class="btn-group btn-group-devided" data-toggle="buttons">
+                                    <label class="btn m-btn--pill btn-secondary active m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-haspopup="true">
+                                        <input type="radio"
+                                                class="toggle">
+                                        {{l("Daily")}}
+                                        <div class="m-dropdown__wrapper">
+                                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                                                <div class="m-dropdown__inner">
+                                                    <div class="m-dropdown__body">
+                                                        <div class="m-dropdown__content" style="display: block;">
+                                                            <ul class="m-nav">
+                                                                <li class="m-nav__section m-nav__section--first">
+                                                                    <span class="m-nav__section-text">
+                                                                        Specific Date
+                                                                    </span>
+                                                                </li>
+                                                                <li class="m-nav__separator m-nav__separator--fit"></li>
+                                                                <li class="m-nav__item">
+                                                                    <div class="m-input-icon m-input-icon--right">
+                                                                        <input (selectedDateChange)="onStartDate($event)" datePicker="datepicker" #ActiveStartDate name="ActiveStartDate" [(ngModel)]="startDate" class="form-control" placeholder="Start Date"
+                                                                        required>
+                                
+                                                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                                                            <span>
+                                                                                <i class="la la-calendar"></i>
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                                <br>
+                                                                <li class="m-nav__item">
+                                                                    <div class="m-input-icon m-input-icon--right">
+                                                                        <input (selectedDateChange)="onEndDate($event)" datePicker="datepicker" #ActiveEndDate name="ActiveEndDate" [(ngModel)]="endDate" class="form-control" placeholder="End Date"
+                                                                        required>
+                                
+                                                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                                                            <span>
+                                                                                <i class="la la-calendar"></i>
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                                
+                                                                <li class="m-nav__separator m-nav__separator--fit"></li>
+                                                                <li class="m-nav__item">
+                                                                    <button type="submit" class="btn btn-danger m-btn--pill m-btn--air m-btn--square m-btn--bolder m-btn--uppercase" (click)="onChangeFilter(1)" style="border-radius: 0.2rem !important;">Filter</button>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </label>
+                                    <label class="btn m-btn--pill btn-secondary m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-haspopup="true">
+                                        <input type="radio"
+                                                class="toggle">
+                                        {{l("Weekly")}}
+                                        <div class="m-dropdown__wrapper">
+                                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                                                <div class="m-dropdown__inner">
+                                                    <div class="m-dropdown__body">
+                                                        <div class="m-dropdown__content" style="display: block;">
+                                                            <ul class="m-nav">
+                                                                <li class="m-nav__section m-nav__section--first">
+                                                                    <span class="m-nav__section-text">
+                                                                        Specific Date
+                                                                    </span>
+                                                                </li>
+                                                                <li class="m-nav__separator m-nav__separator--fit"></li>
+                                                                <li class="m-nav__item">
+                                                                    <div class="m-input-icon m-input-icon--right">
+                                                                        <input (selectedDateChange)="onStartDate($event)" datePicker="datepicker" #ActiveStartDate name="ActiveStartDate" [(ngModel)]="startDate" class="form-control" placeholder="Start Date"
+                                                                        required>
+                                
+                                                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                                                            <span>
+                                                                                <i class="la la-calendar"></i>
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                                <br>
+                                                                <li class="m-nav__item">
+                                                                    <div class="m-input-icon m-input-icon--right">
+                                                                        <input (selectedDateChange)="onEndDate($event)" datePicker="datepicker" #ActiveEndDate name="ActiveEndDate" [(ngModel)]="endDate" class="form-control" placeholder="End Date"
+                                                                        required>
+                                
+                                                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                                                            <span>
+                                                                                <i class="la la-calendar"></i>
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                                
+                                                                <li class="m-nav__separator m-nav__separator--fit"></li>
+                                                                <li class="m-nav__item">
+                                                                    <button type="submit" class="btn btn-danger m-btn--pill m-btn--air m-btn--square m-btn--bolder m-btn--uppercase" (click)="onChangeFilter(2)" style="border-radius: 0.2rem !important;">Filter</button>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </label>
+                                    <label class="btn m-btn--pill btn-secondary m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-haspopup="true">
+                                        <input type="radio"
+                                                class="toggle">
+                                        {{l("Monthly")}}
+                                        <div class="m-dropdown__wrapper">
+                                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                                                <div class="m-dropdown__inner">
+                                                    <div class="m-dropdown__body">
+                                                        <div class="m-dropdown__content" style="display: block;">
+                                                            <ul class="m-nav">
+                                                                <li class="m-nav__section m-nav__section--first">
+                                                                    <span class="m-nav__section-text">
+                                                                        Specific Date
+                                                                    </span>
+                                                                </li>
+                                                                <li class="m-nav__separator m-nav__separator--fit"></li>
+                                                                <li class="m-nav__item">
+                                                                    <div class="m-input-icon m-input-icon--right">
+                                                                        <input (selectedDateChange)="onStartDate($event)" datePicker="datepicker" #ActiveStartDate name="ActiveStartDate" [(ngModel)]="startDate" class="form-control" placeholder="Start Date"
+                                                                        required>
+                                
+                                                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                                                            <span>
+                                                                                <i class="la la-calendar"></i>
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                                <br>
+                                                                <li class="m-nav__item">
+                                                                    <div class="m-input-icon m-input-icon--right">
+                                                                        <input (selectedDateChange)="onEndDate($event)" datePicker="datepicker" #ActiveEndDate name="ActiveEndDate" [(ngModel)]="endDate" class="form-control" placeholder="End Date"
+                                                                        required>
+                                
+                                                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                                                            <span>
+                                                                                <i class="la la-calendar"></i>
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                                
+                                                                <li class="m-nav__separator m-nav__separator--fit"></li>
+                                                                <li class="m-nav__item">
+                                                                    <button type="submit" class="btn btn-danger m-btn--pill m-btn--air m-btn--square m-btn--bolder m-btn--uppercase" (click)="onChangeFilter(3)" style="border-radius: 0.2rem !important;">Filter</button>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </label>
+                                    <label class="btn m-btn--pill btn-secondary m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-haspopup="true">
+                                        <input type="radio"
+                                                class="toggle">
+                                        {{l("Yearly")}}
+                                        <div class="m-dropdown__wrapper">
+                                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                                                <div class="m-dropdown__inner">
+                                                    <div class="m-dropdown__body">
+                                                        <div class="m-dropdown__content" style="display: block;">
+                                                            <ul class="m-nav">
+                                                                <li class="m-nav__section m-nav__section--first">
+                                                                    <span class="m-nav__section-text">
+                                                                        Specific Date
+                                                                    </span>
+                                                                </li>
+                                                                <li class="m-nav__separator m-nav__separator--fit"></li>
+                                                                <li class="m-nav__item">
+                                                                    <div class="m-input-icon m-input-icon--right">
+                                                                        <input (selectedDateChange)="onStartDate($event)" datePicker="datepicker" #ActiveStartDate name="ActiveStartDate" [(ngModel)]="startDate" class="form-control" placeholder="Start Date"
+                                                                        required>
+                                
+                                                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                                                            <span>
+                                                                                <i class="la la-calendar"></i>
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                                <br>
+                                                                <li class="m-nav__item">
+                                                                    <div class="m-input-icon m-input-icon--right">
+                                                                        <input (selectedDateChange)="onEndDate($event)" datePicker="datepicker" #ActiveEndDate name="ActiveEndDate" [(ngModel)]="endDate" class="form-control" placeholder="End Date"
+                                                                        required>
+                                
+                                                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                                                            <span>
+                                                                                <i class="la la-calendar"></i>
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                                
+                                                                <li class="m-nav__separator m-nav__separator--fit"></li>
+                                                                <li class="m-nav__item">
+                                                                    <button type="submit" class="btn btn-danger m-btn--pill m-btn--air m-btn--square m-btn--bolder m-btn--uppercase" (click)="onChangeFilter(4)" style="border-radius: 0.2rem !important;">Filter</button>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet__body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p style="text-align: center; margin-top: 0.7rem; font-size: 1.2rem; font-weight: 500">
+                                    Total Sales
+                                        <br>
+                                        <span style="color: #e84118; font-size: 0.9rem;" *ngIf="ifTotalSales">
+                                            {{totalSales == undefined ? "-" : totalSales | currency:'Rp. '}}
+                                        </span>
+                                        <span style="color: #e84118; font-size: 1.5rem; font-weight: bold" *ngIf="!ifTotalSales">
+                                            {{totalSales == undefined ? "-" : totalSales | currency:'Rp. '}}
+                                        </span>
+                                </p>
+                            </div>
+                            <div class="col-sm-4">
+                                <p style="text-align: center; margin-top: 0.7rem; font-size: 1.2rem; font-weight: 500">
+                                    Revenue
+                                        <br>
+                                        <span style="color: #f2d221; font-size: 0.9rem" *ngIf="ifTotalRevenue">
+                                            {{totalRevenue == undefined ? "-" : totalRevenue | currency:'Rp. '}}
+                                        </span>
+                                        <span style="color: #f2d221; font-size: 1.5rem; font-weight: bold" *ngIf="!ifTotalRevenue">
+                                            {{totalRevenue == undefined ? "-" : totalRevenue | currency:'Rp. '}}
+                                        </span>
+                                </p>
+                            </div>
+                            <div class="col-sm-4">
+                                <p style="text-align: center; margin-top: 0.7rem; font-size: 1.2rem; font-weight: 500">
+                                    Tax
+                                    <br>
+                                    <span style="color: #1456ff; font-size: 0.9rem" *ngIf="ifTotalRevenue">
+                                        {{totalTax == undefined ? "-" : totalTax | currency:'Rp. '}}
+                                    </span>
+                                    <span style="color: #1456ff; font-size: 1.5rem; font-weight: bold" *ngIf="!ifTotalRevenue">
+                                        {{totalTax == undefined ? "-" : totalTax | currency:'Rp. '}}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <!--begin::Widget 6-->
+                        <div class="m-widget15">
+                            <!-- <h6 class="m-portlet__head-text" style="text-align:center; margin-top: 0.7rem;" *ngIf="!NoData">
+                                <span>
+                                    Aw, Snap! <i class="la la-frown-o"></i> No Data Found
+                                </span>
+                            </h6> -->
+                            <div id="salesStatistics"
+                                class="portlet-body-morris-fit morris-chart chart-custom m--margin-top-20"
+                                style="height: 180px;border-radius:8px !important" >
+                            </div>  
+                        </div>
+                        <!--end::Widget 6-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption" style="text-align: right">
+                            <div class="m-portlet__head-title" style="width:100%">
+                                <h2 class="m-portlet__head-label m-portlet__head-label--danger">
+                                    <span>
+                                        General Stats
+                                    </span>
+                                </h2>
+                                <button name="RefreshButton" class="btn btn-metal m-btn m-btn--air m-btn--uppercase" (click)="reload()">
+                                    <i class="la la-refresh"></i> {{l('Refresh')}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet__body">
+                        <!--begin::Widget 6-->
+                        <div class="m-widget14" style="padding: 0rem 2.2rem 0rem 2.2rem">
+                            <div class="row  align-items-center">
+                                <div class="col-sm-6">
+                                    <div id="m_chart_unit_transaction" class="m-widget14__chart" style="height: 100%">
+                                        <div class="m-widget14__stat">
+                                           <h6 class="m-portlet__head-text">
+                                                <span class="m--font-warning">
+                                                    {{unitPercent}}
+                                                </span>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <h6 class="m-portlet__head-text" style="text-align: center; margin-top: 0.7rem;">
+                                        <span>
+                                            Cancel Unit
+                                        </span>
+                                    </h6>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div id="m_chart_pp_transaction" class="m-widget14__chart" style="height: 100%">
+                                        <div class="m-widget14__stat">
+                                           <h6 class="m-portlet__head-text">
+                                                <span class="m--font-success">
+                                                    {{ppPercent}}
+                                                </span>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <h6 class="m-portlet__head-text" style="text-align: center; margin-top: 0.7rem;">
+                                        <span>
+                                            Cancel PP
+                                        </span>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Widget 6-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <h2 class="m-portlet__head-label m-portlet__head-label--danger">
+                                <span>
+                                    Daily Sales
+                                </span>
+                            </h2>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet__body">
+                        <!--begin::Widget 6-->
+                        <div class="m-widget15">
+                            <!-- <h6 class="m-portlet__head-text" style="text-align:center; margin-top: 0.7rem;" *ngIf="!NoData">
+                                <span>
+                                    Aw, Snap! <i class="la la-frown-o"></i> No Data Found
+                                </span>
+                            </h6> -->
+                            <div id="dailyStatistics"
+                                class="portlet-body-morris-fit morris-chart chart-custom m--margin-top-20"
+                                style="height: 180px;border-radius:8px !important">
+                            </div>  
+                        </div>
+                        <!--end::Widget 6-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title" style="width:100%">
+                                <h2 class="m-portlet__head-label m-portlet__head-label--danger">
+                                    <span>
+                                        Organization Tree
+                                    </span>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet__body">
+                        <div style="padding:0px 20px">
+							<div class="form-group m-form__group row tree" style="text-align: center" *ngIf="showAllChart">
+                                    <ul>
+                                        <li>
+                                            <a>{{parents}}</a>
+                                            <ul>
+                                                <li  *ngFor="let child of _childs">
+                                                    <a>{{child.memberName}}</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                <h6 class="m-portlet__head-text" style="text-align:center; margin-top: 0.7rem;" *ngIf="!showAllChart">
+                                    <span>
+                                        No Organization Tree
+                                    </span>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title" style="width:100%">
+                                <h2 class="m-portlet__head-label m-portlet__head-label--danger">
+                                    <span>
+                                        Task List
+                                    </span>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet__body">
+                        <div style="padding:0px 20px">
+							<div class="form-group m-form__group row">
+								<!--begin: Datatable -->
+								<div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                                    <p-dataTable  [value]="primengDatatableHelper.records" [lazy]="false" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50,100]" scrollable="true"
+                                    ScrollWidth="100%" resizableColumns="primengDatatableHelper.resizableColumns" [responsive]="primengDatatableHelper.isResponsive">
+                                        <!-- [paginatorPosition]="none" -->
+                                        <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                                            <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                                {{ rowIndex+1 }}
+                                            </ng-template>
+                                        </p-column>
+										<p-column field="nameCust" header="Task List Name" [sortable]="false">
+                                            <ng-template let-record="rowData" pTemplate="body">
+												<div class="rowData">
+													Update Customer Data " {{record.nameCust}} "
+												</div>
+											</ng-template>
+                                        </p-column>
+										<p-column field="creationTime" header="Due Date" [sortable]="false" [style]="{'font-size':'0.9em','text-align':'right','width':'100px'}">
+											<ng-template let-record="rowData" pTemplate="body">
+												<div class="rowData">
+													{{ record.creationTime | momentFormat:'DD-MM-YYYY'}}
+												</div>
+											</ng-template>
+										</p-column>
+									</p-dataTable>
+                                    <div class="primeng-paging-container">
+										<!-- <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator (onPageChange)="taskListEventt($event)"
+										 [totalRecords]="totalRecordsCountt"></p-paginator>
+										<span class="total-records-count">
+											<span class="label m-badge m-badge--primary m-badge--wide">
+												Total ({{totalRecordsCountt}})
+											</span>
+                                        </span> -->
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row" style="margin: 0px;">
+                                    <span class="total-records-count">
+                                        <span class="label m-badge m-badge--primary m-badge--wide">
+                                                Total ({{totalRecordsCountt}})
+                                        </span>
+                                    </span>
+                                </div>
+								<!--end: Datatable -->
+							</div>
+						</div>
+                        <!--end::Widget 6-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title" style="width:100%">
+                                <h2 class="m-portlet__head-label m-portlet__head-label--danger">
+                                    <span>
+                                        Member List
+                                    </span>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="m-portlet__body">
+                        <div style="padding:0px 20px">
+							<div class="form-group m-form__group row">
+                                <!--begin: Datatable -->
+                                <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+								    <!-- <p-dataTable #dataTable [value]="records" rows="{{defaultRecordsCountPerPages}}" [paginator]="true"
+                                        [alwaysShowPaginator]="true" [(first)]="firstTaskList" [lazy]="false" emptyMessage="{{l('NoData')}}"
+                                        [responsive]="primengDatatableHelper.isResponsive" resizableColumns="primengDatatableHelper.resizableColumns"> -->
+                                        <!-- [paginatorPosition]="none" -->
+                                    <p-dataTable [value]="records" [lazy]="false" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50,100]" [responsive]="primengDatatableHelper.isResponsive" resizableColumns="primengDatatableHelper.resizableColumns">
+                                        <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                                            <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                                {{ rowIndex+1 }}
+                                            </ng-template>
+                                        </p-column>
+										<p-column field="member" header="Member" [sortable]="false" [style]="{'font-size':'0.9em','text-align':'right','width':'90px'}">
+                                            <ng-template let-record="rowData" pTemplate="body">
+												<div class="text-center">
+													<i class="la la-smile-o"></i>
+												</div>
+											</ng-template>
+                                        </p-column>
+                                        <p-column field="memberName" header="Name" [sortable]="false" [style]="{'font-size':'0.9em','text-align':'right','width':'100px'}"></p-column>
+                                        <p-column field="earning" header="Earnings" [sortable]="false" [style]="{'font-size':'0.9em','text-align':'right','width':'130px'}">
+											<ng-template let-record="rowData" pTemplate="body">
+												<div class="rowData">
+													{{record.earning == 0 ? "-" : record.earning | currency:'Rp. '}}
+												</div>
+											</ng-template>
+                                        </p-column>
+                                        <p-column field="myCommission" header="My Commission" [sortable]="false" [style]="{'font-size':'0.9em','text-align':'right','width':'130px'}">
+                                                <ng-template let-record="rowData" pTemplate="body">
+                                                    <div class="rowData">
+                                                        {{record.myCommission == 0 ? "-" : record.myCommission | currency:'Rp. '}}
+                                                    </div>
+                                                </ng-template>
+                                            </p-column>
+                                        <p-column field="tax" header="Tax" [sortable]="false" [style]="{'font-size':'0.9em','text-align':'right','width':'130px'}">
+											<ng-template let-record="rowData" pTemplate="body">
+												<div class="rowData">
+													{{record.tax == 0 ? "-" : record.tax | currency:'Rp. '}}
+												</div>
+											</ng-template>
+										</p-column>
+									</p-dataTable>
+									 <div class="primeng-paging-container">
+										<!-- <p-paginator rows="{{defaultRecordsCountPerPages}}" #paginator (onPageChange)="taskListEvent($event)"
+										 [totalRecords]="primengDatatableHelper.totalRecordsCount"></p-paginator>
+										<span class="total-records-count">
+											<span class="label m-badge m-badge--primary m-badge--wide">
+												Total ({{primengDatatableHelper.totalRecordsCount}})
+											</span>
+                                        </span> -->
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row" style="margin: 0px;">
+                                    <span class="total-records-count">
+                                        <span class="label m-badge m-badge--primary m-badge--wide">
+                                                Total ({{primengDatatableHelper.totalRecordsCount}})
+                                        </span>
+                                    </span>
+                                </div>
+								<!--end: Datatable -->
+							</div>
+						</div>
+                        <!--end::Widget 6-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

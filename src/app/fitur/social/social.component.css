@@ -1,0 +1,4 @@
+body .ui-datatable .ui-paginator {
+    border-top: solid 1px #eee;
+    padding: 5px!important;
+}

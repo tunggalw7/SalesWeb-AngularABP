@@ -1,0 +1,260 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Report Order
+            </h3>
+        </div>
+    </div>
+</div>
+<!-- END: Subheader -->
+<!--begin::Portlet-->
+<div class="m-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="m-portlet">
+                <form [busyIf]="getListReportOrderLoading" [formGroup]="validationForm">
+                    <div class="m-portlet__body form_body">
+                        <div class="m-portlet__head" style="padding: 0px 15px;">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                         <i class="la la-gear"></i>
+                                    </span>
+                                    <h3 class="m-portlet__head-text">
+                                        Report Range
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Order Date</label>
+                            <div class="col-sm-10 row">
+                                <div class="col-sm-5">
+                                    <div class='input-group date'>
+                                        <input id="orderDateStart" datePicker="datepicker" date-format="DD-MM-YYYY"
+                                               [(ngModel)]="modelOrderDateFrom" [ngModelOptions]="{standalone: true}"
+                                               (selectedDateChange)="onSelectedDateFrom($event)"
+                                               name="paymentDate" class="form-control m-input paymentDate"
+                                               placeholder="MM/DD/YYYY" readonly>
+                                        <span class="input-group-addon">
+                                        <i class="la la-calendar"></i>
+                                    </span>
+                                    </div>
+                                    <span class="text-danger" *ngIf="invalidDateStart == true">Order date start should not be greater than today</span>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class='input-group date'>
+                                        <input id="orderDateEnd" datePicker="datepicker" date-format="DD-MM-YYYY"
+                                               [(ngModel)]="modelOrderDateTo" [ngModelOptions]="{standalone:true}"
+                                               (selectedDateChange)="onSelectedDateTo($event)"
+                                               name="paymentDate" class="form-control m-input paymentDateTo"
+                                               placeholder="MM/DD/YYYY" readonly>
+                                        <span class="input-group-addon">
+                                        <i class="la la-calendar"></i>
+                                        </span>
+                                    </div>
+                                    <span class="text-danger" *ngIf="invalidDateEnd == true">Order date to should not be greater than today</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-portlet__head" style="padding: 0px 15px;">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                        <i class="la la-gear"></i>
+                                    </span>
+                                    <h3 class="m-portlet__head-text">
+                                        Order Info
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <!--begin::Form-->
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">
+                                Project<i class="text-danger">*</i>
+                            </label>
+                            <div class="col-sm-10 row">
+                                <div class="col-sm-5" [busyIf]="getListprojectLoading">
+                                    <select #project class="form-control project" id="project" formControlName="project"
+                                            jq-plugin="selectpicker" [(ngModel)]="model.projectID"
+                                            (ngModelChange)="onChangeProject(model.projectID)"
+                                            title="Choose Project">
+                                        <option *ngFor="let _listProject of listProject"
+                                                [value]="_listProject.projectID">
+                                            {{_listProject.projectName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Order Status</label>
+                            <div class="col-sm-10 row">
+                                <div class="col-sm-3" *ngFor="let _orderStatus of orderStatus">
+                                    <p-checkbox name="orderStatus" [value]="_orderStatus.orderStatusID"
+                                                label="{{_orderStatus.orderStatusName}}"
+                                                [(ngModel)]="orderStatusValue"
+                                                [ngModelOptions]="{standalone: true}">
+                                    </p-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Preferred Unit</label>
+                            <div class="col-sm-10 row">
+                                <div class="col-sm-12" [busyIf]="getListPreferredTypeLoading">
+                                    <p-selectButton *ngIf="listPreferredTypeItems.length !== 0"
+                                                    [options]="listPreferredTypeItemsAll"
+                                                    [(ngModel)]="selectedPreferredTypeAll"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (onChange)="onChangePreferredTypeAll(selectedPreferredTypeAll)"
+                                                    multiple="multiple">
+                                    </p-selectButton>
+                                    <p-selectButton [disabled]="listCheckPreferredTypeDisable == true"
+                                                    [options]="listPreferredTypeItems"
+                                                    [(ngModel)]="selectedPreferredTypeTemp"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (onChange)="onChangePreferredType($event)"multiple="multiple">
+                                    </p-selectButton>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Term Payment</label>
+                            <div class="col-sm-10 row">
+                                <div class="col-sm-5" [busyIf]="getListDropdownTermLoading">
+                                    <p-multiSelect [options]="listTermPayment" [(ngModel)]="selectedTermPaymentTemp"
+                                                   [ngModelOptions]="{standalone: true}"
+                                                   (onChange)="onChangeTermPayment(selectedTermPaymentTemp)">
+                                    </p-multiSelect>
+                                </div>
+                                <div class="col-sm-7">
+                                    <p style="margin-top: 0.5rem;">
+                                        Selected :
+                                        <button type="button" class="btn btn-danger btn-xs selected"
+                                                *ngFor="let _selectedTermPaymentText of selectedTermPaymentText"
+                                                style="font-size: 10px;padding: 0px;">
+                                            {{_selectedTermPaymentText}}
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Displayed Field On Report</label>
+                            <div class="col-sm-10 row">
+                                <div class="col-sm-12" [busyIf]="getListCheckboxDisplayedFieldLoading">
+                                    <p-selectButton class="displayField" [options]="listCheckItemsAll"
+                                                    [(ngModel)]="selectedDisplayFieldTempAll"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (onChange)="onChangeDisplayFieldAll(selectedDisplayFieldTempAll)"
+                                                    multiple="multiple" dataKey="id">
+                                    </p-selectButton>
+                                    <p-selectButton [disabled]="listCheckItemsDisable == true" class="displayField"
+                                                    [options]="listCheckItems"
+                                                    [(ngModel)]="selectedDisplayFieldTemp"
+                                                    [ngModelOptions]="{standalone: true}" multiple="multiple"
+                                                    (onChange)="onChangeDisplayField($event)" dataKey="id">
+                                    </p-selectButton>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Keyword</label>
+                            <div class="col-sm-10 row">
+                                <div class="col-sm-5">
+                                    <input class="form-control m-input" [(ngModel)]="model.keyword"
+                                           [ngModelOptions]="{standalone: true}" placeholder="Keyword"
+                                           type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-portlet__head" style="padding: 0px 15px;">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                        <i class="la la-gear"></i>
+                                    </span>
+                                    <h3 class="m-portlet__head-text">
+                                        Report Parameter
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Paper Size</label>
+                            <div class="col-sm-10 row">
+                                <div class="col-sm-5">
+                                    <div>
+                                        <select
+                                            [disabled]="changePrint === '1' || modelSort.printOn == '1' || changePrint === '3' || modelSort.printOn == '3'"
+                                            class="form-control paperSize" id="paperSize" name="paperSize"
+                                            jq-plugin="selectpicker" [(ngModel)]="modelSort.paperSize"
+                                            [ngModelOptions]="{standalone: true}"
+                                            title="Choose Paper">
+                                            <option value="1">A4</option>
+                                            <option value="2">A3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Paper Orientation</label>
+                            <div class="col-sm-10 row">
+                                <div class="col-sm-5">
+                                    <div>
+                                        <select
+                                            [disabled]="changePrint === '1' || modelSort.printOn == '1' || changePrint === '3' || modelSort.printOn == '3'"
+                                            class="form-control paperOrientation" id="paperOrientation"
+                                            name="paperOrientation" jq-plugin="selectpicker"
+                                            [(ngModel)]="modelSort.paperOrientation"
+                                            title="Choose Paper" [ngModelOptions]="{standalone: true}">
+                                            <option value="1">Landscape</option>
+                                            <option value="2">Portrait</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Print On</label>
+                            <div class="col-sm-10 row">
+                                <div class="col-sm-5">
+                                    <select class="form-control print" id="printOn" name="printOn" formControlName="printOn"
+                                            jq-plugin="selectpicker"
+                                            [(ngModel)]="modelSort.printOn" (ngModelChange)="onChangePrintOn($event)"
+                                            title="Choose Print On">
+                                        <option value="1">Screen</option>
+                                        <option value="2">PDF</option>
+                                        <option value="3">Excel</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                            <div class="m-form__actions m-form__actions--solid">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                    </div>
+                                    <div class="col-lg-6 m--align-right">
+                                        <button type="submit" [disabled]="(!validationForm.valid)" class="btn btn-danger"
+                                                (click)="getListReportOrder()">
+                                            <i class="fa fa-arrow-right"></i>
+                                            Generate
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Portlet-->

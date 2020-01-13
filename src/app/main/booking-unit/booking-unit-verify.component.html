@@ -1,0 +1,208 @@
+<style>
+    .datepicker.datepicker-orient-top {
+        z-index: 1000!important;
+    }
+</style>
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Booking Unit
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a href="" class="m-nav__link m-nav__link--icon">
+                        <i class="m-nav__link-icon la la-home"></i>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="app/main/dashboard" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                                Online Booking
+                            </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="app/main/cart" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                                Cart
+                            </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a class="m-nav__link">
+                        <span class="m-nav__link-text">
+                                Verify Customer
+                            </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <span *ngIf="bypp!='true'" class="m-subheader__daterange" id="m_dashboard_daterangepicker">
+            <myduration></myduration>
+        </span>
+    </div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content">
+    <ol class="progress-track" *ngIf="hiddenTop == true">
+        <li class="progress-done">
+            <div class="icon-wrap">
+                <svg class="icon-state icon-check-mark">
+                    <use xlink:href="#icon-check-mark"></use>
+                </svg>
+                <svg class="icon-state icon-down-arrow">
+                    <use xlink:href="#icon-down-arrow"></use>
+                </svg>
+            </div>
+            <span class="progress-text">Unit Selection</span>
+        </li>
+        <li class="progress-done">
+            <div class="icon-wrap">
+                <svg class="icon-state icon-check-mark">
+                    <use xlink:href="#icon-check-mark"></use>
+                </svg>
+                <svg class="icon-state icon-down-arrow">
+                    <use xlink:href="#icon-down-arrow"></use>
+                </svg>
+            </div>
+            <span class="progress-text">Verify Customer</span>
+        </li>
+        <li class="progress-todo">
+            <div class="icon-wrap">
+                <svg class="icon-state icon-check-mark">
+                    <use xlink:href="#icon-check-mark"></use>
+                </svg>
+                <svg class="icon-state icon-down-arrow">
+                    <use xlink:href="#icon-down-arrow"></use>
+                </svg>
+            </div>
+            <span class="progress-text">Confirm Order</span>
+        </li>
+    </ol>
+    <div class="m-portlet m-portlet--mobile">
+        <div id="verify-customer-wrapper" class="m-portlet__body">
+            <div class="m-form m-form--label-align-right m--margin-bottom-20">
+                <div class="row align-items-center">
+                    <div class="col-xl-8 order-2 order-xl-1">
+                        <div class="form-group m-form__group row align-items-center">
+                            <div class="col-md-12">
+                                <div class="form-group m-form__group">
+                                    <span class="m-form__help" style="margin-bottom:10px">
+										<i class="flaticon-exclamation"></i> You should complete booking data through several steps
+                                        
+									</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title" style="margin-bottom:10px">
+                    <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                        Verify Customer
+                    </h3>
+                    <small style="color:#95a5a6;font-size:14px">
+                            Please complete data below
+                        </small>
+                </div>
+            </div>
+            <form id="form-verify-customer" [formGroup]="customerForm" method="post" novalidate (ngSubmit)="save()">
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-4">
+                        <label class="col-form-label">
+                                Fullname 
+						</label>
+                        <input type="text" class="form-control m-input fullname" name="name" [formControl]="model_ctrl.name" [(ngModel)]="model.name" placeholder="Enter your fullname">
+                        <!-- <span class="text-danger" *ngIf="model_ctrl.name.hasError('required') && model_ctrl.name.touched">Fullname cannot be empty</span> -->
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="col-form-label">
+                                Birth Date 
+							</label>
+                        <div style="z-index:1000!important" class='input-group date' id=''>
+                            <input (selectedDateChange)="onSelectedBirthDate($event)" [(ngModel)]="model.birthDate" [formControl]="model_ctrl.birthDate" datePicker="datepicker" #SampleDatePicker name="SampleDatePicker" class="form-control" placeholder="Example: DD/MM/YYYY" required
+                                readonly>
+                            <!-- (focusout)="onChangeBirthDate(model.birthDate)" -->
+                            <span class="input-group-addon">
+                                <i class="la la-calendar"></i>
+                            </span>
+                            <span (click)="removeDate()" class="input-group-addon">
+                                <i class="la la-remove"></i>
+                            </span>
+                        </div>
+                        <!-- <span class="text-danger" *ngIf="model_ctrl.birthDate.hasError('required') && model_ctrl.birthDate.touched">Birth date number cannot be empty</span> -->
+                        <span class="text-danger" *ngIf="invalidBirthdate">Birth date should not be greater than today</span>
+                    </div>
+                    <div class="col-sm-4" [formValidationStyle]="customerForm">
+                        <label class="col-form-label">
+                                Id Number 
+								</label>
+                        <div>
+                            <input #idNo #hasMessage type="text" class="form-control m-input" name="idNo" formControlName="idNo" [(ngModel)]="model.idNo" placeholder="Enter your ktp number">
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__foot text-right" style="padding-right: 0;border: 0">
+                    <div class="m-form__actions">
+                        <button [disabled]="invalidBirthdate" type="submit" [ngClass]="submitLoading ? 'm-loader m-loader--light m-loader--right' : ''" class="btn btn-danger m-btn m-btn--air m--align-right m-btn--uppercase">
+                            Search Customer
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="form-group m-form__group row" style="margin: 15px 0 0 0;">
+                <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                    <p-dataTable #dataTable [value]="primengDatatableHelper.records" [paginator]="true" [rowsPerPageOptions]="[10,20,50,100]" [rows]="10" [lazy]="false" emptyMessage="{{l('NoData')}}" [responsive]="primengDatatableHelper.isResponsive">
+                        <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                            <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                {{ rowIndex+1 }}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="name" header="Name" [sortable]="false">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{ record.name }}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="birthDate" header="Birthdate" [sortable]="false">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                <!-- {{ record.birthDate | momentFormat:'DD MMMM YYYY' }} -->
+                                {{ record.birthDate }}
+                                <!-- {{ record.dataTemp }} -->
+                            </ng-template>
+                        </p-column>
+                        <p-column field="ktp" header="Id No" [sortable]="false">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{ record.ktp }}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="" header="Actions" [sortable]="false" [style]="{'width':'130px','text-align':'center'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                <button (click)="verify(record.isPersonals, record)" class="btn btn-success btn-sm">
+                                    <i class="fa fa-check"></i><span class="caret"></span> Submit
+                                </button>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                    <div class="primeng-paging-container">
+                        <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengDatatableHelper.totalRecordsCount)}}
+                            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,147 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Customer List
+            </h3>
+        </div>
+    </div>
+</div>
+<!-- END: Subheader -->
+<!--begin::Portlet-->
+<div class="m-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="m-portlet">
+                <div class="m-portlet__head" style="padding: 0px 15px;">
+                    <div class="m-portlet__head-caption">
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Customer Name</label>
+                            <div class="col-sm-6">
+                                <div class="col-sm-8">
+                                    <input class="form-control m-input" [(ngModel)]="listCustomer.customerName"
+                                           placeholder="Costumer name"
+                                           type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Customer Code</label>
+                            <div class="col-sm-6">
+                                <div class="col-sm-8">
+                                    <input class="form-control m-input" [(ngModel)]="listCustomer.customerCode"
+                                           placeholder="Customer Code"
+                                           type="text">
+                                </div>
+                                <div class="col-sm-8" style="margin: 10px 0px;">
+                                    <button class="btn btn-danger pull-right" (click)="getCustomerListCheck()">
+                                        <i class="fa fa-search"></i>
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="m-login__form m-form email-activation-form">
+                    <div class="m-portlet__body form_body">
+                        <div class="primeng-datatable-container"
+                             [busyIf]="primengDatatableHelper.isLoading">
+                            <p-dataTable #dataTable 
+                                         [value]="primengDatatableHelper.records"
+                                         [rows]="primengDatatableHelper.defaultRecordsCountPerPage"
+                                         [paginator]="true"
+                                         [rowsPerPageOptions]="[5,10,20]" [lazy]="false"
+                                         emptyMessage="{{l('NoData')}}"
+                                         [responsive]="primengDatatableHelper.isResponsive"
+                                         [(first)]="first"
+                                         scrollable="true"
+                                         [alwaysShowPaginator]="false"> <!-- [paginatorPosition]="none" -->
+                                <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                                    <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                        {{ rowIndex+1 }}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="orderCode" header="Customer Code" [sortable]="false" [style]="{'width':'150px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.customerCode}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="projectCode" header="Account Status" [sortable]="false"[style]="{'width':'150px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.accountStatus}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="customerName" header="Customer Name" [sortable]="false" [style]="{'width':'200px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.customerName}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="qty" header="Birth Place/Date" [sortable]="false" [style]="{'width':'250px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.birthInfo}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="qty" header="City" [sortable]="false" [style]="{'width':'150px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.city}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="qty" header="Address" [sortable]="false" [style]="{'width':'300px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.address}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="qty" header="Phone No" [sortable]="false" [style]="{'width':'150px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.phoneNumber}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="qty" header="Email" [sortable]="false" [style]="{'width':'150px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.email}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="qty" header="Register Date" [sortable]="false" [style]="{'width':'150px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.activeDate | date:'dd MMMM yyyy'}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="" header="Buy PP" [sortable]="false"
+                                          [style]="{'width':'130px','text-align':'center'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        <button (click)="buyPP(record.customerCode, record.customerName)" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-usd"></i><span class="caret"></span> Buy PP
+                                        </button>
+                                    </ng-template>
+                                </p-column>
+                                <!-- <p-column field="" header="Actions" [sortable]="false"
+                                          [style]="{'width':'130px','text-align':'center'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        <button [disabled]="record.accountStatus == 'Active'" (click)="customerUpdate(record.customerCode)" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-edit"></i><span class="caret"></span> Edit
+                                        </button>
+                                    </ng-template>
+                                </p-column> -->
+                            </p-dataTable>
+                            <div class="primeng-paging-container">
+                                <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}"
+                                             #paginator
+                                             (onPageChange)="getCustomerList($event)"
+                                             [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                                </p-paginator>
+                                <span class="total-records-count">
+                                            {{l('TotalRecordsCount', primengDatatableHelper.totalRecordsCount)}}
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Portlet-->

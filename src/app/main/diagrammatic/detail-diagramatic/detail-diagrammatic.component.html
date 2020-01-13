@@ -1,0 +1,107 @@
+<style>
+        .modal .modal-content .modal-header {
+            padding: 15px!important;
+        }
+        .modal-dialog {
+            max-width: 500px;
+            margin: 30px auto;
+        }
+</style>
+<div *ngIf="showdetail" [ngStyle]='styleDetail' class="modal-dialog tooltip-text" style="transform:scale(0.8) !important;border: 0 !important;box-shadow:0 10px 25px rgba(0,0,0,0.7) !important;z-index:999;position: absolute;">
+    <div [busyIf]="showDataLoading" class="modal-content" style="border: 0 !important;width:500px!important">
+        <div class="loading_layout"></div>
+        <div class="modal-header" style="background-color:rgba(22, 160, 133,1.0) !important;border-radius:0 !important">
+            <h4 class="modal-title" id="unit-information" style="color:white !important">Unit Information</h4>
+        </div>
+        <div class="modal-body nobottompadding">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th>Unit Code</th>
+                                <td style="text-align: right">
+                                    {{dataDetail.unitCode}}
+                                </td>
+                                <th>Unit No</th>
+                                <td style="text-align: right">
+                                    {{data.unitNo}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Unit Status</th>
+                                <td style="text-align: right">{{data.unitStatusName}}</td>
+                                <th>Bedroom</th>
+                                <td *ngIf="dataDetail.bedroom == null || dataDetail.bedroom == undefined || dataDetail.bedroom == '' " style="text-align: right">0</td>
+                                <td *ngIf="dataDetail.bedroom !== null || dataDetail.bedroom !== undefined || dataDetail.bedroom !== '' " style="text-align: right">{{dataDetail.bedroom}}</td>
+                                <!-- <td *ngIf="unitStatus!='A'" style="text-align: right"></td> -->
+                            </tr>
+                            <tr>
+                                <th>Build Size</th>
+                                <td style="text-align: right">
+                                    {{ dataDetail.buildSize}}
+                                    <!-- {{ dataDetail.buildSize | round}} -->
+                                </td>
+                                <th>Land Size</th>
+                                <td style="text-align: right">
+                                    {{ dataDetail.landSize }}
+                                    <!-- {{ dataDetail.landSize | round}} -->
+                                </td>
+                            </tr>
+                            <tr *ngIf="unitStatus=='A'">
+                                <th>Price m<sup>2</sup> Build </th>
+                                <td style="text-align: right">{{dataDetail.pricePerBuildArea |currency:'Rp. '}}</td>
+                                <!-- <td style="text-align: right">{{dataDetail.pricePerBuildArea | round |currency:'Rp. '}}</td> -->
+                                <th>Price m<sup>2</sup> Land </th>
+                                <td style="text-align: right">{{dataDetail.pricePerLandArea | currency:'Rp. '}}</td>
+                                <!-- <td style="text-align: right">{{dataDetail.pricePerLandArea  | round | currency:'Rp. '}}</td> -->
+                            </tr>
+                            <!-- <tr *ngIf="unitStatus!='A'">
+                                <th></th>
+                                <td style="text-align: right"></td>
+                                <th></th>
+                                <td style="text-align: right"></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-header" style="background-color:rgba(22, 160, 133,1.0) !important;border-radius:0 !important">
+            <h4 class="modal-title" id="myModalLabel" style="color:white !important">Unit Price</h4>
+        </div>
+        <div class="modal-body nobottompadding">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive" [busyIf]="termLoading">
+                        <table class="table table-striped">                       
+                            <tbody>  
+                                <h5>Term of Payment</h5>    
+                                <div *ngFor="let group of dataDetail.term">                                    
+                                    <p style="background-color: #eee; padding: 5px; font-weight: 500;margin-bottom: 5px!important;">
+                                        {{ group.termName }}
+                                    </p>                                    
+                                    <div *ngFor="let child of group.dataTerm"> 
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                               * {{ child.renovName }}
+                                            </div>
+                                            <div class="col-md-6" style="text-align:right">                                                   
+                                                {{(child.listPrice) | currency:'Rp. '}}
+                                                <!-- {{(child.listPrice) | round | currency:'Rp. '}} -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tbody>
+                        </table>
+                        <div>                        
+                            <span *ngIf="PpnHover == 'false'" class="text-danger" style="font-weight:500!important; font-style: italic">*Price Exclude VAT (PPN)</span>
+                            <span *ngIf="PpnHover == 'true'" class="text-danger" style="font-weight:500!important; font-style: italic">*Price Include VAT (PPN)</span>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

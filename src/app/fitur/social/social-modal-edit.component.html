@@ -1,0 +1,79 @@
+<style>
+    .red {
+        box-shadow: 0px 0px 2px 2px red;
+    }
+</style>
+<div bsModal #modal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="modal"
+     aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form [formGroup]="socialForm" role="form" novalidate class="form-validation">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Edit Social Media
+                    </h5>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">
+                        Close
+                    </span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Name
+                            <i class="text-danger">*</i>
+                        </label>
+                        <div class="col-sm-4">
+                            <input #socialMediaName formControlName="socialName" id="positionName" name="positionName" class="form-control"
+                                   type="text" [(ngModel)]="model.socialMediaName" placeholder="Fill social media name"
+                                   maxlength="25"
+                                   required autofocus/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Icon <i class="text-danger">*</i> </label>
+                        <div class="col-sm-4">
+                            <input id="icon" type="file" class="form-control" fileUpload [options]="optionsFile" (pictureUrl)="pictureUrl($event)" (onAfterFileUpload)="companyLogoUploaded($event)" name="file"/>
+                            <span style="padding: 0px 15px;" class="m-form__help row">
+                                *Icon size must be 200 X 200
+                            </span>
+                            <span style="color:red; 
+                            font-size: 0.85rem;" class="m-form__help">
+                                    You can upload JPG/JPEG/PNG file, with maximum file size 1 MB.
+                            </span>
+                            <div class="col-2 row" *ngIf="uploadedFileNamePastSrc !== '-' || uploadedFileName !== '-'">
+                                <img style="max-height:100px;width:auto" src="{{uploadedFileNamePastSrc}}" />
+                            </div>                   
+                            <div class="row" style="margin-top:5px;margin-bottom:5px" class="col-2 row" *ngIf="uploadedFileNamePastSrc != null || uploadedFileName !== null">
+                                    <button (click)="delImage()" class="btn btn-danger" style="padding:5px"><i class="fa fa-trash"></i>Remove File</button>
+                            </div>
+                        </div>     
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Status <i class="text-danger">*</i> </label>
+                        <div class="col-sm-4">                              
+                            <label class="m-checkbox" style="margin-top: 10px;width:  100%;">
+                                <input formControlName="status" [(ngModel)]="model.isActive" type="checkbox" checked="checked"> Active
+                                <span></span>
+                            </label>              
+                            <span style="color:red; 
+                            font-size: 0.85rem;" class="m-form__help">
+                                Please select social media active
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-form__actions m-form__actions--solid">
+                    <button [disabled]="saving" type="button" class="btn btn-metal" (click)="close()">
+                        {{l("Cancel")}}
+                    </button>
+                    <button type="submit" [disabled]="!socialForm.valid || uploadedFileNamePastSrc==null" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" class="btn btn-primary" (click)="save()">
+                        Update
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

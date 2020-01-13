@@ -1,0 +1,126 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal"
+     aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{l("Edit Sys Roles")}}: {{role.roleName}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="tabsku">
+                        <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x col-12" role="tablist">
+                            <li *ngFor="let tab of _tabs" class="nav-item m-tabs__item">
+                                <a [ngClass]="{'active show': activeTab === tab.idTabs}" class="nav-link m-tabs__link" data-toggle="tab" href="#personalInformation" role="tab" aria-selected="true" (click)="switchTab(tab.idTabs)">
+                                        {{l(tab.tabName)}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="col-sm-10 row" *ngIf="currentTab[1]">
+                            <div class="col-sm-6" [busyIf]="getListLoading">
+                                <p-multiSelect [options]="listProject" [(ngModel)]="selectedProjectTemp"
+                                               [ngModelOptions]="{standalone: true}"
+                                               (onChange)="onChangeProject(selectedProjectTemp)">
+                                </p-multiSelect>
+                            </div>
+                            <div class="col-sm-6">
+                                <p style="margin-top: 0.5rem;">
+                                    Selected :
+                                    <button type="button" class="btn btn-danger btn-xs selected"
+                                            *ngFor="let _selectedProjectText of selectedProjectText"
+                                            style="font-size: 10px;padding: 0px;">
+                                        {{_selectedProjectText}}
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-10 row" *ngIf="currentTab[2]">
+                            <div class="col-sm-6" [busyIf]="getListLoading">
+                                <p-multiSelect [options]="listAccount" [(ngModel)]="selectedAccountTemp"
+                                               [ngModelOptions]="{standalone: true}"
+                                               (onChange)="onChangeAccount(selectedAccountTemp)">
+                                </p-multiSelect>
+                            </div>
+                            <div class="col-sm-6">
+                                <p style="margin-top: 0.5rem;">
+                                    Selected :
+                                    <button type="button" class="btn btn-danger btn-xs selected"
+                                            *ngFor="let _selectedAccountText of selectedAccountText"
+                                            style="font-size: 10px;padding: 0px;">
+                                        {{_selectedAccountText}}
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-10 row" *ngIf="currentTab[3]">
+                            <div class="col-sm-6" [busyIf]="getListLoading">
+                                <p-multiSelect [options]="listOtherType" [(ngModel)]="selectedOtherTypeTemp"
+                                               [ngModelOptions]="{standalone: true}"
+                                               (onChange)="onChangeOtherType(selectedOtherTypeTemp)">
+                                </p-multiSelect>
+                            </div>
+                            <div class="col-sm-6">
+                                <p style="margin-top: 0.5rem;">
+                                    Selected :
+                                    <button type="button" class="btn btn-danger btn-xs selected"
+                                            *ngFor="let _selectedOtherTypeText of selectedOtherTypeText"
+                                            style="font-size: 10px;padding: 0px;">
+                                        {{_selectedOtherTypeText}}
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-10 row" *ngIf="currentTab[4]">
+                            <div class="col-sm-6" [busyIf]="getListLoading">
+                                <p-multiSelect [options]="listPayType" [(ngModel)]="selectedPayTypeTemp"
+                                               [ngModelOptions]="{standalone: true}"
+                                               (onChange)="onChangePayType(selectedPayTypeTemp)">
+                                </p-multiSelect>
+                            </div>
+                            <div class="col-sm-6">
+                                <p style="margin-top: 0.5rem;">
+                                    Selected :
+                                    <button type="button" class="btn btn-danger btn-xs selected"
+                                            *ngFor="let _selectedPayTypeText of selectedPayTypeText"
+                                            style="font-size: 10px;padding: 0px;">
+                                        {{_selectedPayTypeText}}
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-10 row" *ngIf="currentTab[5]">
+                            <div class="col-sm-6" [busyIf]="getListLoading">
+                                <p-multiSelect [options]="listPayFor" [(ngModel)]="selectedPayForTemp"
+                                               [ngModelOptions]="{standalone: true}"
+                                               (onChange)="onChangePayFor(selectedPayForTemp)">
+                                </p-multiSelect>
+                            </div>
+                            <div class="col-sm-6">
+                                <p style="margin-top: 0.5rem;">
+                                    Selected :
+                                    <button type="button" class="btn btn-danger btn-xs selected"
+                                            *ngFor="let _selectedPayForText of selectedPayForText"
+                                            style="font-size: 10px;padding: 0px;">
+                                        {{_selectedPayForText}}
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

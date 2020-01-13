@@ -1,0 +1,124 @@
+<!-- BEGIN: Subheader -->
+<!-- END: Subheader -->
+<!--begin::Portlet-->
+<style>
+    .m-content--skin-light2 {
+        background-color: #555658 !important;
+    }
+    .ui-widget, .ui-widget * {
+        font-size: 9px;
+    }
+</style>
+
+<div class="m-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="m-portlet">
+                <div class="m-portlet__head" style="padding: 0px 15px;">
+                    <div class="m-portlet__head-caption" style="text-align: center; font-size: 35px;">
+                        REPORT REFUND
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="m-login__form m-form email-activation-form">
+                    <div class="m-portlet__body form_body">
+                        <div class="primeng-datatable-container"
+                             [busyIf]="primengDatatableHelper.isLoading">
+                            <p-dataTable #dataTable
+                                         [value]="primengDatatableHelper.records"
+                                         [rows]="primengDatatableHelper.defaultRecordsCountPerPage"
+                                         [lazy]="false"
+                                         emptyMessage="{{l('NoData')}}"
+                                         [responsive]="primengDatatableHelper.isResponsive"
+                                         [(first)]="first"
+                                         [alwaysShowPaginator]="false">
+                                <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                                    <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                        {{ rowIndex+1 }}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="ppNo" field="PPNo" header="ppNo" [sortable]="false"
+                                          [style]="{'width':'61px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.ppNo}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="schema" field="Schema" header="schema"
+                                          [sortable]="false"
+                                          [style]="{'width':'75px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.schema}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="customerCode" field="customerCode" header="Customer Code" [sortable]="false"
+                                          [style]="{'width':'110px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.customerCode}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="customerName" field="customerName" header="Customer Name" [sortable]="false"
+                                          [style]="{'width':'113px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.customerName}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="dealCloserCode" field="dealCloserCode" header="Deal Closer Code" [sortable]="false"
+                                          [style]="{'width':'115px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.dealCloserCode}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="dealCloserName" field="dealCloserName" header="Deal Closer Name" [sortable]="false"
+                                          [style]="{'width':'120px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.dealCloserName}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="ppPrice" field="ppPrice" header="PP Price"
+                                          [sortable]="false"
+                                          [style]="{'width':'93px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.ppPrice | currency: 'Rp.': 0}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="bankName" field="bankName" header="Bank Name"
+                                          [sortable]="false"
+                                          [style]="{'width':'90px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.bankName}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="accountNo" field="accountNo" header="Account No" [sortable]="false"
+                                          [style]="{'width':'90px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.accountNo}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="accountName" field="accountName" header="Account Name" [sortable]="false"
+                                          [style]="{'width':'105px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.accountName}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="reason" field="reason" header="Reason" [sortable]="false"
+                                          [style]="{'width':'70px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.reason}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="refundDate" field="refundDate" header="Refund Date" [sortable]="false"
+                                          [style]="{'width':'93px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.refundDate | date: dateFormat }}
+                                    </ng-template>
+                                </p-column>
+                            </p-dataTable>
+                        </div>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Portlet-->

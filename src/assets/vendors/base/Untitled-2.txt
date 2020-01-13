@@ -1,0 +1,37 @@
+ form_builder_ktp = {
+    'typeCard': [null,Validators.compose([Validators.required])],
+    'birthplace': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],
+    'address': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],
+    'country': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],
+    'fullname': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+    'companyname': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+    'birthdate': [null],            
+    'city': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+    'nation': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],        
+    'email': [null,Validators.compose([Validators.required,Validators.email])],            
+    'phone': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+    'postcode': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+    'marcode': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+    'corresponden': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+    'ktp1': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+    'npwp1': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+    'kitas': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+    'passport': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+            
+}
+
+form_builder_tdd = {
+  'typeCard': [null,Validators.compose([Validators.required])],
+  'address': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],
+  'ktp2': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],       
+  'npwp2': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+  'email2': [null,Validators.compose([Validators.required,Validators.email])],
+  'postcode': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+  'city': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+  'companyname': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+  'country2': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+  'established': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+  'corresponden': [null,Validators.compose([Validators.required,Validators.maxLength(50)])],            
+
+
+}

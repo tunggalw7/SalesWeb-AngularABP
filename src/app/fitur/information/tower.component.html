@@ -1,0 +1,132 @@
+<div bsModal #towerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detailBookingModal" aria-hidden="true"
+    [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form [formGroup]="towerForm"  class="m-form m-form--fit m-form--label-align-right" method="post" novalidate>
+                <div class="modal-header custom">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Update Tower / Cluster
+                    </h5>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                </div>
+                <div [busyIf]="towerLoading" class="modal-body">
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-6">
+                            <label for="towerCode">
+                                Tower / Cluster Code
+                            </label>
+                            <div class="m-input-icon m-input-icon--left">
+                                <input id="towerCode" class="form-control m-input" type="text" placeholder="Enter tower or cluster code" [value]="towerCode" readonly>
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                <span>
+                                    <i class="la la-building"></i>
+                                </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="towerName">
+                                Tower / Cluster Name
+                            </label>
+                            <div class="m-input-icon m-input-icon--left">
+                                <input id="towerName" class="form-control m-input" type="text" placeholder="Enter tower or cluster name" [value]="towerName" readonly>
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                <span>
+                                    <i class="la la-building-o"></i>
+                                </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-6">
+                            <label for="startDate">
+                                Active Start Date
+                            </label>
+                            <div class="m-input-icon m-input-icon--left">
+                                <input id="startDate" formControlName="activeStartDate" [(ngModel)]="model.activeFrom" class="form-control m-input" type="text" placeholder="Enter active start date"
+                                date-picker="datepicker" [options]="activeStartDatePicker" #ActiveStartDate name="activeStartDate">
+                                 <!-- (selectedDateChange)="dateSelected($event)" -->
+
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                <span>
+                                    <i class="la la-calendar"></i>
+                                </span>
+                                </span>
+                            </div>
+                            <span class="m-form__help"> Please enter active start date</span>
+                            <!-- <span class="m-form__help text-danger" *ngIf="model.phone.hasError('required') && model.phone.touched">Phone cannot be empty</span> -->
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="endDate">
+                                Active End Date
+                            </label>
+                            <div class="m-input-icon m-input-icon--left">
+                                <input id="endDate" formControlName="activeEndDate" [(ngModel)]="model.activeTo" class="form-control m-input" type="text" placeholder="Enter active end date"
+                                date-picker="datepicker" [options]="activeEndDatePicker" #ActiveEndDate name="activeEndDate">
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                <span>
+                                    <i class="la la-calendar"></i>
+                                </span>
+                                </span>
+                            </div>
+                            <span class="m-form__help"> Please enter end start date</span>
+                            <!-- <span class="m-form__help text-danger" *ngIf="model.phone.hasError('required') && model.phone.touched">Phone cannot be empty</span> -->
+                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-6">
+                            <label>
+                                Status
+                            </label>
+                            <div class="m-radio-inline">
+                                <label class="m-radio m-radio--solid">
+                                    <input type="radio" name="status" formControlName="status" [(ngModel)]="model.isActive" [value]="true">
+                                    Active
+                                    <span></span>
+                                </label>
+                                <label class="m-radio m-radio--solid">
+                                    <input type="radio" name="status" formControlName="status" [(ngModel)]="model.isActive" [value]="false">
+                                    In Active
+                                    <span></span>
+                                </label>
+                            </div>
+                            <span class="m-form__help">
+                                Please select tower status
+                            </span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>
+                                Priority pass
+                            </label>
+                            <div class="m-radio-inline">
+                                <label class="m-radio m-radio--solid">
+                                    <input type="radio" name="pp" formControlName="pp" [(ngModel)]="model.isRequiredPP" [value]="true">
+                                    Yes
+                                    <span></span>
+                                </label>
+                                <label class="m-radio m-radio--solid">
+                                    <input type="radio" name="pp" formControlName="pp" [(ngModel)]="model.isRequiredPP" [value]="false">
+                                    No
+                                    <span></span>
+                                </label>
+                            </div>
+                            <span class="m-form__help">
+                                Please select priority pass status
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-form__actions m-form__actions--solid">
+                    <button type="button" class="btn btn-metal" [disabled]="towerLoading" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!towerForm.valid" [buttonBusy]="towerLoading" [busyText]="l('SavingWithThreeDot')" (click)="save()">Update tower or cluster</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

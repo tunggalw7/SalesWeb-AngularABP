@@ -1,0 +1,59 @@
+<div class="m-dropdown__wrapper">
+    <!-- <span class="m-dropdown__arrow m-dropdown__arrow--center"></span> -->
+    <div class="m-dropdown__inner">
+        <div class="m-dropdown__header m--align-center" style="background: url(/assets/metronic/src/media/app/img/bg/bg-6.jpg); background-size: cover;">
+            <span class="m-dropdown__header-title">
+                {{dataCart.length}} {{dataCart.length > 1 ? ' Reserved Units' : (dataCart.length <= 1 ? ' Reserved Unit' : 'Reserved Unit')}}
+            </span>
+        </div>
+        <div class="m-dropdown__body">
+            <div class="m-dropdown__content">
+                <div class="row">
+                    <div class="text-left col-md-6">
+                        <!-- <a href="javascript:;" (click)="setAllNotificationsAsRead(); $event.preventDefault(); $event.stopPropagation();">{{l("SetAllAsRead")}}</a> -->
+                    </div>
+                    <div class="text-right col-md-6">
+                        <a routerLink="/app/main/available-unit" class="text-right" href="javascript:;">Add more unit</a>
+                    </div>
+                </div>
+                <hr />
+                <div class="m-scrollable" data-scrollable="true">
+                    <div class="m-list-timeline m-list-timeline--skin-light m-nav">
+                        <div class="m-list-timeline__items" [ngClass]="{'empty':!dataCart.length}">
+
+                            <!-- (click)="gotoUrl(notification.url)"
+                             [ngClass]="{'user-notification-item-clickable': notification.url,'user-notification-item-unread': notification.isUnread}"
+                             -->
+
+                            <div *ngFor="let cart of dataCart" class="m-list-timeline__item user-notification-item">
+                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
+                                <!-- <span class="m-list-timeline__icon {{notification.icon}}"></span> -->
+                                <span class="m-list-timeline__text" style="color: #575962 !important;font-size:12px"> 
+                                    <strong>Project</strong> {{cart.projectName}} <br> 
+                                    <strong>Tower</strong> {{cart.clusterName}} <br>
+                                    <strong>Unit</strong> {{cart.unitNo}} 
+                                        <!-- <span class="m-badge m-badge--metal">&nbsp; {{cart.termName}} / {{cart.renovName}} &nbsp;</span> -->
+                                </span>
+                                <!-- jq-plugin="timeago" -->
+                                <span class="m-list-timeline__time">
+                                    <span class="m-subheader__daterange-date m--font-brand" style="font-size:30px">{{cart.termName}}</span> 
+                                    <span>
+                                        <a href="javascript:;" class="m-link set-notification-as-read">{{cart.renovName}}</a>
+                                        <!-- {{cart.bookingFee | currency:'Rp. '}} -->
+                                    </span>   
+                                </span> 
+                            </div>
+                            <span *ngIf="!dataCart.length" class="notification-empty-text">
+                                {{l("ThereIsNoNotification")}}
+                            </span>
+                        </div>
+                        <div *ngIf="dataCart.length" class="m-nav__separator m-nav__separator--fit"></div>
+                        <div *ngIf="dataCart.length" class="external notifications-footer">
+                            <div class="text-center"><a routerLink="/app/main/cart">See all reserved units</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

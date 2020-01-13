@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationManifest>\src\shared\utils\chat-message.component.html</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="dist\**" />
+    <Compile Remove="external_libs\**" />
+    <Compile Remove="node_modules\**" />
+    <Compile Remove="src\app\main\rnd\datatable-form\**" />
+    <Compile Remove="src\app\main\rnd\form-control\**" />
+    <Compile Remove="src\app\main\rnd\multi-datatable-one-page\**" />
+    <Compile Remove="src\app\main\rnd\upload-excel\**" />
+    <Compile Remove="src\app\main\rnd\upload-image\**" />
+    <Compile Remove="src\app\main\rnd\upload-pdf\**" />
+    <Compile Remove="src\assets\common\scripts\**" />
+    <Compile Remove="src\assets\metronic\admin\**" />
+    <EmbeddedResource Remove="dist\**" />
+    <EmbeddedResource Remove="external_libs\**" />
+    <EmbeddedResource Remove="node_modules\**" />
+    <EmbeddedResource Remove="src\app\main\rnd\datatable-form\**" />
+    <EmbeddedResource Remove="src\app\main\rnd\form-control\**" />
+    <EmbeddedResource Remove="src\app\main\rnd\multi-datatable-one-page\**" />
+    <EmbeddedResource Remove="src\app\main\rnd\upload-excel\**" />
+    <EmbeddedResource Remove="src\app\main\rnd\upload-image\**" />
+    <EmbeddedResource Remove="src\app\main\rnd\upload-pdf\**" />
+    <EmbeddedResource Remove="src\assets\common\scripts\**" />
+    <EmbeddedResource Remove="src\assets\metronic\admin\**" />
+    <None Remove="dist\**" />
+    <None Remove="external_libs\**" />
+    <None Remove="node_modules\**" />
+    <None Remove="src\app\main\rnd\datatable-form\**" />
+    <None Remove="src\app\main\rnd\form-control\**" />
+    <None Remove="src\app\main\rnd\multi-datatable-one-page\**" />
+    <None Remove="src\app\main\rnd\upload-excel\**" />
+    <None Remove="src\app\main\rnd\upload-image\**" />
+    <None Remove="src\app\main\rnd\upload-pdf\**" />
+    <None Remove="src\assets\common\scripts\**" />
+    <None Remove="src\assets\metronic\admin\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove=".editorconfig" />
+    <None Remove=".gitignore" />
+    <None Remove="npm-shrinkwrap.json" />
+    <None Remove="yarn.lock" />
+  </ItemGroup>
+</Project>

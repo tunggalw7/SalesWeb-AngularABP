@@ -1,0 +1,183 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Payment Input
+            </h3>
+        </div>
+    </div>
+</div>
+<!-- END: Subheader -->
+<!--begin::Portlet-->
+<div class="m-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="m-portlet">
+                <div class="m-portlet__head" style="padding: 0px 15px;">
+                    <div class="m-portlet__head-caption">
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;" *ngIf="isGranted('Pages.Tenant.SalesWeb.PaymentBookingFee')">
+                            <label class="col-2 col-form-label">Payment By</label>
+                            <div class="col-sm-6">
+                                <div class="col-sm-8">
+                                    <div class="m-radio-inline">
+                                        <label class="m-radio m-radio--solid">
+                                            <input type="radio" name="status" (ngModelChange)="resetValue($event)"
+                                                [(ngModel)]="model.isPP" [value]="true">
+                                            PP
+                                            <span></span>
+                                        </label>
+                                        <label class="m-radio m-radio--solid">
+                                            <input type="radio" name="status" (ngModelChange)="resetValue($event)"
+                                                [(ngModel)]="model.isPP" [value]="false">
+                                            Booking Fee
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Customer Name</label>
+                            <div class="col-sm-6">
+                                <div class="col-sm-8">
+                                    <input class="form-control m-input" [(ngModel)]="model.cutomerName"
+                                        placeholder="Costumer name" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Project</label>
+                            <div class="col-sm-6">
+                                <div class="col-sm-8">
+                                    <div [busyIf]="projectLoading" *ngIf="model.isPP">
+                                        <select class="form-control project" id="sel1" jq-plugin="selectpicker"
+                                            title="Choose Project" [(ngModel)]="model.projectID" >
+                                            <option value="">Nothing Selected</option>
+                                            <option *ngFor="let _project of project" [value]="_project.projectID">
+                                                {{_project.projectName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div [busyIf]="projectLoading" *ngIf="!model.isPP">
+                                        <select class="form-control project" id="sel1" jq-plugin="selectpicker"
+                                            title="Choose Project" [(ngModel)]="model.projectID" >
+                                            <option value="">Nothing Selected</option>
+                                            <option *ngFor="let _project of project" [value]="_project.id">
+                                                {{_project.projectName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label class="col-2 col-form-label">Order Code</label>
+                            <div class="col-sm-6">
+                                <div class="col-sm-8">
+                                    <input class="form-control m-input" [(ngModel)]="model.orderCode"
+                                        placeholder="Order code" type="text">
+                                </div>
+                                <div class="col-sm-8" style="margin: 10px 0px;">
+                                    <button class="btn btn-danger pull-right" (click)="getListPaymentCheck()">
+                                        <i class="fa fa-search"></i>
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="m-login__form m-form email-activation-form">
+                    <div class="m-portlet__body form_body">
+                        <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                            <p-dataTable [value]="primengDatatableHelper.records" [lazy]="false" [paginator]="true"
+                                [rows]="10" [rowsPerPageOptions]="[10,20,50,100]"
+                                [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                                <p-column header="No." [sortable]="false"
+                                    [style]="{'width':'80px', 'text-align':'center'}">
+                                    <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                        {{ rowIndex+1 }}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="orderCode" header="Order Code" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.orderCode}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="projectCode" header="Project Code" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.projectCode}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="customerName" header="Customer Name" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.customerName}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="qty" header="Qty" [sortable]="false" *ngIf="model.isPP">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.qty}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="statusName" header="Status" [sortable]="false" *ngIf="!model.isPP">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.statusName}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="" header="Actions" [sortable]="false"
+                                    [style]="{'width':'250px','text-align':'center'}" *ngIf="model.isPP">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        <button class="btn btn-danger btn-sm"
+                                            (click)="paymentCheckingModal.show(record,false)">
+                                            <i class="fa fa-eye"></i><span class="caret"></span> View
+                                        </button>
+                                        <button class="btn btn-danger btn-sm"
+                                            (click)="paymentCheckingModal.show(record,true)">
+                                            <i class="fa fa-plus"></i><span class="caret"></span> Create
+                                        </button>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="" header="Actions" [sortable]="false"
+                                    [style]="{'width':'250px','text-align':'center'}" *ngIf="!model.isPP">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        <button class="btn btn-danger btn-sm"
+                                            (click)="paymentCheckingBFModal.show(record,false)">
+                                            <i class="fa fa-eye"></i><span class="caret"></span> View
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" [disabled]="record.statusName!='Outstanding'"
+                                            (click)="paymentCheckingBFModal.show(record,true)">
+                                            <i class="fa fa-plus"></i><span class="caret"></span> Create
+                                        </button>
+                                    </ng-template>
+                                </p-column>
+                            </p-dataTable>
+                            <div class="primeng-paging-container">
+                                <!-- <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}"
+                                             #paginator
+                                             (onPageChange)="getListPaymentCheck($event)"
+                                             [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                                </p-paginator> -->
+                                <!-- <span class="total-records-count">
+                                            {{l('TotalRecordsCount', primengDatatableHelper.totalRecordsCount)}}
+                                        </span> -->
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 0px;">
+                            <span class="total-records-count">
+                                <span class="label m-badge m-badge--primary m-badge--wide">
+                                    Total ({{primengDatatableHelper.totalRecordsCount}})
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+    <paymentCheckingModal #paymentCheckingModal (modalSave)="getListPaymentCheck($event)"></paymentCheckingModal>
+    <paymentCheckingBFModal #paymentCheckingBFModal (modalSave)="getListPaymentCheck($event)"></paymentCheckingBFModal>
+</div>
+<!--end::Portlet-->

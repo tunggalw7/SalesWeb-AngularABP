@@ -1,0 +1,41 @@
+.primeng-datatable-container .ui-datatable th span {
+    font-size: 13px;
+}
+
+#dtable .rowData {
+    font-size: 13px;
+}
+
+.m-portlet__head-label--danger {
+    background-color: #e72937 !important;
+}
+
+body .ui-accordion .ui-accordion-header.ui-state-active a {
+    font-size: 16px;
+    color: #57597a;
+    font-weight: 600;
+}
+
+body .ui-accordion .ui-accordion-header.ui-state-active {
+    background-color: #e6e6e6;
+    color: #232121;
+}
+
+body .ui-widget-content {
+    background-color: #ffffff;
+    border: 0px solid #c7c7c7;
+}
+
+body .ui-accordion .ui-accordion-header a {
+    color: #57597a;;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.ui-accordion .ui-accordion-header > .fa {
+    color: #575962;;
+}
+
+body .ui-accordion .ui-accordion-header {
+    background-color: #e6e6e6;
+}

@@ -1,0 +1,226 @@
+<div [@routerTransition]>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    Available Unit Diagramatic
+                </h3>
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="" class="m-nav__link m-nav__link--icon">
+                            <i class="m-nav__link-icon la la-home"></i>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="app/main/dashboard" class="m-nav__link">
+                            <span class="m-nav__link-text">
+                                Online Booking
+                            </span>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a class="m-nav__link">
+                            <span class="m-nav__link-text">
+                                Available Unit Diagram
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div></div>
+        </div>
+    </div>
+    <!-- END: Subheader -->
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile" style="margin-bottom: 60px;">
+            <div class="m-portlet__body" [busyIf]="diagramaticLoading">
+                <div class="m-form m-form--label-align-right m--margin-bottom-20">
+                    <div class="row align-items-center">
+                        <div class="col-xl-8 order-2 order-xl-1">
+                            <div class="form-group m-form__group row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="form-group m-form__group">
+                                        <span class="m-form__help" style="margin-bottom:10px">
+                                            <i class="flaticon-exclamation"></i> It will show you the available units
+                                            and you may book unit(s) directly through this feature.
+
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title" style="margin-bottom:10px">
+                        <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                            Advanced Filter
+                        </h3>
+                        <small style="color:#95a5a6;font-size:14px">
+                            Use filter to get specific unit
+                        </small>
+                    </div>
+                </div>
+
+                <form #exampleForm="ngForm" [formGroup]="formGroup" role="form" (ngSubmit)="showdiagramaticlist()">
+                    <div class="col-sm-12">
+                        <div class="form-group m-form__group row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <div class="form-group" [formValidationStyle]="formGroup" formComponent="select">
+                                        <label>Project
+                                            <i class="text-danger">*</i>
+                                        </label>
+                                        <div [busyIf]="projectLoading">
+                                            <select #project class="form-control project" title="Choose one of project."
+                                                formControlName="project" [(ngModel)]="_form_control.project"
+                                                (ngModelChange)="onChangeProject($event)" jq-plugin="selectpicker"
+                                                data-live-search="true">
+                                                <option *ngFor="let project of _projects" [value]="project.projectID">
+                                                    {{project.projectName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" [formValidationStyle]="formGroup" formComponent="select">
+                                        <label>
+                                            Tower / Cluster
+
+                                            <i class="text-danger">*</i>
+                                        </label>
+                                        <div [busyIf]="towerLoading">
+                                            <select #tower class="form-control tower"
+                                                title="Choose one of tower / cluster." formControlName="tower"
+                                                [(ngModel)]="_form_control.tower"
+                                                (ngModelChange)="onChangeTower($event)" jq-plugin="selectpicker"
+                                                data-actions-box="true" data-live-search="true">
+                                                <option *ngFor="let tower of _towers"
+                                                    [value]="tower.clusterID+'|'+tower.clusterName">
+                                                    {{tower.clusterName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" [formValidationStyle]="formGroup" formComponent="select">
+                                        <label>
+                                            Unit Type
+                                        </label>
+                                        <div [busyIf]="unittypeLoading">
+                                            <select #unittype class="form-control unittype" title="Choose Unit Type"
+                                                formControlName="unittype" [(ngModel)]="_form_control.unittype"
+                                                jq-plugin="selectpicker" data-live-search="true">
+                                                <option>Nothing Selected</option>
+                                                <option *ngFor="let unit of _unittype" [value]="unit">{{unit}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <div class="form-group" [formValidationStyle]="formGroup" formComponent="select">
+                                        <label>
+                                            View
+                                        </label>
+                                        <div [busyIf]="zoningLoading">
+                                            <select #view class="form-control zoning" title="Choose one of view."
+                                                formControlName="view" [(ngModel)]="_form_control.view"
+                                                jq-plugin="selectpicker" data-live-search="true">
+                                                <option value="">Nothing Selected</option>
+                                                <option *ngFor="let zone of _zonings" [value]="zone.zoningId">
+                                                    {{zone.zoningName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" [formValidationStyle]="formGroup" formComponent="select">
+                                        <label>
+                                            Bedroom
+                                        </label>
+                                        <div [busyIf]="bedroomLoading">
+                                            <select #bedroom class="form-control bedroom" title="Choose one of bedroom."
+                                                formControlName="bedroom" [(ngModel)]="_form_control.bedroom"
+                                                jq-plugin="selectpicker" data-live-search="true">
+                                                <option value="">Nothing Selected</option>
+                                                <option *ngFor="let bed of _bedrooms" [value]="bed.bedroom">
+                                                    {{bed.bedroom}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" [disabled]="!formGroup.valid || disableButton"
+                                            [ngClass]="diagramaticLoading ? 'm-loader m-loader--light m-loader--right' : ''"
+                                            class="btn btn-danger m-btn m-btn--air bottom pull-right m-btn--uppercase"
+                                            style="width:100%;margin-top:30px"> Show Diagrammatic
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="m-portlet__body" *ngIf="showdiagramatic" [busyIf]="boxdiagrammaticLoading">
+                <div class="content-wrap">
+                    <!-- <div> -->
+                        <div style="padding-left: 15px"> <!-- *ngIf="showtowername" -->
+                            <div class="heading-block center nomargin">
+                                <h3>{{towerName}}</h3>
+                                <span>Click on preferred unit to continue booking process</span>
+                            </div>
+
+                            <!-- <tabset class="tab-container">
+                                <tab heading="Diagrammatic{{ !showtowername ? ' (not available)' : '' }}" [active]="isDiagramatic" customClass="m-tabs__item" (click)="tab(1)">
+                                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table-diagramatic"
+                                        cellspacing="0" width="100%"></table>
+                                </tab>
+                                <tab heading="SVG Interactive Site Plan{{ !showtowername ? ' (not available)' : '' }}" [active]="isSvg" customClass="m-tabs__item" (click)="tab(2)">
+                                    <div id="mapsvg" data-animate="fadeInRight"
+                                            style="width: 100% !important;box-shadow: 0px 20px 46px -10px rgba(0,0,0,0.2);"></div>
+                                </tab>
+                            </tabset> -->
+                            <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x col-12" role="tablist">
+                                <li class="nav-item m-tabs__item">
+                                  <a class="nav-link m-tabs__link" href="javascipt:;"
+                                    role="tab" [ngClass]="{'active': isDiagramatic}" aria-selected="true" (click)="tab(1)">
+                                    <small>
+                                        Diagrammatic{{ !showtowername ? ' (not available)' : '' }}
+                                    </small>
+                                  </a>
+                                </li>
+                                <li class="nav-item m-tabs__item">
+                                    <a class="nav-link m-tabs__link" href="javascipt:;"
+                                      role="tab" [ngClass]="{'active': isSvg}" aria-selected="true" (click)="tab(2)">
+                                      <small>
+                                        SVG Interactive Site Plan{{ !showtowername ? ' (not available)' : '' }}
+                                      </small>
+                                    </a>
+                                  </li>
+                              </ul>
+                              <div [hidden]="!isDiagramatic"><table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table-diagramatic" cellspacing="0" width="100%"></table></div>
+                              <div *ngIf="isSvg"><div id="mapsvg" data-animate="fadeInRight" style="width: 100% !important;box-shadow: 0px 20px 46px -10px rgba(0,0,0,0.2);"></div></div>
+
+                              <!-- <customerDetail *ngIf="currentTab[0]" [from]="from" [bookingID]="data.bookingID" [source]="data.source"></customerDetail>
+                              <slikDetail *ngIf="currentTab[1]" [from]="from" [key]="data.bookCodePPNo" [akadID]="data.akad" (saveSlik)="getParameter()" [projectID]="projectID" [slikID]="data.slikCheckingID" [slikChecking]="data.slikCheckingDetails"></slikDetail> -->
+
+                            <div *ngIf="!showtowername" class="alert alert-warning" style="margin-top: 30px;">
+                                <em>If you are changing your parameters from advanced filter, <strong>you may need to submit again</strong> to take effect of filter changes on your own screen!</em>
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <detailDiagramatic #detailDiagramatic></detailDiagramatic>
+    <detailDiagrammaticModal #detailDiagrammaticModal></detailDiagrammaticModal>
+    <ppnoModal #ppnoModal></ppnoModal>

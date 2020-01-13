@@ -1,0 +1,15 @@
+@media only screen and (max-width: 767px) {
+    .tb_res{
+        width: 300px;
+        overflow-x: auto;
+    }
+}
+
+.vertAlign {
+    /* vertical-align: top !important; */
+    text-align: center !important;
+}
+
+.m-subheader .m-subheader__daterange > .btn > i {
+    font-size: 1.3rem !important;
+}

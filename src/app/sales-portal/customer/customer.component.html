@@ -1,0 +1,230 @@
+<div class="m-subheader ">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Customer
+			</h3>
+			<span class="m-section__sub">
+				all the customers who are available to you, whether it is your customers or who are still potential customers
+			</span>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content">
+	<div class="m-portlet">
+		<div class="m-portlet__body">
+			<div class="m-portlet m-portlet--tabs">
+				<div class="m-portlet__head">
+					<div class="m-portlet__head-tools">
+						<ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x" role="tablist">
+							<li class="nav-item m-tabs__item">
+								<a class="nav-link m-tabs__link active" data-toggle="tab" href="#my-customer" role="tab">
+									My Customer
+								</a>
+							</li>
+							<li class="nav-item m-tabs__item">
+								<a class="nav-link m-tabs__link" data-toggle="tab" href="#potential-customer" role="tab">
+									Potential Customer
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="m-portlet__body">
+					<div class="tab-content">
+						<div class="tab-pane active" id="my-customer" role="tabpanel">
+							<div style="margin-bottom:20px" *ngIf="isViewMyCustomer">
+								<div class="m-portlet__head-caption">
+									<div class="row" style="margin-bottom:10px">
+										<div class="col-5">
+											<div class="m-input-icon m-input-icon--left">
+												<input #gf name="filtertext" class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+												<span class="m-input-icon__icon m-input-icon__icon--left"><span><i class="la la-search"></i></span></span>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-9">
+											<div class="m-portlet__head-title" style="margin-bottom:10px">
+												<p class="m-form__help" style="line-height:1.2rem;color: #7b7e8a;font-weight: 300;font-size: 0.85rem;">
+													Commission is a service charge assessed by a broker or investment advisor in return for providing investment advice and/or
+													handling the purchase or sale of a security
+												</p>
+											</div>
+										</div>
+										<div class="col-lg-3 text-right">
+										</div>
+									</div>
+								</div>
+								<div style="padding:0px 20px">
+									<div class="form-group m-form__group row">
+										<!--begin: Datatable -->
+										<div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+												<p-dataTable [value]="records" [lazy]="false" [globalFilter]="gf" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="totalRecordsCountt">												
+												<p-column field="" [sortable]="false" [style]="{'width':'100px'}">
+													<ng-template let-record="rowData" pTemplate="body">
+														<button (click)="buyPPCustomer(record.psCode, record.name)" class="btn btn-danger btn-sm">
+															<i class="fa fa-usd"></i><span class="caret"></span> Buy PP
+														</button>
+													</ng-template>
+												</p-column>
+												<p-column field="" [sortable]="false" [style]="{'width':'100px'}">
+													<ng-template let-record="rowData" pTemplate="body">
+														<button (click)="buyUnitCustomer(record.psCode, record.name)" class="btn btn-danger btn-sm">
+															<i class="fa fa-usd"></i><span class="caret"></span> Buy Unit
+														</button>
+													</ng-template>
+												</p-column>
+												<p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+													<ng-template let-rowIndex="rowIndex" pTemplate="body">
+														{{ rowIndex+1 }}
+													</ng-template>
+												</p-column>
+												<p-column field="name" header="Name" [sortable]="false" [style]="{'font-size':'0.9em'}"></p-column>
+												<p-column field="dateTemp" header="Birth Date" [sortable]="false" [style]="{'font-size':'0.9em'}">
+													<ng-template let-record="rowData" pTemplate="body">
+														{{ record.dateTemp }}
+													</ng-template>
+												</p-column>
+												<!-- <p-column field="documentType" header="Document Type" [sortable]="false" [style]="{'font-size':'0.9em'}"></p-column> -->
+												<!-- <p-column field="documentPicType" header="Document Picture Type" [sortable]="false" [style]="{'font-size':'0.9em'}"></p-column> -->
+											</p-dataTable>
+											<div class="primeng-paging-container">
+											   <!-- <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator (onPageChange)="taskListEvent($event)"
+												[totalRecords]="totalRecordsCountt"></p-paginator> -->
+											   <!-- <span class="total-records-count">
+													   <span class="label m-badge m-badge--primary m-badge--wide">
+														   Total ({{totalRecordsCountt}})
+													   </span>
+											   </span> -->
+											</div>
+										</div>
+										
+										<div class="form-group m-form__group row" style="margin: 0px;">
+											<span class="total-records-count">
+												<span class="label m-badge m-badge--primary m-badge--wide">
+														Total ({{totalRecordsCountt}})
+												</span>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="potential-customer" role="tabpanel">
+							<div style="margin-bottom:20px" *ngIf="isViewPotential">
+								<div class="m-portlet__head-caption m--margin-bottom-10">
+									<div class="row" style="margin-bottom:10px">
+										<div class="col-5">
+											<div class="m-input-icon m-input-icon--left">
+												<input #gf2 name="filtertext" class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+												<span class="m-input-icon__icon m-input-icon__icon--left"><span><i class="la la-search"></i></span></span>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-7">
+											<div class="m-portlet__head-title" style="margin-bottom:10px">
+												<p class="m-form__help" style="line-height:1.2rem;color: #7b7e8a;font-weight: 300;font-size: 0.85rem;">
+													Commission is a service charge assessed by a broker or investment advisor in return for providing investment advice and/or
+													handling the purchase or sale of a security
+												</p>
+											</div>
+										</div>
+										<!-- <div class="col-lg-5 text-right">
+											<button (click)="addPotentialCustomer()" *ngIf="isGranted('Pages.Tenant.SalesWeb.Customer.CreatePotentialCustomer')"
+												class="btn btn-primary m-btn m-btn--air m-btn--uppercase" style="font-size: 12px;"><i class="la la-plus-square"></i> Add Potential Customer</button>
+										</div> -->
+									</div>
+									<div class="row">		
+										<label for="project" class="col-md-2 col-form-label text-left">
+											Filter Periods
+										</label>							
+										<div class="col-md-4">	
+											<div [busyIf]="timePeriodLoading" formComponent="select">
+												<select #hasMessage id="timeperiode" (ngModelChange)="timePeriodeChange($event)" class="form-control project" title="Select Time Periode" [(ngModel)]="timeperiode" jq-plugin="selectpicker"
+													data-live-search="true">
+													<option [value]="">
+														All
+													</option>
+													<option *ngFor="let proj of _timePeriodList" [value]="proj.timePeriodID">
+														{{proj.timePeriod}}
+													</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-md-6 text-right">
+											<button (click)="addPotentialCustomer()" *ngIf="isGranted('Pages.Tenant.SalesWeb.Customer.CreatePotentialCustomer')"
+												class="btn btn-primary m-btn m-btn--air m-btn--uppercase" style="font-size: 12px;"><i class="la la-plus-square"></i> Add Potential Customer</button>
+										</div>
+									</div>
+								</div>
+								<div style="padding:0px 20px">
+									<div class="form-group m-form__group row">
+										<!--begin: Datatable -->
+											<div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+											<p-dataTable [value]="primengDatatableHelper.records" [lazy]="false" [paginator]="true" [globalFilter]="gf2" [rows]="10" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="primengDatatableHelper.totalRecordsCount">											
+											<p-column field="" *ngIf="isGranted('Pages.Tenant.SalesWeb.Customer.EditPotentialCustomer')" [sortable]="false" [style]="{'width':'55px'}">
+											<ng-template let-record="rowData" pTemplate="body">
+												<div class="text-center">
+													<button class="btn btn-primary m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--air m-btn--bolder" (click)="showDetails(record)">
+															<i class="la la-edit"></i>
+														</button>
+												</div>
+											</ng-template>
+											</p-column>
+											<p-column field="" [sortable]="false" [style]="{'width':'100px'}">
+												<ng-template let-record="rowData" pTemplate="body">
+													<button (click)="buyPPPotential(record)" class="btn btn-danger btn-sm">
+														<i class="fa fa-usd"></i><span class="caret"></span> Buy PP
+													</button>
+												</ng-template>
+											</p-column>
+											<p-column field="" [sortable]="false" [style]="{'width':'100px'}">
+												<ng-template let-record="rowData" pTemplate="body">
+													<button (click)="buyUnitPotential(record)" class="btn btn-danger btn-sm">
+														<i class="fa fa-usd"></i><span class="caret"></span> Buy Unit
+													</button>
+												</ng-template>
+											</p-column>
+											<p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+												<ng-template let-rowIndex="rowIndex" pTemplate="body">
+													{{ rowIndex+1 }}
+												</ng-template>
+											</p-column>
+												<p-column field="name" header="Name" [sortable]="false" [style]="{'font-size':'0.9em'}"></p-column>
+												<p-column field="dateTemp" header="Birth Date" [sortable]="false" [style]="{'font-size':'0.9em'}">
+													<ng-template let-record="rowData" pTemplate="body">
+															{{ record.dateTemp }}
+													</ng-template>
+												</p-column>
+												<p-column field="email" header="Email" [sortable]="false" [style]="{'font-size':'0.9em'}"></p-column>
+												<!-- <p-column field="documentType" header="Document Type" [sortable]="false" [style]="{'font-size':'0.9em'}"></p-column> -->
+											</p-dataTable>
+											<div class="primeng-paging-container">
+												<!-- <p-paginator rows="{{defaultRecordsCountPerPagee}}" #paginator (onPageChange)="taskListEventt($event)"
+												 [totalRecords]="primengDatatableHelper.totalRecordsCount"></p-paginator> -->
+												
+											 </div>
+										</div>
+										<div class="form-group m-form__group row" style="margin: 0px;">
+											<span class="total-records-count">
+												<span class="label m-badge m-badge--primary m-badge--wide">
+													Total ({{primengDatatableHelper.totalRecordsCount}})
+												</span>
+											</span>
+										</div>
+										<!--end: Datatable -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<addPotentialCustomerModal #addPotentialCustomerModal (modalSave)="getPotentialCustomerList(inputUn,timeperiode)"></addPotentialCustomerModal>

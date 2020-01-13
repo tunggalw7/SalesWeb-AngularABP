@@ -1,0 +1,153 @@
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Customer Profile and Request P3U / PPJB
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a href="" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="app/main/dashboard" class="m-nav__link">
+						<span class="m-nav__link-text">
+                                Online Booking
+                            </span>
+					</a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a class="m-nav__link">
+						<span class="m-nav__link-text">
+                                P3U / PPJB Request
+                            </span>
+					</a>
+                </li>
+            </ul>
+        </div>
+        <div></div>
+    </div>
+</div>
+<div class="m-content">
+    <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title" style="width:100%">
+                    <span class="m-portlet__head-icon m--hide">
+						<i class="flaticon-statistics"></i>
+					</span>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h3 class="m-portlet__head-text" style="margin-bottom:0;font-size:14px !important">
+                                Order Code
+
+                                <small style="color:#95a5a6;font-size:14px">
+                                    {{detailOrder.orderCode}}
+                                </small>
+                            </h3>
+                        </div>
+                        <div class="col-lg-6">
+                            <h3 class="m-portlet__head-text pull-right" style="margin-bottom:0;font-size:14px !important">
+                                Order Date
+
+                                <small style="color:#95a5a6;font-size:14px">
+                                    {{detailOrder.orderDate}}
+                                </small>
+                            </h3>
+                        </div>
+                    </div>
+                    <h2 class="m-portlet__head-label m-portlet__head-label--danger">
+                        <span>
+                            Booking Information
+                        </span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body" style="padding-left: 0;padding-right: 0;padding-bottom: 0;">
+            <div id="dtable" class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                <p-dataTable #dataTable [value]="primengDatatableHelper.records" rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}"
+                    [lazy]="false" [responsive]="primengDatatableHelper.isResponsive">
+                    <p-column field="projectName" header="Project"></p-column>
+                    <p-column field="unitNo" header="Unit No"></p-column>
+                    <p-column field="unitName" header="Unit Name"></p-column>
+                    <p-column field="detail" header="Detail"></p-column>
+                    <p-column field="facing" header="Facing"></p-column>
+                    <p-column field="ppno" header="PP No"></p-column>
+                    <p-column header="KP" [sortable]="false" [style]="{'width':'130px','text-align':'center'}">
+                        <ng-template let-record="rowData" pTemplate="body">
+                            <!-- printKP(record.pathKP) -->
+                            <button (click)="printKP('../../../assets/app/media/img/bg/kp-document.pdf')" target="_blank" class="btn btn-danger m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--air">
+								<i class="la la-print"></i>
+							</button>
+                        </ng-template>
+                    </p-column>
+                </p-dataTable>
+            </div>
+        </div>
+    </div>
+    <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title" style="width:100%">
+                    <h2 class="m-portlet__head-label m-portlet__head-label--danger">
+                        <span>
+                            P3U / PPJB Request
+                        </span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body" style="margin-top: -3rem !important;">
+            <div class="form-group m-form__group row">
+                <div class="col-sm-6">
+                    <label class="col-form-label">
+                        Notary
+                    </label>
+                    <div [busyIf]="notaryLoading">
+                        <select [formControl]="model_ctrl.fund" class="form-control notary" jq-plugin="selectpicker" title="Choose your notary">
+							<option value="">Nothing Selected</option>
+							<option *ngFor="let notary of notarys" [value]="notary.notarisId">{{notary.notarisName}}</option>
+						</select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label class="col-form-label">
+                        Order Date
+                    </label>
+                    <div class='input-group date' id=''>
+                        <input (selectedDateChange)="onSelectedOrderDate($event)" [(ngModel)]="orderDate" datePicker="datepicker" #SampleDatePicker
+                            name="SampleDatePicker" class="form-control" placeholder="Example: DD/MM/YYYY" required readonly>
+                        <span class="input-group-addon">
+								<i class="la la-calendar"></i>
+							</span>
+                    </div>
+                    <span class="text-danger" *ngIf="invalidOrderdate">Order date should not be greater than today</span>
+                </div>
+            </div>
+            <small style="color:#95a5a6;font-size:14px">
+                 Penandatanganan PPPU/PPJB hanya dapat dilakukan di Senin-Jumat pukul 09.00 – 17.00 (hari kerja).
+            </small>
+            <br>
+            <small style="color:#95a5a6;font-size:14px">
+                 Petugas kami akan mengkonfirmasi kembali atas request jadwal penandatanganan PPPU/PPJB yang sudah dipilih.
+            </small>
+        </div>
+        <div class="m-portlet__foot m-portlet__foot--fit text-right pad">
+            <div class="m-form__actions">
+              <button type="submit" class="btn btn-danger m-btn m-btn--air m-btn--uppercase">
+                Request
+              </button>
+            </div>
+          </div>
+    </div>
+</div>
+
+<app-update-customer *ngIf="selectedPsCode != undefined" [(getSelectedPsCode)]="selectedPsCode"></app-update-customer>

@@ -1,0 +1,207 @@
+<div bsModal #detailBookingModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detailBookingModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #e74c3c;border: 0 !important;">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: #fff !important;">
+                    Order Detail
+                </h5>
+                <button type="button" class="close" (click)="close()" aria-label="Close" style="color: #fff !important;">
+					<span aria-hidden="true">
+                            &times;
+                        </span>
+				</button>
+            </div>
+            <div [busyIf]="getDetailBooking" class="modal-body">
+                <h5 class="m-portlet__head-text">
+                    Customer Detail
+                </h5>
+                <div class="row center m--margin-10">
+                    <div class="col-lg-6">
+                        <div class="row m--margin-2 m--margin-bottom-10">
+                            <div class="col-4">
+                                <strong>Order Code</strong>
+                            </div>
+                            <div class="col-1">
+                                :
+                            </div>
+                            <div class="col-6" id="d_order">
+                                {{detailOrder.orderCode}}
+                            </div>
+                        </div>
+                        <div class="row  m--margin-2  m--margin-bottom-10">
+                            <div class="col-4">
+                                <strong>Member</strong>
+                            </div>
+                            <div class="col-1">
+                                :
+                            </div>
+                            <div class="col-6" id="d_member">
+                                {{detailOrder.membercode}} - {{detailOrder.membername}}
+                            </div>
+                        </div>
+                        <div class="row  m--margin-2  m--margin-bottom-10">
+                            <div class="col-4">
+                                <strong>Sales Channel</strong>
+                            </div>
+                            <div class="col-1">
+                                :
+                            </div>
+                            <div class="col-6" id="d_sales">
+                                -
+                            </div>
+                        </div>
+                        <div class="row  m--margin-2  m--margin-bottom-10">
+                            <div class="col-4">
+                                <strong>Customer</strong>
+                            </div>
+                            <div class="col-1">
+                                :
+                            </div>
+                            <div class="col-6 " id="d_customer">
+                                {{detailOrder.psname}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row  m--margin-2  m--margin-bottom-10">
+                            <div class="col-4">
+                                <strong>Address</strong>
+                            </div>
+                            <div class="col-1">
+                                :
+                            </div>
+                            <div class="col-6" id="d_address">
+                                {{detailOrder.address}}
+                            </div>
+                        </div>
+                        <div class="row  m--margin-2  m--margin-bottom-10">
+                            <div class="col-4">
+                                <strong>ID No</strong>
+                            </div>
+                            <div class="col-1">
+                                :
+                            </div>
+                            <div class="col-6" id="d_no">
+                                {{detailOrder.idNo}}
+                            </div>
+                        </div>
+                        <div class="row  m--margin-2  m--margin-bottom-10">
+                            <div class="col-4">
+                                <strong>Email</strong>
+                            </div>
+                            <div class="col-1">
+                                :
+                            </div>
+                            <div class="col-6" id="d_mail">
+                                {{detailOrder.custemail}}
+                            </div>
+                        </div>
+                        <div class="row m--margin-2  m--margin-bottom-10">
+                            <div class="col-4">
+                                <strong>Handphone</strong>
+                            </div>
+                            <div class="col-1">
+                                :
+                            </div>
+                            <div class="col-6" id="d_handphone">
+                                {{detailOrder.custphone}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5 class="m-portlet__head-text" style="margin-top:5%">
+                    Order Details
+                </h5>
+                <div class="row center m--margin-10">
+                    <table id="data-table-order" class="table table-bordered m-table m-table--border-brand m-table--head-bg-brand" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Unit</th>
+                                <th class="text-center">PP No</th>
+                                <th class="text-center">Price</th>
+                                <th class="text-center">Renovation</th>
+                                <th class="text-center">Payment</th>
+                                <th class="action_detail text-center">SP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of dataOrder; let i = index">
+                                <td class="d_unit">
+                                    {{item.unitcode}} </td>
+                                <td class="d_pp">
+                                    {{item.ppno}}
+                                </td>
+                                <td class="d_price text-right">
+                                    <!-- {{item.sellingprice | currency:'Rp. '}} -->
+                                    {{(item.sellingprice) | currency:'Rp. '}}
+                                    <!-- {{(item.sellingprice)  | round| currency:'Rp. '}} -->
+                                </td>
+                                <td class="d_renovation">{{item.renovcode}}</td>
+                                <td class="d_payment">{{detailOrder.payType}}</td>
+                                <td class="action_detail">
+                                    <!-- <a [href]="item.urlKP" target="_self">
+										<i class="flaticon-file-1"></i>
+                                    </a> -->
+                                    <a href="javascript:void(0)" (click)="openKP(item.urlKP)" target="_blank">
+                                        <i class="flaticon-file-1"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!dataOrder" style="text-align: center;">
+                                <td colspan="6">No Result Data Found!!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-sm-12" style="text-align:right">
+                    <span *ngIf="PpnPreview == false" class="text-danger" style="font-weight:500!important; font-style: italic">*Price Exclude VAT (PPN)</span>
+                    <span *ngIf="PpnPreview == true" class="text-danger" style="font-weight:500!important; font-style: italic">*Price Include VAT (PPN)</span>
+                </div>
+                <div *ngIf="detailOrder.status=='Outstanding'" class="row pay_method">
+                    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                        <div class="m-portlet__body">
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-12">
+                                    <h5 class="m-portlet__head-text">
+                                        Pay Method
+                                    </h5>
+                                    <div class="m-radio-inline m--margin-top-10">
+                                        <label *ngFor="let item of paySource; let i = index" class="m-radio m-radio--solid">
+											<input id="pay_{{item.paymentTypeId}}" [(ngModel)]="payType" [value]="item.paymentTypeId+'|'+item.paymentType" [ngModelOptions]="{standalone: true}" type="radio" name="paymentMethod">
+                                            
+                                            <img 
+                                                style="height:30px" 
+                                                width="100" 
+                                                title="{{item.paymentTypeName}}"
+                                                src="data:image/png;base64,{{item.image}}" 
+                                                (click)="imgClick()">
+
+                                            <!-- <img *ngIf="item.paymentType=='3'" width="100" src="../../../assets/app/media/img/bank-logo/visamastercard.png">
+                                            <img *ngIf="item.paymentType=='10'" width="100" src="../../../assets/app/media/img/bank-logo/bcaklikpay.png">
+                                            <img *ngIf="item.paymentType=='11'" width="100" src="../../../assets/app/media/img/bank-logo/cimbclicls.png">
+                                            <img *ngIf="item.paymentType=='4'" width="100" src="../../../assets/app/media/img/bank-logo/banktransfer.png"> -->
+                                            
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button (click)="close()" type="button" class="btn btn-metal m-btn m-btn--air m-btn--uppercase">
+                            Cancel
+                    </button>
+                <button *ngIf="detailOrder.status == 'Outstanding'" (click)="bookPay()" type="submit" [disabled]="payLoading" [ngClass]="payLoading ? 'm-loader m-loader--light m-loader--right' : ''" class="btn btn-danger m-btn m-btn--air m-btn--uppercase">
+                            Pay
+                    </button>
+                <button *ngIf="detailOrder.status == 'Fully Paid'" (click)="resendKP()" type="submit" [disabled]="payLoading" [ngClass]="payLoading ? 'm-loader m-loader--light m-loader--right' : ''" class="btn btn-danger m-btn m-btn--air m-btn--uppercase">
+                            Resend Confirmed Order
+                    </button>
+            </div>
+        </div>
+    </div>
+</div>

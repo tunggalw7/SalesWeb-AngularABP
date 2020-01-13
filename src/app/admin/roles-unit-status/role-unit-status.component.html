@@ -1,0 +1,90 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-xs-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("User Unit Status")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("Manage User Unit Status")}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filter_Text" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" (click)="getUsers()"><i class="flaticon-search-1" ></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="row align-items-center">
+                        <div class="primeng-datatable-container"
+                             [busyIf]="primengDatatableHelper.isLoading">
+                            <p-dataTable #dataTable
+                                         (onLazyLoad)="getUsers($event)"
+                                         [value]="primengDatatableHelper.records"
+                                         rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}"
+                                         [paginator]="false"
+                                         [lazy]="true"
+                                         emptyMessage="{{l('NoData')}}"
+                                         scrollable="true"
+                                         ScrollWidth="100%"
+                                         responsive="primengDatatableHelper.isResponsive"
+                                         resizableColumns="primengDatatableHelper.resizableColumns">
+    
+                                
+                                <p-column field=""
+                                    header="{{l('Actions')}}"
+                                    [sortable]="false"
+                                    [style]="{'width':'50px','text-align':'center'}">
+                                    <!-- [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')"> -->
+                                    <ng-template let-col let-i="rowIndex" let-record="rowData" pTemplate="body">
+                                        <div class="text-center">
+                                            <button  type="submit"  class="btn btn-primary btn-sm" (click)="showModals(record.userID, record.userName)">
+                                                    <i class="la la-edit"></i> Edit
+                                            </button>
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="userName" header="{{l('UserName')}}" [sortable]="true" [style]="{'width':'150px'}"></p-column>
+                                <p-column field="name" header="{{l('Name')}}" [sortable]="true" [style]="{'width':'150px'}"></p-column>
+                                
+                                <p-column field="lastModifTime" header="{{l('LastModifTime')}}" [sortable]="true" [style]="{'width':'200px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.lastModifTime | momentFormat:'L'}}
+                                    </ng-template>
+                                </p-column>
+                            </p-dataTable>
+                            <div class="primeng-paging-container">
+                                <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}"
+                                             #paginator
+                                             (onPageChange)="getUsers($event)"
+                                             [totalRecords]="primengDatatableHelper.totalRecordsCount"
+                                             [rowsPerPageOptions]="primengDatatableHelper.predefinedRecordsCountPerPage">
+                                </p-paginator>
+                                <span class="total-records-count">
+                                    {{l('TotalRecordsCount', primengDatatableHelper.totalRecordsCount)}}
+                                </span>
+                            </div>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <editRolesModal #editRolesModal></editRolesModal>
+</div>

@@ -1,0 +1,122 @@
+<div class="m-subheader ">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Task
+			</h3>
+			<span class="m-section__sub">
+				All the work you have to finish in the near future
+			</span>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content">
+	<div class="m-portlet">
+		<div class="m-portlet__body"> <!-- style="padding: 0 !important" -->
+			<div class="m-form m-form--label-align-right"> <!-- style="padding: 2rem 2.2rem 1rem !important" -->
+				<div class="row m--margin-bottom-10">
+					<div class="col-xl-6">
+						<div [busyIf]="filterLoading">
+							<select 
+								class="form-control task-filter" 
+								[(ngModel)]="selectedFilter" 
+								jq-plugin="selectpicker"
+								title="Task list filter (optional)" 
+								data-live-search="true"
+								multiple>
+									<option *ngFor="let filter of filterResult" [value]="filter.filterCode">
+										{{filter.filterName}}
+									</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-xl-6 text-left">
+						<button name="RefreshButton" class="btn btn-danger m-btn--pill m-btn--air m-btn--square m-btn--bolder m-btn--uppercase" style="border-radius: 0.2rem !important;" (click)="onChangeTaskFilter(selectedFilter)"><i class="la la-refresh"></i> {{l('Refresh')}} task list</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="m-portlet m--margin-top-30">
+				<div class="m-portlet__body">
+					<div style="margin-bottom:20px">
+						<div class="m-portlet__head-caption">
+							<div class="row">
+								<div class="col-lg-9">
+									<div class="m-portlet__head-title" style="margin-bottom:10px">
+										<h3 class="m-portlet__head-text">
+											Task List
+										</h3>
+										<p class="m-form__help" style="line-height:1.2rem;color: #7b7e8a;font-weight: 300;font-size: 0.85rem;">
+											Commission is a service charge assessed by a broker or investment advisor in return for providing investment advice and/or
+											handling the purchase or sale of a security
+										</p>
+									</div>
+								</div>
+								<div class="col-lg-3 text-right">
+								</div>
+							</div>
+						</div>
+						<div style="padding:0px 20px">
+							<div class="form-group m-form__group row">
+								<!--begin: Datatable -->
+								<div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+									<p-dataTable #dataTable [value]="primengDatatableHelper.records" [rows]="primengDatatableHelper.defaultRecordsCountPerPage"
+										[paginator]="true" [lazy]="false" emptyMessage="{{l('NoData')}}" [responsive]="primengDatatableHelper.isResponsive"
+										[(first)]="firstTaskList" [alwaysShowPaginator]="false" scrollable="true"> <!-- [paginatorPosition]="none"  -->
+									    <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+											<ng-template let-rowIndex="rowIndex" pTemplate="body">
+												{{ rowIndex+1 }}
+											</ng-template>
+										</p-column>
+										<p-column field="" [sortable]="false" [style]="{'width':'33px'}">
+											<ng-template let-record="rowData" pTemplate="body">
+												<div class="text-center">
+													<button class="btn btn-primary m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--air m-btn--bolder" (click)="showDetails(record)">
+															<i class="la la-search"></i>
+														</button>
+												</div>
+											</ng-template>
+										</p-column>
+
+										<!-- <p-column field="exception" header="" [sortable]="false" [style]="{'width':'85px'}">
+											<ng-template let-record="rowData" pTemplate="body">
+												<span class="label m-badge m-badge--success m-badge--wide" *ngIf="record.exception">
+													Done
+												</span>
+												<span class="label m-badge m-badge--warning m-badge--wide" *ngIf="!record.exception">
+													Waiting
+												</span>
+											</ng-template>
+										</p-column> -->
+										<p-column field="unitCode" header="Unit Code" [sortable]="false" [style]="{'font-size':'0.9em','width':'47px','text-align':'center'}"></p-column>
+										<!-- <p-column field="unitNo" header="Unit No" [sortable]="false" [style]="{'font-size':'0.9em'}"></p-column> -->
+										<p-column field="nameCust" header="Name Customer" [sortable]="false" [style]="{'font-size':'0.9em','width':'60px','text-align':'center'}"></p-column>
+										<p-column field="creationTime" header="Creation Time" [sortable]="false" [style]="{'font-size':'0.9em','width':'100px','text-align':'center'}">
+											<ng-template let-record="rowData" pTemplate="body">
+												<div class="rowData">
+													{{ record.creationTime | momentFormat:'DD-MM-YYYY'}}
+												</div>
+											</ng-template>
+										</p-column>
+										<p-column field="content" header="Content" [sortable]="false" [style]="{'font-size':'0.9em','width':'150px','text-align':'center'}"></p-column>
+									</p-dataTable>
+									 <div class="primeng-paging-container">
+										<p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator (onPageChange)="taskListEvent($event)"
+										 [totalRecords]="primengDatatableHelper.totalRecordsCount"></p-paginator>
+										<span class="total-records-count">
+												<span class="label m-badge m-badge--primary m-badge--wide">
+													Total ({{primengDatatableHelper.totalRecordsCount}})
+												</span>
+										</span>
+									</div> 
+								</div>
+								<!--end: Datatable -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

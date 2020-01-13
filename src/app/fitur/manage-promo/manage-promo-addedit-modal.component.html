@@ -1,0 +1,174 @@
+<style>
+        .red {
+            box-shadow: 0px 0px 2px 2px red;
+        }
+    </style>
+    <div bsModal #modal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true"
+        [config]="{backdrop: 'static'}">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form [formGroup]="promoForm" role="form" class="m-form m-form--fit m-form--label-align-right form-validation">
+                    <div class="modal-header custom">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            {{action}} Promo
+                        </h5>
+                        <button type="button" class="close" (click)="close()" aria-label="Close">
+                            <span aria-hidden="true">
+                                &times;
+                            </span>
+                        </button>
+                    </div>
+    
+                    <div class="modal-body">
+                        <div class="form-group m-form__group row">
+                            <div class="col-lg-6">
+                                <label for="projectName">
+                                    Project Name <i class="text-danger">*</i>
+                                </label>
+                                <div class="m-input-icon">
+                                    <div [busyIf]="projectLoading">
+                                        <select class="form-control project" [(ngModel)]="model.projectID"  formControlName="projectID" (change)="onChangeProject($event)" jq-plugin="selectpicker"
+                                            title="Choose one of project" data-live-search="true">
+                                            <option *ngFor="let project of _projects" value="{{project.projectId}}">
+                                                {{project.projectName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="projectCode">
+                                    Promo URL <i class="text-danger">*</i>
+                                </label>     
+                                <div class="m-input-icon m-input-icon--left">
+                                    <input formControlName="targetURL"  [(ngModel)]="model.targetURL" class="form-control m-input" type="text" placeholder="Enter project name" required>
+                                    <span class="m-input-icon__icon m-input-icon__icon--left">
+                                    <span>
+                                        <i class="la la-building-o"></i>
+                                    </span>
+                                    </span>
+                                </div>
+                                <span style="color:red" class="m-form__help">
+                                    Enter Maximum 200 Char
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group m-form__group row">
+                            <div class="col-lg-6">
+                                <label for="projectCode">
+                                   Upload File (Web) <i class="text-danger">*</i>
+                                </label>        
+                                <div class="m-input-icon">
+                                    <input id="uploadFileWeb" type="file" class="form-control upload" fileUpload [options]="optionsWeb" (pictureUrl)="pictureWeb($event)" (onAfterFileUpload)="webUploaded($event)" formControlName="uploadFileWeb" name="file"/>
+                                    <span style="padding: 0px 15px;" class="m-form__help row">
+                                        *File (web) size must be 1024 X 768
+                                    </span>
+                                    <span style="color:red" class="m-form__help">
+                                                You can upload JPG/JPEG/PNG file, with maximum file size 1 MB.
+                                    </span>
+                                    <div class="col-2 row" *ngIf="webFileNamePastSrc !== '-' || webFileName !== '-'">
+                                        <img style="max-height:100px;width:auto" src="{{webFileNamePastSrc}}" />
+                                    </div>
+                                    <div style="margin-top:5px;margin-bottom:5px" class="col-2 row" *ngIf="webFileNamePastSrc !== null || webFileName !== null">
+                                            <button (click)="delImageWeb()" class="btn btn-danger" style="padding:5px"><i class="fa fa-trash"></i>Remove File</button>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="col-lg-6">
+                                <label for="projectCode">
+                                    Upload File (App) <i class="text-danger">*</i>
+                                </label>        
+                                <div class="m-input-icon">   
+                                    <input id="uploadFileApp" type="file"  class="form-control upload" fileUpload [options]="optionsApp" (pictureUrl)="pictureApp($event)" (onAfterFileUpload)="appUploaded($event)" formControlName="uploadFileApp" name="file"/>
+                                    <span style="padding: 0px 15px;" class="m-form__help row">
+                                            *File (App) size must be 640 X 640
+                                        </span>
+                                    <span style="color:red" class="m-form__help">
+                                                You can upload JPG/JPEG/PNG file, with maximum file size 1 MB.
+                                    </span>
+                                    <div class="col-2 row" *ngIf="appFileNamePastSrc !== '-' || appFileName !== '-'">
+                                        <img style="max-height:100px;width:auto" src="{{appFileNamePastSrc}}" />
+                                    </div>
+                                    <div style="margin-top:5px;margin-bottom:5px" class="col-2 row" *ngIf="appFileNamePastSrc != null || appFileName !== null">
+                                            <button (click)="delImageApp()" class="btn btn-danger" style="padding:5px"><i class="fa fa-trash"></i>Remove File</button>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <div class="col-lg-6">
+                                <label for="activeFrom">
+                                    Active Start Date <i class="text-danger">*</i>
+                                </label>
+                                <div class="m-input-icon m-input-icon--left">
+                                    <input formControlName="activeFrom" id="activeFrom" (selectedDateChange)="onSelectedDate($event, 'start')" [(ngModel)]="model.activeFrom" 
+                                        datePicker="datepicker" #ActiveFromDatePicker name="ActiveFromDatePicker" class="form-control" placeholder="Example: MM/DD/YYYY"
+                                        required readonly>
+                                    <span class="m-input-icon__icon m-input-icon__icon--left">
+                                    <span>
+                                        <i class="la la-calendar"></i>
+                                    </span>
+                                    </span>
+                                </div>
+                                <span style="color:red" class="m-form__help">
+                                    Please enter active start date
+                                </span>
+                            </div>
+                            
+                            <div class="col-lg-6">
+                                <label for="activeEnd">
+                                    Active End Date
+                                </label>
+                                <div class="m-input-icon m-input-icon--left">
+                                    <input formControlName="activeTo" id="activeEnd" (selectedDateChange)="onSelectedDate($event, 'end')" [(ngModel)]="model.activeTo" 
+                                        datePicker="datepicker" #ActiveToDatePicker name="ActiveToDatePicker" class="form-control" placeholder="Example: MM/DD/YYYY"
+                                        readonly>
+    
+                                    <span class="m-input-icon__icon m-input-icon__icon--left">
+                                    <span>
+                                        <i class="la la-calendar"></i>
+                                    </span>
+                                    </span>
+                                </div>
+                                <!-- <span class="m-form__help">
+                                    Please enter active end date
+                                </span> -->
+                                <span class="m-form__help text-danger" *ngIf="invalidBirthdate">Active End Date should not be greater than Active Start Date</span>
+                            </div>
+                        </div> 
+                        <div class="form-group m-form__group row">                        
+                            <div class="col-lg-6">
+                                <label for="projectName">
+                                    Sort No <i class="text-danger">*</i>
+                                </label>
+                                <div class="m-input-icon m-input-icon--left">
+                                    <input formControlName="sortNo" style="width: 150px;" [(ngModel)]="model.sortNo" placeholder="Enter sort no"  min="0" max="1000" class="form-control m-input" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode >= 1000) ? null : event.charCode >= 48 && event.charCode <= 57" max="1000">
+                                    <span class="m-input-icon__icon m-input-icon__icon--left">
+                                    <span>
+                                        <i class="flaticon-list-3"></i>
+                                    </span>
+                                    </span>
+                                </div>
+                                <span style="color:red" class="m-form__help">
+                                    Enter Maximum 1000 
+                                </span>
+                            </div>
+                            <div class="col-lg-6">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer m-form__actions m-form__actions--solid">
+                        <button [disabled]="saving" type="button" class="btn btn-metal" (click)="close()">
+                            {{l("Cancel")}}
+                        </button>
+                        <button type="submit" [disabled]="!promoForm.valid || (appFileNamePastSrc==null) || (webFileNamePastSrc==null) " [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" class="btn btn-primary"
+                            (click)="save()">
+                            <span>Save
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

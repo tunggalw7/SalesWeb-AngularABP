@@ -1,0 +1,57 @@
+/*.ui-chkbox-label {*/
+    /*vertical-align: middle;*/
+    /*width: 72%;*/
+/*}*/
+
+body .ui-buttonset.ui-selectbutton .ui-button {
+    border-radius: 0.25rem !important;
+    border: 1px solid #9e8f8f !important;
+    width: 120px !important;
+    margin: 0px 4px 4px 0px !important;
+}
+body .ui-selectbutton.ui-buttonset .ui-button.ui-state-active {
+    background-color: #f4516c !important;
+    border-color: #f12143 !important;
+}
+
+body .ui-buttonset.ui-selectbutton .ui-button{
+    display: inline-block;
+}
+
+.ui-button-text-only .ui-button-text {
+    padding: 5px;
+}
+
+.ui-multiselect {
+    width: 100%;
+}
+
+.ui-multiselect .ui-multiselect-label{
+    margin-bottom: 0px;
+}
+
+body .ui-chkbox .ui-chkbox-box.ui-state-active {
+    border: 1px solid #b3b3b3 !important;
+    background-color:  #f4f5f8;
+    color: #737373;
+}
+
+body .ui-multiselect .ui-multiselect-item.ui-state-highlight {
+    background-color: #f4f5f8 !important;
+    color: #737373;
+}
+
+body .ui-multiselect .ui-multiselect-item.ui-state-highlight .ui-chkbox{
+    border: 1px solid #bfbfbf !important;
+    background-color: #b3b3b3 !important;
+    color: #737373;
+}
+
+.dropdown-menu > li > a.active {
+    background: #f4f5f8;
+    color: #000000;
+    text-decoration: none;
+}
+.datepicker.datepicker-orient-top{    
+    z-index: 1000!important;
+}

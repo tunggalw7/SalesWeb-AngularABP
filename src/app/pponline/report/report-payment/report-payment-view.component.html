@@ -1,0 +1,129 @@
+<!-- BEGIN: Subheader -->
+<!-- END: Subheader -->
+<!--begin::Portlet-->
+<style>
+    .m-content--skin-light2 {
+        background-color: #555658 !important;
+    }
+    .ui-widget, .ui-widget * {
+        font-size: 11px;
+    }
+</style>
+
+<div class="m-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="m-portlet">
+                <div class="m-portlet__head" style="padding: 0px 15px;">
+                    <div class="m-portlet__head-caption" style="text-align: center; font-size: 35px;">
+                        REPORT PAYMENT
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="m-login__form m-form email-activation-form">
+                    <div class="m-portlet__body form_body">
+                        <div class="primeng-datatable-container"
+                             [busyIf]="primengDatatableHelper.isLoading">
+                            <p-dataTable #dataTable
+                                         [value]="primengDatatableHelper.records"
+                                         [rows]="primengDatatableHelper.defaultRecordsCountPerPage"
+                                         [lazy]="false"
+                                         emptyMessage="{{l('NoData')}}"
+                                         [responsive]="primengDatatableHelper.isResponsive"
+                                         [(first)]="first"
+                                         [alwaysShowPaginator]="false">
+                                <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                                    <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                        {{ rowIndex+1 }}
+                                    </ng-template>
+                                </p-column>
+                                <ng-template pTemplate="rowgroupheader" let-rowData>{{record.year}}</ng-template>
+                                <p-column *ngIf="year" field="year" header="Year" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.year}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="month" field="projectCode" header="Month" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.yearMonth}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="paymentStatus" field="paymentStatus" header="Payment Status"
+                                          [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.paymentStatus}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="paymentDate" field="paymentDate" header="Payment Date"
+                                          [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.paymentDate | date:'dd MMMM yyyy'}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="clearDate" field="clearDate" header="Clear Date" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.clearDate | date:'dd MMMM yyyy'}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="bank" field="bank" header="Bank" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.bankName}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="paymentType" field="paymentType" header="Payment Type"
+                                          [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.paymentTypeName}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="orderNo" field="orderNo" header="Order No" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.orderCode}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="PPNo" field="PPno" header="PP No" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.ppNo}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="accountNo" field="accountNo" header="Account No" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.accNo}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="accountName" field="accountName" header="Account Name"
+                                          [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.accName}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="bankBranch" field="bankBranch" header="Bank Branch" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.bankBranch}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="amount" field="amount" header="Amount" [sortable]="false"
+                                          [style]="{'width': '120px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.amount | currency: 'Rp '}}
+                                    </ng-template>
+                                </p-column>
+                                <p-footerColumnGroup *ngIf="amount">
+                                    <p-row>
+                                        <p-column footer="total" colspan="{{totalLength+1}}"
+                                                  [style]="{'background-color': '#e6e6e6'}">
+                                        </p-column>
+                                        <p-column footer="{{totalRow | currency: 'Rp '}}" [style]="{'background-color': '#a5a5a9'}">
+                                        </p-column>
+                                    </p-row>
+                                </p-footerColumnGroup>
+                            </p-dataTable>
+                        </div>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Portlet-->

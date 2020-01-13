@@ -1,0 +1,31 @@
+import * as ngCommon from '@angular/common';
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { AbpModule } from '@abp/abp.module';
+
+import { AppSessionService } from './session/app-session.service';
+import { AppUrlService } from './nav/app-url.service';
+import { AppUiCustomizationService } from './ui/app-ui-customization.service';
+import { CookieService } from 'ngx-cookie-service';
+import {EncrDecrService} from './EncrDecrService';
+
+@NgModule({
+    imports: [
+        ngCommon.CommonModule,
+        AbpModule
+    ]
+})
+
+export class CommonModule {
+    static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: CommonModule,
+            providers: [
+                AppSessionService,
+                AppUrlService,
+                AppUiCustomizationService,
+                CookieService,
+                EncrDecrService
+            ]
+        };
+    }
+}

@@ -1,0 +1,94 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-xs-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("SYS Closing")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("Manage Sys Closing User")}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" type="submit"><i class="flaticon-search-1" (click)="getLisSysClosingAccount($event)"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengDatatableHelper.isLoading">
+                         <p-dataTable #dataTable
+                         (onLazyLoad)="getLisSysClosingAccount($event)"
+                         [value]="primengDatatableHelper.records"
+                         rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}"
+                         [paginator]="false"
+                         [lazy]="true"
+                         emptyMessage="{{l('NoData')}}"
+                         [responsive]="primengDatatableHelper.isResponsive">
+                            <p-column field=""
+                                      header="{{l('Actions')}}"
+                                      [sortable]="false"
+                                      [style]="{'width':'100px','text-align':'center'}">
+                                      <!-- [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')"> -->
+                                      <ng-template let-record="rowData" pTemplate="body">
+                                        <div class="text-center">
+                                            <button class="btn btn-primary btn-sm" (click)="showModals(record)">
+                                                    <i class="la la-edit"></i> Edit
+                                                </button>
+                                        </div>
+                                        </ng-template>
+                            </p-column>
+                            <p-column field="userName" header="{{l('Display Name')}}" [sortable]="true" [style]="{'width':'220px'}"></p-column>
+                            <p-column field="listSysClosingAccount" header="{{l('SYS Closing')}}" [sortable]="true" [style]="{'width':'220px'}">
+                                <ng-template let-rowIndex="rowIndex" let-record="rowData" pTemplate="body">
+                                    <div *ngIf="record.listSysClosingAccount.length > 10">
+                                        <div id="data-{{rowIndex}}" style="display: none">
+                                            <span *ngFor="let item of record.listSysClosingAccount">{{item.accountCode}},  </span>
+                                        </div>
+                                    <span class="clickable-item" id="show-{{rowIndex}}" (click)="onClickShown($event.target.id, rowIndex)" style="color: #5867dd; font-weight: bold"><i class="fa fa-angle-down"></i> Show Roles Project</span>
+                                    <span class="clickable-item" id="hide-{{rowIndex}}" (click)="onClickHide($event.target.id, rowIndex)" style="display: none; padding-top: 10px; color: #5867dd; font-weight: bold"><i class="fa fa-angle-up"></i> Hide Roles Project</span>
+                                    </div>
+                                    <div *ngIf="record.listSysClosingAccount.length <  10">
+                                        <span *ngFor="let item of record.listSysClosingAccount">{{item.accountCode}},  </span>
+                                    </div>
+                                </ng-template>
+                            </p-column>
+                        </p-dataTable>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}"
+                                #paginator
+                                (onPageChange)="getLisSysClosingAccount($event)"
+                                [totalRecords]="primengDatatableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="primengDatatableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengDatatableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                     </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <editSysClosingModal #editSysClosingModal (modalSave)="getLisSysClosingAccount($event)"></editSysClosingModal>
+</div>

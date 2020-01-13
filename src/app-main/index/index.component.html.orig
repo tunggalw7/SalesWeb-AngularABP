@@ -1,0 +1,232 @@
+<head>
+    <meta name="viewport" content="width=980">
+    <style type="text/css">
+        .revo-slider-emphasis-text {
+            font-size: 64px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            font-family: 'Raleway', sans-serif;
+            padding: 15px 20px;
+            border-top: 2px solid #FFF;
+            border-bottom: 2px solid #FFF;
+            color: white !important;
+        }
+
+        .revo-slider-desc-text {
+            font-size: 20px;
+            font-family: 'Lato', sans-serif;
+            color: white !important;
+            width: 650px;
+            text-align: center !important;
+            line-height: 1.5;
+        }
+
+        .revo-slider-caps-text {
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            font-family: 'Raleway', sans-serif;
+            color: white !important;
+        }
+
+        .tp-video-play-button {
+            display: none !important;
+        }
+
+        .tp-caption {
+            white-space: nowrap;
+        }
+
+
+
+        #menu_act a {
+            cursor: pointer;
+        }
+
+        .button.button-custom {
+            background-color: transparent !important;
+            color: #000 !important;
+            border: 2px solid #000 !important;
+        }
+
+        .button.button-custom:hover {
+            background-color: #000 !important;
+            color: #fff !important;
+            border: 2px solid #fff !important;
+        }
+    </style>
+</head>
+<!-- Document Wrapper
+    ============================================= -->
+ <img src="../../assets/project/app/images/online-booking/logo-lippo-homes-corner-new.png" class="logo-corner"> 
+
+ <!-- Header
+        ============================================= -->
+<header id="header" class="transparent-header transparent-red dark">
+    <div id="header-wrap">
+        <div class="container clearfix">
+            <div id="primary-menu-trigger">
+                <i class="icon-reorder"></i>
+            </div>
+            <!-- Logo
+                    ============================================= -->
+            <!-- <div id="logo"><a href="index.html" class="standard-logo" data-dark-logo="../../assets/project/app/images/online-booking/logo-lippo-homes-block.png"><img src="../../assets/project/app/images/online-booking/logo-lippo-homes-block.png"></a><a href="index.html" class="retina-logo" data-dark-logo="../../assets/project/app/images/online-booking/logo-lippo-homes-block.png"><img src="../../assets/project/app/images/online-booking/logo-lippo-homes-block.png"></a></div> -->
+            <!-- Primary Navigation
+                    ============================================= -->
+            <nav id="primary-menu" class="home-menu">
+                <ul id="menu_act" class="one-page-menu">
+                    <li>
+                        <a *ngIf="_appSessionService.userId" href="app/sales-portal/dashboard">
+                            <div>Dashboard</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a *ngIf="_appSessionService.userId" href="app/sales-portal/customer">
+                            <div>Customer</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="account/member-activation">
+                            <div>Member Activation</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a *ngIf="!_appSessionService.userId" href="account/login">
+                            <div>Sign In</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a *ngIf="_appSessionService.userId" (click)="logout()">
+                            <div>Logout</div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- #primary-menu end -->
+        </div>
+    </div>
+</header>
+<!-- #header end -->
+<section *ngIf="promotionLoading" id="slider" class="slider-element slider-parallax revslider-wrap clearfix">
+    <div id="rev_slider_579_1_wrapper" class="rev_slider_wrapper fullscreen-container" data-alias="default-slider" style="padding:0px;">
+        <div id="rev_slider_579_1" class="rev_slider fullscreenbanner" style="display:none;" data-version="5.1.4">
+            <ul>                
+                <li 
+                    *ngFor="let item of data_projects; let i = index"
+                    class="dark" data-transition="fade" data-slotamount="1" data-masterspeed="1000" attr.data-thumb="{{item.productLogo}}" data-saveperformance="off" attr.data-title="{{item.productName}}">
+                    <img [src]="item.productLogo" alt="{{item.productName}}" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina>
+                    
+                    <!-- 
+                    <div class="tp-caption ltl tp-resizeme revo-slider-caps-text uppercase"
+                    data-y="455"
+                    data-transform_in="x:0;y:150;z:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;s:800;e:Power4.easeOutQuad;"
+                    data-speed="800"
+                    data-start="1000"
+                    data-easing="easeOutQuad"
+                    data-splitin="none"
+                    data-splitout="none"
+                    data-elementdelay="0.01"
+                    data-endelementdelay="0.1"
+                    data-endspeed="1000"
+                    data-textAlign="center"
+                    data-endeasing="Power4.easeIn" style="z-index: 3; white-space: nowrap;">{{item.projectCode}}</div> -->
+
+                    <div class="tp-caption ltl tp-resizeme revo-slider-emphasis-text nopadding noborder"
+                    data-y="470"
+                    data-transform_in="x:0;y:150;z:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;s:800;e:Power4.easeOutQuad;"
+                    data-speed="800"
+                    data-start="1200"
+                    data-easing="easeOutQuad"
+                    data-splitin="none"
+                    data-splitout="none"
+                    data-elementdelay="0.01"
+                    data-endelementdelay="0.1"
+                    data-endspeed="1000"
+                    data-textAlign="center"
+                    data-endeasing="Power4.easeIn" style="z-index: 3; white-space: nowrap;">{{item.productName}}</div>
+
+                    <div class="tp-caption ltl tp-resizeme"
+                    data-y="570"
+                    data-transform_in="x:0;y:150;z:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;s:800;e:Power4.easeOutQuad;"
+                    data-speed="800"
+                    data-start="1550"
+                    data-easing="easeOutQuad"
+                    data-splitin="none"
+                    data-splitout="none"
+                    data-elementdelay="0.01"
+                    data-endelementdelay="0.1"
+                    data-endspeed="1000"
+                    data-endeasing="Power4.easeIn" style="z-index: 3; white-space: nowrap;">
+                    
+                    <a (click)="gotoProjectDetail(item.projectID,item.productID)" data-animate="tada" class="button button-white button-light button-3d button-large button-rounded tright nomargin center" style="color:black"><span> Read {{item.productName}}'s Product Detail </span> <i class="icon-angle-right"></i></a>
+                    </div>
+                </li> 
+
+                <!--                  
+                <li class="dark" data-transition="fade" data-slotamount="1" data-masterspeed="1000" data-thumb="../../assets/project/app/images/online-booking/promotion/8.jpg"  data-saveperformance="off"  data-title="Holland Village Jakara">
+                    <img src="../../assets/project/app/images/online-booking/promotion/8.jpg"  alt=""  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina>
+
+                    <div class="tp-caption ltl tp-resizeme revo-slider-caps-text uppercase"
+                    data-y="235"
+                    data-transform_in="x:0;y:150;z:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;s:800;e:Power4.easeOutQuad;"
+                    data-speed="800"
+                    data-start="1000"
+                    data-easing="easeOutQuad"
+                    data-splitin="none"
+                    data-splitout="none"
+                    data-elementdelay="0.01"
+                    data-endelementdelay="0.1"
+                    data-endspeed="1000"
+                    data-textAlign="center"
+                    data-endeasing="Power4.easeIn" style="z-index: 3; white-space: nowrap;">This prestigious high rise </div>
+
+                    <div class="tp-caption ltl tp-resizeme revo-slider-emphasis-text nopadding noborder"
+                    data-y="260"
+                    data-transform_in="x:0;y:150;z:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;s:800;e:Power4.easeOutQuad;"
+                    data-speed="800"
+                    data-start="1200"
+                    data-easing="easeOutQuad"
+                    data-splitin="none"
+                    data-splitout="none"
+                    data-elementdelay="0.01"
+                    data-endelementdelay="0.1"
+                    data-endspeed="1000"
+                    data-textAlign="center"
+                    data-endeasing="Power4.easeIn" style="z-index: 3; white-space: nowrap;">Holland Village</div>
+
+                    <div class="tp-caption ltl tp-resizeme revo-slider-desc-text"
+                    data-y="370"
+                    data-transform_in="x:0;y:150;z:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;s:800;e:Power4.easeOutQuad;"
+                    data-speed="800"
+                    data-start="1400"
+                    data-easing="easeOutQuad"
+                    data-splitin="none"
+                    data-splitout="none"
+                    data-elementdelay="0.01"
+                    data-endelementdelay="0.1"
+                    data-endspeed="1000"
+                    data-textAlign="left"
+                    data-endeasing="Power4.easeIn" style="z-index: 3; width: 750px; max-width: 750px; white-space: normal;">Holland Village luxurious apartment will be a lifestyle choice based on convenient access to great shops and diners, proximity to work, and an energy that is definitely urban ..</div>
+
+                    <div class="tp-caption ltl tp-resizeme"
+                    data-y="478"
+                    data-transform_in="x:0;y:150;z:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;s:800;e:Power4.easeOutQuad;"
+                    data-speed="800"
+                    data-start="1550"
+                    data-easing="easeOutQuad"
+                    data-splitin="none"
+                    data-splitout="none"
+                    data-elementdelay="0.01"
+                    data-endelementdelay="0.1"
+                    data-endspeed="1000"
+                    data-endeasing="Power4.easeIn" style="z-index: 3; white-space: nowrap;"><a (click)="setProjectID(7)" data-animate="tada" class="button button-white button-light button-3d button-large button-rounded tright nomargin tada animated"><span>Start Tour</span> <i class="icon-angle-right"></i></a></div>
+
+                </li>  -->
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Go To Top
+    ============================================= -->
+<div id="gotoTop" class="icon-angle-up"></div>

@@ -1,0 +1,258 @@
+<div bsModal #addPotentialCustomerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addPotentialCustomerModal"
+     aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form #exampleForm="ngForm" [formGroup]="validationForm" class="m-form m-form--fit m-form--label-align-right" (ngSubmit)="save()">
+                <div class="modal-header custom">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                            <span *ngIf="!isEdit">Add New</span>
+                            <span *ngIf="isEdit">Edit</span>
+                            Potentital Customer
+                        </h3>
+                        <p class="m-form__help" style="line-height:1.2rem;color: #7b7e8a;font-weight: 300;font-size: 0.85rem;">
+                            Potential customers will move to the customer table when the customer is fixed to buy a unit.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row m--margin-bottom-10" [formControlStyle]="validationForm" formComponent="select">
+                        <label for="document-type" class="col-lg-4 col-form-label text-left">
+                            Document Type
+                        </label>
+                        <div class="col-lg-8">
+                            <div [busyIf]="documentTypeLoading" formComponent="select">
+                                <select #hasMessage id="document-type" (ngModelChange)="onChangeType($event)" class="form-control docType" title="Select document type" [(ngModel)]="documentType" formControlName="documentType" jq-plugin="selectpicker" data-live-search="true">
+                                    <option *ngFor="let doc of _documentTypeList" [value]="doc.documentName">
+                                        {{doc.documentName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m--margin-bottom-10" [formControlStyle]="validationForm" formComponent="select">
+                        <label for="eventName" class="col-lg-4 col-form-label text-left">
+                            Event
+                        </label>
+                        <div class="col-lg-8">
+                            <div [busyIf]="eventListLoading" formComponent="select">
+                                <select #hasMessage id="eventName" class="form-control eventList" title="Select Event" [(ngModel)]="eventId" formControlName="eventName" data-live-search="true" jq-plugin="selectpicker">
+                                    <option *ngFor="let eventL of _eventList" [value]="eventL.id">
+                                        {{eventL.eventName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet m-portlet--rounded m-portlet--last m--margin-top-20">
+                        <div class="m-portlet__body">
+                            <div class="m-portlet__head-caption m--margin-bottom-20">
+                                <div class="m-portlet__head-title">
+                                    <h3 class="m-portlet__head-text" style="margin-bottom:0;font-size: 15px !important;">
+                                        Customer Identity
+                                    </h3>
+                                    <small class="m-form__help">
+                                        to display a list using a filter.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="row m--margin-bottom-10" [formControlStyle]="validationForm">
+                                <label for="customerName" class="col-lg-4 col-form-label text-left">
+                                    Name
+                                    <i class="text-danger">*</i>
+                                </label>
+                                <div class="col-lg-8">
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input #hasMessage #nameInput id="customerName" formControlName="name" class="form-control m-input" name="customerName" [(ngModel)]="name" required type="text" placeholder="Enter customer name"
+                                        autocomplete="off">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="la la-user-plus"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m--margin-bottom-10" [formControlStyle]="validationForm">
+                                <label for="phoneNumber" class="col-lg-4 col-form-label text-left" style="font-size: 0.9rem">
+                                    Phone Number
+                                    <i class="text-danger">*</i>
+                                </label>
+                                <div class="col-lg-8">
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input #hasMessage id="phoneNumber" class="form-control m-input" formControlName="phoneNumber" name="phoneNumber" [(ngModel)]="phoneNumber" required type="text" placeholder="Enter phone number"
+                                        autocomplete="off">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="la la-phone"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m--margin-bottom-10" [formControlStyle]="validationForm">
+                                <label for="email" class="col-lg-4 col-form-label text-left">
+                                    Email
+                                    <i class="text-danger">*</i>
+                                </label>
+                                <div class="col-lg-8">
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input id="email" class="form-control m-input" maxlength="50" formControlName="email" name="email" [(ngModel)]="email" type="email" placeholder="Example: hello@example.com"
+                                        autocomplete="off">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="la la-envelope-o"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m--margin-bottom-10" [formControlStyle]="validationForm">
+                                <label for="specificDate" class="col-lg-4 col-form-label text-left">
+                                    Birth Date
+                                </label>
+                                <div class="col-lg-8">
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input #hasMessage formControlName="birthDate" (selectedDateChange)="onSelectedBirthDate($event)" datePicker="datepicker" #SampleDatePicker name="SampleDatePicker" [(ngModel)]="birthDate" class="form-control" placeholder="Example: MM/DD/YYYY"
+                                        autocomplete="off">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="la la-calendar"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="text-danger" *ngIf="invalidBirthdate">Birth date should not be greater than today</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet m-portlet--rounded m-portlet--last m--margin-top-10">
+                        <div class="m-portlet__body">
+                            <div class="m-portlet__head-caption m--margin-bottom-20">
+                                <div class="m-portlet__head-title">
+                                    <h3 class="m-portlet__head-text" style="margin-bottom:0;font-size: 15px !important;">
+                                        Upload Document
+                                    </h3>
+                                    <small class="m-form__help">
+                                        to display a list using a filter.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="row m--margin-bottom-10" [formControlStyle]="validationForm">
+                                <label for="idNumber" class="col-lg-4 col-form-label text-left">
+                                    ID Number
+                                    <i class="text-danger">*</i>
+                                </label>
+                                <div class="col-lg-8">
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input #hasMessage id="idNumber" formControlName="idNumber" class="form-control m-input" name="idNumber" [(ngModel)]="idNumber" type="text" placeholder="Enter ID number of document"
+                                        autocomplete="off">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="la la-credit-card"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m--margin-bottom-10" [formControlStyle]="validationForm">
+                                <label for="idUpload" class="col-lg-4 col-form-label text-left">
+                                    ID Upload
+                                    <i class="text-danger">*</i>
+                                </label>
+                                <div class="col-lg-8">
+                                    <app-dropimage #resetimg id="img" *ngIf="!pic" (onRemovefile)="removefile($event)" (onChangefile)="onSending($event)"></app-dropimage>
+                                    <img *ngIf="idUpload != null && pic" src="data:image/png;base64,{{idUpload}}" width="100%">
+                                    <span *ngIf="idUpload != null && pic" (click)="removefile('pic')" class="text-primary" style="font-size:12px;cursor:pointer">Click here to update image</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet m-portlet--rounded m-portlet--last m--margin-top-20">
+                        <div class="m-portlet__body">
+                            <div class="m-portlet__head-caption m--margin-bottom-20">
+                                <div class="m-portlet__head-title">
+                                    <h3 class="m-portlet__head-text" style="margin-bottom:0;font-size: 15px !important;">
+                                        Customer Detail
+                                    </h3>
+                                    <small class="m-form__help">
+                                        to display a list using a filter.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="row m--margin-bottom-10" [formControlStyle]="validationForm">
+                                <label for="customerJob" class="col-lg-4 col-form-label text-left">
+                                    Job
+                                </label>
+                                <div class="col-lg-8">
+                                    <div [busyIf]="jobLoading" formComponent="select">
+                                        <select #hasMessage id="customerJob" class="form-control job" title="Select a job customer" [(ngModel)]="job" formControlName="job" jq-plugin="selectpicker" data-live-search="true">
+                                            <option *ngFor="let item of _jobList" [value]="item.occupationID">
+                                                {{item.occupationDesc}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m--margin-bottom-10" [formControlStyle]="validationForm">
+                                <label for="jobAddress" class="col-lg-4 col-form-label text-left">
+                                    Job Address
+                                </label>
+                                <div class="col-lg-8">
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input formControlName="job_address" id="jobAddress" class="form-control m-input" maxlength="50" name="jobAddress" [(ngModel)]="job_address" type="text" placeholder="Enter job address">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="la la-user-plus"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m--margin-bottom-10" [formControlStyle]="validationForm" formComponent="select">
+                                <label for="potentialCustomerPriceRange" class="col-lg-4 col-form-label text-left">
+                                    Preferred Unit
+                                </label>
+                                <div class="col-lg-8">
+                                    <div [busyIf]="potentialCustomerPriceRangeLoading">
+                                        <select id="potentialCustomerPriceRange" formControlName="potentialCustomerPriceRange" class="form-control" title="Select Preferred Unit" [(ngModel)]="potentialCustomerPriceRange" jq-plugin="selectpicker" data-live-search="true">
+                                            <option *ngFor="let item of potentialCustomerPriceRangeList" [value]="item.value">
+                                                {{item.textDisplay}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m--margin-bottom-10" [formControlStyle]="validationForm" formComponent="select">
+                                <label for="customerStatus" class="col-lg-4 col-form-label text-left">
+                                    Customer Status
+                                </label>
+                                <div class="col-lg-8">
+                                    <div [busyIf]="salesLeadTypeLoading">
+                                        <select id="salesLeadType" formControlName="salesLeadType" class="form-control" title="Select Customer Status" [(ngModel)]="salesLeadType" jq-plugin="selectpicker" data-live-search="true">
+                                            <option *ngFor="let item of salesLeadTypeList" [value]="item.value">
+                                                {{item.textDisplay}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer m-form__actions m-form__actions--solid">
+                    <button type="button" class="btn btn-metal m-btn--pill m-btn--air m-btn--square m-btn--bolder m-btn--uppercase" (click)="close()" style="border-radius: 0.2rem !important;">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-danger m-btn--pill m-btn--air m-btn--square m-btn--bolder m-btn--uppercase" [disabled]="!validationForm.valid || (idUpload==undefined || idUpload==null)" style="border-radius: 0.2rem !important;">
+                        <i class="la la-save"></i>
+                        <span *ngIf="!isEdit">Submit Customer</span>
+                        <span *ngIf="isEdit">Edit Customer</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Refund History
+            </h3>
+        </div>
+    </div>
+</div>
+<!-- END: Subheader -->
+<!--begin::Portlet-->
+<div class="m-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="m-portlet">
+                <div class="m-portlet__head" style="padding: 0px 15px;">
+                    <div class="m-portlet__head-caption">
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-2 col-form-label">Keyword<i
+                                class="text-danger">*</i></label>
+                            <div class="col-sm-6">
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" [(ngModel)]="search"
+                                               placeholder="PS Code Or PP Number">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="submit"
+                                                    title="Click the button to search refund history"
+                                                    (click)="getDataTable(search)">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                    <div class="row align-items-center m--margin-top-10">
+                        <!--primeng datatable start-->
+                        <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                            <p-dataTable #dataTable [value]="primengDatatableHelper.records"
+                                         [rows]="primengDatatableHelper.defaultRecordsCountPerPage" [paginator]="true"
+                                         [rowsPerPageOptions]="[10,20,50,100]" [lazy]="false" emptyMessage="{{l('NoData')}}"
+                                         [responsive]="primengDatatableHelper.isResponsive" [(first)]="first"
+                                         [alwaysShowPaginator]="false">
+                                         <!-- [paginatorPosition]="none" -->
+                                <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                                    <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                        {{ rowIndex+1 }}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="project" header="PP Number" [sortable]="true">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.ppNumber}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="clientcode" header="Client Code" [sortable]="true">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.clientCode}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="salesChannel" header="Sales Channel" [sortable]="true">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.salesChannel}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="memberName" header="Deal Closer Name" [sortable]="true">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.memberName}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="refundReason" header="Reason" [sortable]="true">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        {{record.refundReason}}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="action" header="Action" [sortable]="false" [style]="{'width':'90px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        <div class="btn-group dropdown">
+                                            <button class="btn btn-brand btn-sm btn-danger"
+                                                    aria-haspopup="true" aria-expanded="false"
+                                                    title="Click the button to print data"
+                                                    (click)="getDataPrint(record.ppRefundID)">
+                                                <i class="fa fa-print"></i><span class="caret"></span> Print
+                                            </button>
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                            </p-dataTable>
+                            <div class="primeng-paging-container">
+                                <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator
+                                             (onPageChange)="getDataTable($event)"
+                                             [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                                </p-paginator>
+                                <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengDatatableHelper.totalRecordsCount)}}
+                            </span>
+                            </div>
+                        </div>
+                        <!--<Primeng-Datatable-End>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Portlet-->

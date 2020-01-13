@@ -1,0 +1,22 @@
+<div bsModal #detailSiteplanModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detailSiteplanModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form class="m-form m-form--fit m-form--label-align-right">
+                <div class="modal-header custom">
+                    <div class="m-portlet__head-title" style="margin-bottom:10px">
+                        <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                            Preview Siteplan
+                        </h3>
+                        <small class="m-form__help">
+                            {{sitePlan.sitePlansLegend}}
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-body" style="padding:0 !important"><img src="{{sitePlan.sitePlansImageUrl}}" alt="Image" style="width:100%"></div>
+                <div class="modal-footer m-form__actions m-form__actions--solid">
+                    <button type="button" class="btn btn-metal" (click)="close()">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

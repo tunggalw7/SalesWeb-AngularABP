@@ -1,0 +1,91 @@
+<div bsModal #detailDiagrammaticModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detaildiagrammatic"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog" role="document" style="transform:scale(0.9) !important;border: 0 !important;">
+        <div class="modal-content" style="border: 0 !important">
+            <div class="loading_layout"></div>
+            <div class="modal-header" style="background-color:rgba(22, 160, 133,1.0) !important;border-radius:0 !important">
+                <h4 class="modal-title" id="unit-information" style="color:white !important">Unit Information</h4>
+            </div>
+            <div class="modal-body nobottompadding">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span class="m-subheader__daterange" id="m_dashboard_daterangepicker">
+							<span class="m-subheader__daterange-label">
+								<span class="m-subheader__daterange-title">Booking Duration</span>
+                        <span id="dmatic_detail_timer" class="m-subheader__daterange-date m--font-brand"></span>
+                        </span>
+                        <a href="#" class="btn btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+								<i class="la la-clock-o"></i>
+							</a>
+                        </span>
+                        <div class="table-responsive" style="margin-top:10px">
+                            <table class="table table-striped" width="100% !important">
+                                <tbody *ngIf="dataDetail">
+                                    <tr>
+                                        <th>Unit Code</th>
+                                        <td style="text-align: right">
+                                            {{dataDetail.unitCode}}
+                                        </td>
+                                        <th>Unit No</th>
+                                        <td *ngIf="data" style="text-align: right">
+                                            {{data.unitNo}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Unit Status</th>
+                                        <td *ngIf="data" style="text-align: right">{{data.unitStatusName}}</td>
+                                        <th>Size</th>
+                                        <td style="text-align: right">
+                                            {{dataDetail.size}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Booking Fee</th>
+                                        <td style="text-align: right">{{dataDetail.bookingFee | currency:'Rp. '}}</td>
+                                        <th>Bedroom</th>
+                                        <td *ngIf="data.bedroom == null || data.bedroom == undefined || data.bedroom == '' " style="text-align: right">0</td>
+                                        <td *ngIf="data.bedroom !== null || data.bedroom !== undefined || data.bedroom !== '' " style="text-align: right">{{data.bedroom}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Price/m2 (12x)</th>
+                                        <td style="text-align: right">{{dataDetail.pricePerArea | currency:'Rp. '}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-header" style="background-color:rgba(22, 160, 133,1.0) !important;border-radius:0 !important">
+                <h4 class="modal-title" id="myModalLabel" style="color:white !important">Unit Price</h4>
+            </div>
+            <div class="modal-body nobottompadding">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Term of Payment</th>
+                                        <th *ngFor="let item of columntype" style="text-align: right">{{item}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="detailterm">
+                                    <tr *ngFor="let item_detail of detailterm">
+                                        <td>{{item_detail.termName}}</td>
+                                        <td *ngFor="let item_detail_pay of item_detail.renovarray" style="text-align: right">{{item_detail_pay.price | currency:'Rp. '}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer nobottompadding">
+                <button type="button" (click)="addCart()" class="button button-rounded button-green noleftmargin norightmargin bottommargin-sm center"
+                    style="width:100%;cursor:pointer"> Add To Cart </button>
+                <button type="button" (click)="close()" class="button button-light noleftmargin norightmargin bottommargin-sm center" style="width:100%"> Cancel </button>
+            </div>
+        </div>
+    </div>
+</div>

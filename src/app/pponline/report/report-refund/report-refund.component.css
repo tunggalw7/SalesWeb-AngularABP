@@ -1,0 +1,27 @@
+.head_bdy {
+    text-align: center;
+    font-size: 35px;
+}
+
+body .ui-buttonset.ui-selectbutton .ui-button {
+    border-radius: 0.25rem !important;
+    border: 1px solid #9e8f8f !important;
+    width: 120px !important;
+    margin: 0px 4px 4px 0px !important;
+}
+
+body .ui-selectbutton.ui-buttonset .ui-button.ui-state-active {
+    background-color: #f4516c !important;
+    border-color: #f12143 !important;
+}
+
+body .ui-buttonset.ui-selectbutton .ui-button{
+    display: inline-block;
+}
+
+
+.ui-button-text-only .ui-button-text {
+    font-size: 11px;
+    font-weight: 500;
+}
+

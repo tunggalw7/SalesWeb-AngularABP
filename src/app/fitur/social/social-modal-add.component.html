@@ -1,0 +1,71 @@
+<div bsModal #socialModalAdd="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="socialModalAdd"
+     aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg" role="document">
+        <form [formGroup]="socialForm" class="m-form m-form--state" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Add Social Media
+                    </h5>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">
+                        Close
+                    </span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row" >
+                        <label class="col-sm-4 col-form-label">Name <i class="text-danger">*</i></label>
+                        <div class="col-sm-4">
+                            <input autocomplete="off" #socialName name="social" [formControl]="form_control.social" [(ngModel)]="model.socialMediaName" class="form-control social" type="text" placeholder="Fill social media name" required/>
+                            <span class="text-danger" *ngIf="form_control.social.hasError('required') && form_control.social.touched">social cannot be empty</span>
+                        <span class="text-danger" *ngIf="form_control.social.hasError('maxlength') && form_control.social.touched">social max 20 char</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Icon <i class="text-danger">*</i> </label>
+                        <div class="col-sm-4">
+                            <input id="logo"type="file" class="form-control" fileUpload [options]="optionsFile" (pictureUrl)="pictureUrl($event)" (onAfterFileUpload)="companyLogoUploaded($event)" formControlName="icon" name="file"/>
+                            <span style="padding: 0px 15px;" class="m-form__help row">
+                                *Icon size must be 200 X 200
+                            </span>
+                            <span style="color:red" class="m-form__help">
+                                        You can upload JPG/JPEG/PNG file, with maximum file size 1 MB.
+                            </span>
+                            <div class="col-2 row" *ngIf="uploadedFileNamePastSrc !== '-' || uploadedFileName !== '-'">
+                                <img style="max-height:100px;width:auto" src="{{uploadedFileNamePastSrc}}" />
+                            </div>
+                            <div style="margin-top:5px;margin-bottom:5px" class="col-2 row" *ngIf="uploadedFileNamePastSrc != null || uploadedFileName !== null">
+                                    <button (click)="delImage()" class="btn btn-danger" style="padding:5px"><i class="fa fa-trash"></i>Remove File</button>
+                            </div>
+                        </div>
+                        <!-- <div class="col-2">
+                            <button type="button" class="btn btn-danger" (click)="delImage()"><i class="la la-trash"></i></button>
+                        </div> -->
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Status <i class="text-danger">*</i> </label>
+                        <div class="col-sm-4">                              
+                            <label class="m-checkbox" style="margin-top: 10px;">
+                                <input formControlName="status" [(ngModel)]="model.isActive" type="checkbox" checked="checked"> Active
+                                <span></span>
+                            </label>               
+                            <span style="color:red" class="m-form__help">
+                                Please select social media active
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-form__actions m-form__actions--solid">
+                    <button [disabled]="saving" type="button" class="btn btn-metal" (click)="close()">
+                        {{l("Cancel")}}
+                    </button>
+                    <button type="submit" [disabled]="(!socialForm.valid) || (uploadedFileNamePastSrc==null)" class="btn btn-primary" (click)="save()">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,320 @@
+<style>
+    .pnl-cls{
+        float:right;font-weight:bold;margin-top:2px;
+    }
+    body .ui-panel{
+        margin-bottom: 20px;
+    }
+</style>
+<form [formGroup]="infoForm" class="m-login__form m-form email-activation-form" method="post" novalidate>
+            <p-panel>
+                <p-header>
+                    <div class="ui-helper-clearfix">
+                        <span class="ui-panel-title" style="font-size:16px;font-weight:bold;display:inline-block;margin-top:2px">Description<i class="text-danger">*</i></span>
+                        <span class="ui-panel-title pnl-cls">
+                            <label class="m-checkbox m-checkbox--square">
+                                <input (ngModelChange)="informationChanged()" [(ngModel)]="_model.show_desc" formControlName="show_desc" type="checkbox">
+                                Show in main page?
+                                <span></span>
+                            </label>
+                        </span>
+                    </div>
+                </p-header>
+                <div style="padding:0px 20px">
+                    <div class="form-group m-form__group row">
+                        <p-editor  style="width:  100%;" [(ngModel)]="_model.projectDesc" (ngModelChange)="informationChanged()" name="desc" formControlName="projectDesc" [style]="{'height':'100px'}">
+                            <p-header>
+                                <span class="ql-formats">
+                                  <select class="ql-size">
+                                    <option value="small">Small</option>
+                                    <option selected></option>
+                                    <option value="large">Subheader</option>
+                                    <option value="huge">Header</option>
+                                  </select>
+                                </span>
+                                <span class="ql-formats">
+                                  <select class="ql-font">
+                                    <option selected></option>
+                                    <option value="serif">Serif</option>
+                                    <option value="monospace">Monospace</option>
+                                  </select>
+                                </span>
+                                <span class="ql-formats">
+                                  <button class="ql-bold" aria-label="Bold"></button>
+                                  <button class="ql-italic" aria-label="Italic"></button>
+                                  <button class="ql-underline" aria-label="Underline"></button>
+                                  <button class="ql-strike" aria-label="Strike"></button>
+                                </span> 
+                                <span class="ql-formats">
+                                    <button class="ql-list" value="ordered"></button>
+                                    <button class="ql-list" value="bullet"></button>
+                                    <select title="Text Alignment" class="ql-align" >
+                                        <option selected>Gauche</option>
+                                        <option value="center" label="Center"></option>
+                                        <option value="right" label="Right"></option>
+                                        <option value="justify" label="Justify"></option>
+                                    </select> 
+                                    <!-- <button class="ql-code-block" aria-label="Insert Code Block"></button>            -->
+                                </span> 
+                            </p-header>
+                        </p-editor>
+                        <span style="color:red; font-weight:500" class="m-form__help">
+                            Please Enter a Description
+                        </span>
+                    </div>
+                </div>
+            </p-panel>
+            <p-panel>
+                <p-header>
+                    <div class="ui-helper-clearfix">
+                        <span class="ui-panel-title" style="font-size:16px;font-weight:bold;display:inline-block;margin-top:2px">Key Features<i class="text-danger">*</i></span>
+                        <span class="ui-panel-title pnl-cls">
+                            <label class="m-checkbox m-checkbox--square">
+                                <input (ngModelChange)="informationChanged()" [(ngModel)]="_model.show_key" formControlName="show_key" type="checkbox">
+                                Show in main page?
+                                <span></span>
+                            </label>
+                        </span>
+                    </div>
+                </p-header>
+                <div style="padding:0px 20px">
+                    <div class="form-group m-form__group row">
+                        <div style="padding:10px 0px">
+                            <button (click)="keyfeatureModal.show('Add','','')"
+                                class="btn btn-danger m-btn--pill m-btn--air m-btn--square m-btn--bolder" style="border-radius: 0.2rem !important;">Add Key Features</button>
+                        </div>
+                        <div class="primeng-datatable-container" [busyIf]="primeNgKeyFeatures.isLoading">
+                            <p-dataTable id="keyfeatures" [value]="primeNgKeyFeatures.records" [lazy]="false" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="primeNgKeyFeatures.totalRecordsCount">
+                                 <!-- [paginatorPosition]="none" -->
+                                 <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                                    <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                        {{ rowIndex+1 }}
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="keyFeatures" header="Key Feature" [sortable]="false"></p-column>                             
+                                <p-column field="" header="{{l('Actions')}}" [sortable]="false" [style]="{'width':'130px','text-align':'center'}">
+                                    <ng-template let-rowIndex="rowIndex" let-record="rowData" pTemplate="body">
+                                        <div class="btn-group dropdown">
+                                            <button class="dropdown-toggle btn btn-brand btn-sm dropdown-toggle btn-primary" data-toggle="dropdown" tooltip="{{l('Actions')}}"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-cog"></i>
+                                                <span class="caret"></span> {{l("Actions")}}
+                                            
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a (click)="keyfeatureModal.show('Edit',rowIndex,record)">{{l('Edit')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a (click)="deleteKeyFeature(rowIndex)">{{l('Delete')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                            </p-dataTable>
+                            <div class="primeng-paging-container">
+                                <!-- <p-paginator rows="{{primeNgKeyFeatures.defaultRecordsCountPerPage}}" #paginator (onPageChange)="keyFitureEvent($event)"
+                                    [totalRecords]="primeNgKeyFeatures.totalRecordsCount"></p-paginator>
+                                <span class="total-records-count">
+                            {{l('TotalRecordsCount', primeNgKeyFeatures.totalRecordsCount)}}
+                        </span> -->
+                            </div>
+                        </div>
+                        
+                
+                        <div class="form-group m-form__group row" style="margin: 0px;">
+                            <span class="total-records-count">
+                                <span class="label m-badge m-badge--primary m-badge--wide">
+                                        Total ({{primeNgKeyFeatures.totalRecordsCount}})
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </p-panel>
+            <p-panel>
+                <p-header>
+                    <div class="ui-helper-clearfix">
+                        <span class="ui-panel-title" style="font-size:16px;font-weight:bold;display:inline-block;margin-top:2px">Property Detail<i class="text-danger">*</i></span>
+                        <span class="ui-panel-title pnl-cls">
+                            <label class="m-checkbox m-checkbox--square">
+                                <input (ngModelChange)="informationChanged()" [(ngModel)]="_model.show_projectdetail" formControlName="show_projectdetail" type="checkbox">
+                                Show in main page?
+                                <span></span>
+                            </label>
+                        </span>
+                    </div>
+                </p-header>
+                <div style="padding:0px 20px">
+                    <div class="form-group m-form__group">
+                        <label for="developer">
+                            Developer<i class="text-danger">*</i>
+                        </label>
+                        <div class="m-input-icon m-input-icon--left">
+                            <input id="developer" (ngModelChange)="informationChanged()" class="form-control m-input" formControlName="projectDeveloper" name="develop" [(ngModel)]="_model.projectDeveloper"
+                                required type="text" placeholder="Enter project developer">
+                            <span class="m-input-icon__icon m-input-icon__icon--left">
+                                    <span>
+                                        <i class="la la-code-fork"></i>
+                                    </span>
+                            </span>
+                        </div>     
+                   </div>
+                    <div class="form-group m-form__group">
+                        <label for="website">
+                            Website<i class="text-danger">*</i>
+                        </label>
+                        <div class="m-input-icon m-input-icon--left">
+                            <input id="website" class="form-control m-input" formControlName="projectWebsite" name="projectWebsite" [(ngModel)]="_model.projectWebsite" required
+                                type="text" placeholder="Enter project website">
+                            <span class="m-input-icon__icon m-input-icon__icon--left">
+                                        <span>
+                                            <i class="la la-globe"></i>
+                                        </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </p-panel>
+            <p-panel>
+                <p-header>
+                    <div class="ui-helper-clearfix">
+                        <span class="ui-panel-title" style="font-size:16px;font-weight:bold;display:inline-block;margin-top:2px"> Marketing Office<i class="text-danger">*</i>  </span>
+                        <span class="ui-panel-title pnl-cls">
+                            <label class="m-checkbox m-checkbox--square">
+                                <input (ngModelChange)="informationChanged()" [(ngModel)]="_model.show_marketing" formControlName="show_marketing"  type="checkbox">
+                                Show in main page?
+                                <span></span>
+                            </label>
+                        </span>
+                    </div>
+                </p-header>
+                <div style="padding:0px 20px">
+                    <div class="form-group m-form__group row">
+                        <label for="phone">
+                            Phone<i class="text-danger">*</i>
+                        </label>
+                        <div class="m-input-icon m-input-icon--left">
+                            <input type="number" id="phone" class="form-control m-input" formControlName="projectMarketingPhone" name="phone" [(ngModel)]="_model.projectMarketingPhone"
+                                required placeholder="Enter marketing phone number">
+                            <span class="m-input-icon__icon m-input-icon__icon--left">
+                                            <span>
+                                                <i class="la la-phone"></i>
+                                            </span>
+                            </span>
+                        </div>
+                     </div>
+                    <div class="form-group m-form__group row">
+                        <label for="office">
+                            Office<i class="text-danger">*</i>
+                        </label>
+                        <div class="m-input-icon m-input-icon--left">
+                            <textarea class="form-control m-input" formControlName="projectMarketingOffice" name="office" [(ngModel)]="_model.projectMarketingOffice"
+                                required id="office" rows="3" placeholder="Enter marketing office"></textarea>
+                            <span class="m-input-icon__icon m-input-icon__icon--left">
+                                            <span>
+                                                <i class="la la-building-o"></i>
+                                            </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </p-panel>
+            <p-panel>
+                <p-header>
+                    <div class="ui-helper-clearfix">
+                        <span class="ui-panel-title" style="font-size:16px;font-weight:bold;display:inline-block;margin-top:2px">Social Media</span>
+                        <span class="ui-panel-title pnl-cls">
+                            <label class="m-checkbox m-checkbox--square">
+                                <input (ngModelChange)="informationChanged()" [(ngModel)]="_model.show_sosmed" formControlName="show_sosmed" type="checkbox">
+                                Show in main page?
+                                <span></span>
+                            </label>
+                        </span>
+                    </div>
+                </p-header>
+                <div style="padding:0px 20px">
+                    <div class="form-group m-form__group row">
+                        <div style="padding:10px 0px">
+                            <button (click)="socialModal.show(getSelectedProject, '','','Add')"
+                                class="btn btn-danger m-btn--pill m-btn--air m-btn--square m-btn--bolder" style="border-radius: 0.2rem !important;">Add Social Media</button>
+                        </div>
+                        <div class="primeng-datatable-container" [busyIf]="primeNgSocial.isLoading">
+                            <p-dataTable id="socialmedia" [value]="primeNgSocial.records" [lazy]="false" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="primeNgSocial.totalRecordsCount">
+                                <!-- [paginatorPosition]="none" -->
+                                
+                                <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                                    <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                        <span>
+                                            {{rowIndex+1}}
+                                        </span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="socialMediaId" header="Social Media ID" [sortable]="false" [hidden]="true"></p-column>
+                                <p-column field="socialMediaName" header="Social Media" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        <span>
+                                            {{record.socialMediaName}}
+                                        </span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="socialMediaLink" header="URL" [sortable]="false">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        <span>
+                                            {{record.socialMediaLink}}
+                                        </span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="isActive" header="Status" [sortable]="false" [style]="{'width':'100px'}">
+                                    <ng-template let-record="rowData" pTemplate="body">
+                                        <span *ngIf="record.isActive" class="m-badge m-badge--info m-badge--wide" data-toggle="tooltip" title="" data-placement="top">
+                                              {{l('Yes')}}
+                                        </span>
+                                        <span *ngIf="!record.isActive" class="m-badge m-badge--metal m-badge--wide" data-toggle="tooltip" title="" data-placement="top">
+                                          {{l('No')}}
+                                        </span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="" header="{{l('Actions')}}" [sortable]="false" [style]="{'width':'130px','text-align':'center'}">
+                                    <ng-template let-rowIndex="rowIndex" let-record="rowData" pTemplate="body">
+                                        <div class="btn-group dropdown">
+                                            <button class="dropdown-toggle btn btn-brand btn-sm dropdown-toggle btn-primary" data-toggle="dropdown" tooltip="{{l('Actions')}}"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fa fa-cog"></i>
+                                                            <span class="caret"></span> {{l("Actions")}}
+                                            
+                                                        </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a (click)="socialModal.show(getSelectedProject, record, rowIndex, 'Edit')">{{l('Edit')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a (click)="deleteSocialMedia(rowIndex)">{{l('Delete')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                            </p-dataTable>
+                            <div class="primeng-paging-container">
+                                <!-- <p-paginator rows="{{primeNgSocial.defaultRecordsCountPerPage}}" #paginator (onPageChange)="socialEvent($event)" [totalRecords]="primeNgSocial.totalRecordsCount"></p-paginator>
+                                <span class="total-records-count">
+                            {{l('TotalRecordsCount', primeNgSocial.totalRecordsCount)}}
+                        </span> -->
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 0px;">
+                                <span class="total-records-count">
+                                    <span class="label m-badge m-badge--primary m-badge--wide">
+                                            Total ({{primeNgSocial.totalRecordsCount}})
+                                    </span>
+                                </span>
+                            </div>
+                    </div>
+                </div>  
+            </p-panel>
+</form>
+
+<keyfeatureModal #keyfeatureModal (getProject)="getListKeyFiture($event)" (modalSave)="keyValue($event)"></keyfeatureModal>
+<socialModal #socialModal (getProject)="getListSocial($event)" (modalSave)="socialValue($event)"></socialModal>

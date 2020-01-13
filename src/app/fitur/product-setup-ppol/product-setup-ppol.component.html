@@ -1,0 +1,176 @@
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Product Setup PPOL
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a href="" class="m-nav__link m-nav__link--icon">
+                        <i class="m-nav__link-icon la la-home"></i>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="app/main/dashboard" class="m-nav__link">
+                            <span class="m-nav__link-text">
+                                Project Features
+                            </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a class="m-nav__link">
+                            <span class="m-nav__link-text">
+                                Product Setup PPOL
+                            </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content">
+    <div class="m-portlet">
+        <div class="m-portlet__head" style="padding: 0px 1em;">
+            <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                <label for="attitude" class="col-md-2 col-form-label">Project <i class="text-danger">*</i></label>
+                <div class="col-md-4">
+                    <div [busyIf]="projectLoading">
+                        <select class="form-control project" (change)="onChangeProject(modelProject)"
+                                [(ngModel)]="modelProject" jq-plugin="selectpicker"
+                                title="Choose one of project" data-live-search="true">
+                            <option *ngFor="let project of _projects"
+                                    [value]="project.projectId+'|'+project.projectCode">
+                                {{project.projectCode}} - {{project.projectName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                <label for="attitude" class="col-md-2 col-form-label">Product Name <i class="text-danger">*</i></label>
+                <div class="col-md-4">
+                    <div [busyIf]="productLoading">
+                        <select class="form-control product" (change)="onChangeProduct(modelProduct)"
+                                [(ngModel)]="modelProduct" jq-plugin="selectpicker"
+                                title="Choose one of product" data-live-search="true">
+                            <option *ngFor="let product of _products" [ngValue]="product">
+                                {{product.productName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="row align-items-center m--margin-top-10">
+                <div class="col-md-12">
+                    <button routerLink="/app/fitur/add-new-product" class="btn btn-primary pull-right"
+                            style="margin-bottom: 10px;">
+                        <i class="fa fa-plus"></i>
+                        Add New Product
+                    </button>
+                </div>
+                <!--<Primeng-Datatable-Start>-->
+                <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                    <p-dataTable #dataTable
+                                 [value]="primengDatatableHelper.records"
+                                 [rows]="primengDatatableHelper.defaultRecordsCountPerPage"
+                                 [paginator]="true"
+                                 [rowsPerPageOptions]="[5,10,20]"
+                                 [lazy]="false" emptyMessage="{{l('NoData')}}"
+                                 [responsive]="primengDatatableHelper.isResponsive"
+                                 [(first)]="first"
+                                 [alwaysShowPaginator]="false"
+                                 scrollable="true"> <!-- [paginatorPosition]="none" -->
+                        <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                            <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                {{ rowIndex+1 }}
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Project" [sortable]="false" [style]="{'width':'160px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.projectName}}
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Product" [style]="{'width':'100px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.productName}}
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Active From" [style]="{'width':'100px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.startDate}}
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Active To" [style]="{'width':'100px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.endDate}}
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Status" [sortable]="false" [style]="{'width':'80px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                    <span *ngIf="record.status" class="m-badge m-badge--info m-badge--wide"
+                                          data-toggle="tooltip" title="{{l('ThisRecordIsActive')}}"
+                                          data-placement="top">
+                                            {{l('Yes')}}
+                                        </span>
+                                <span *ngIf="!record.status" class="m-badge m-badge--metal m-badge--wide"
+                                      data-toggle="tooltip" title="{{l('ThisRecordIsInactive')}}" data-placement="top">
+                                                {{l('No')}}
+                                            </span>
+                            </ng-template>
+                        </p-column>
+
+
+                        <p-column field="" header="Actions" [sortable]="false"
+                                  [style]="{'width':'130px','text-align':'center'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                <div class="btn-group dropdown">
+                                    <button class="dropdown-toggle btn btn-brand btn-sm dropdown-toggle btn-primary"
+                                            data-toggle="dropdown" tooltip="{{l('Actions')}}" aria-haspopup="true"
+                                            aria-expanded="false">
+                                        <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a>View</a>
+                                        </li>
+                                        <li>
+                                            <a>Edit</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                    <div class="primeng-paging-container">
+                        <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator
+                                     (onPageChange)="getLatestList($event)"
+                                     [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                        </p-paginator>
+                        <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengDatatableHelper.totalRecordsCount)}}
+                            </span>
+                    </div>
+                </div>
+                <!--<Primeng-Datatable-End>-->
+            </div>
+        </div>
+        <div class="modal-footer m-form__actions m-form__actions--solid">
+            <button class="btn btn-metal" type="button">
+                Cancel
+            </button>
+            <button class="btn btn-primary" type="submit" disabled="">
+                <span class="ng-tns-c2-50">Save
+                </span>
+            </button>
+        </div>
+    </div>
+</div>

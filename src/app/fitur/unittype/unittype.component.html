@@ -1,0 +1,76 @@
+<p-panel>
+        <p-header>
+            <div class="ui-helper-clearfix">
+                <span class="ui-panel-title" style="font-size:16px;font-weight:bold;display:inline-block;margin-top:2px">Unit Type</span>
+                <span class="ui-panel-title pnl-cls">
+                    <label class="m-checkbox m-checkbox--square">
+                        <input (change)="unitChanged()" [(ngModel)]="show_unit" value="true" type="checkbox">
+                        Show in main page?
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+        </p-header>
+        <div style="padding:0px 20px">
+            
+        <div class="row align-items-center">
+                <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                        <p-dataTable id="unittype" [value]="primengDatatableHelper.records" [lazy]="false" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                            <!-- [paginatorPosition]="none" -->
+                            
+                        <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                            <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                {{ rowIndex+1 }}
+                            </ng-template>
+                        </p-column>
+                    
+                        <p-column field="towerCluster" header="Unit Type" [sortable]="false">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{ record.unitType }}
+                            </ng-template>
+                        </p-column>
+
+                        <p-column field="unitType" header="Unit Type Description" [sortable]="false">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{ record.unitTypeDesc }}
+                            </ng-template>
+                        </p-column>  
+                        
+                        <p-column field="imageUrl" header="Image" [sortable]="false">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                <img src="{{record.unitTypeImage}}" style="display:inline-block;margin:2px 0 2px 2px" width="48">
+                            </ng-template>
+                        </p-column> 
+                        
+                        <p-column field="action" header="Action" [sortable]="false" [style]="{'width':'100px', 'text-align':'center'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                <button (click)="unittypeModal.show(record)" class="btn btn-brand btn-md btn-primary">
+                                    <i class="fa fa-pencil"></i><span class="caret"></span> {{l("Edit")}}
+                                </button>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                    <div class="primeng-paging-container">
+                        <!-- <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator
+                                     (onPageChange)="getUnitEvent($event)"
+                                     [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                        </p-paginator>
+                        <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengDatatableHelper.totalRecordsCount)}}
+                            </span> -->
+                    </div>
+                </div>
+                
+                <div class="form-group m-form__group row" style="margin: 0px;">
+                        <span class="total-records-count">
+                            <span class="label m-badge m-badge--primary m-badge--wide">
+                                    Total ({{primengDatatableHelper.totalRecordsCount}})
+                            </span>
+                        </span>
+                    </div>
+                <!--<Primeng-Datatable-End>-->
+            </div>
+        </div>
+    </p-panel>
+<unittypeModal (modalSave)="getLatestList(getSelectedProject)" #unittypeModal></unittypeModal>

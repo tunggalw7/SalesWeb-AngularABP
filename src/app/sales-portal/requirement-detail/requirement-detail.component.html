@@ -1,0 +1,187 @@
+<div class="m-subheader ">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title m-subheader__title--separator">
+				Requirement Detail
+			</h3>
+			<span class="m-section__sub">
+				All the work you have to finish in the near future
+			</span>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content">
+	<div class="m-portlet">
+		<div class="m-portlet__body">
+			<div class="m-form m-form--label-align-right" style="padding: 0 2.2rem 1rem !important">
+				<div class="row m--margin-bottom-10">
+					<label for="project" class="col-xl-3 col-form-label">Project</label>
+					<div class="col-xl-4">
+						<div [busyIf]="projectLoading">
+							<select id="project" class="form-control project" (change)="projectChange(project)" title="Select project" jq-plugin="selectpicker"
+							 data-live-search="true" [(ngModel)]="project">
+									<option *ngFor="let pro of _projects" [value]="pro.projectID+'|'+pro.projectCode">
+										{{pro.projectName}}
+									</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row m--margin-bottom-10">
+					<label for="termOfPayment" class="col-xl-3 col-form-label">Tower / Cluster</label>
+					<div class="col-xl-4">
+						<div [busyIf]="termLoading">
+							<select id="termOfPayment" class="form-control term" title="Select tower / cluster" jq-plugin="selectpicker" data-live-search="true"
+							 [(ngModel)]="cluster">
+								<option *ngFor="let cluster of _termOfPaymentList" [value]="cluster.clusterCode">
+									{{cluster.clusterName}}
+								</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row m--margin-bottom-10">
+					<label for="task-filter" class="col-xl-3 col-form-label"></label>
+					<div class="col-xl-4 text-right">
+						<button (click)="getTaskList()" name="RefreshButton" class="btn btn-danger m-btn m-btn--air m-btn--uppercase"><i class="la la-refresh"></i> Show Requirement</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="m-portlet">
+				<div class="m-portlet__body">
+					<div style="margin-bottom:20px">
+						<div class="m-portlet__head-caption">
+							<div class="row">
+								<div class="col-lg-9">
+									<div class="m-portlet__head-title" style="margin-bottom:10px">
+										<h3 class="m-portlet__head-text">
+											Requirement List
+										</h3>
+										<p class="m-form__help" style="line-height:1.2rem;color: #7b7e8a;font-weight: 300;font-size: 0.85rem;">
+											Commission is a service charge assessed by a broker or investment advisor in return for providing investment advice and/or
+											handling the purchase or sale of a security
+										</p>
+									</div>
+								</div>
+								<div class="col-lg-3 text-right">
+								</div>
+							</div>
+							<!-- <div class="row m--margin-bottom-20">
+								<label for="pctComm" class="col-xl-3 col-form-label">Pct Commission</label>
+								<div class="col-xl-4">
+									<div class="m-input-icon m-input-icon--right input-group">
+										<input id="pctComm" #gb (keyup)="firstTaskList=0" class="form-control m-input" name="pctComm" [(ngModel)]="pctComm" required
+										 type="number" min="0" max="100" placeholder="Enter pct commission">
+										<span class="input-group-addon">
+											%
+										</span>
+									</div>
+								</div>
+							</div> -->
+						</div>
+						<div style="padding:0px 20px">
+							<div class="form-group m-form__group row">
+								<!--begin: Datatable -->
+								<div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+									<p-dataTable [value]="taskListResultReq" [lazy]="false" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="primengDatatableHelper.totalRecordsCount">
+									   <!-- [paginatorPosition]="none" -->
+									   <!-- [globalFilter]="gb" -->
+										<p-column field="" header="No." [sortable]="false" [style]="{'width':'65px','text-align':'center'}" excludeGlobalFilter="true">
+											<ng-template let-i="rowIndex" pTemplate="body">
+												{{i+1}}
+											</ng-template>
+										</p-column>
+
+										<p-column field="reqDesc" header="Requirement" [sortable]="false" [style]="{'font-size':'0.9em'}" excludeGlobalFilter="true"></p-column>
+										<p-column field="pctPaid" header="Paid Commission" [sortable]="false" [style]="{'font-size':'0.9em','width':'130px'}">
+											<ng-template let-record="rowData" pTemplate="body">
+												{{record.pctPaid}}%
+											</ng-template>
+										</p-column>
+										<p-column field="commPctPaid" header="Commission Percent" [sortable]="false" [style]="{'font-size':'0.9em','width':'130px'}">
+											<ng-template let-record="rowData" pTemplate="body">
+												{{record.commPctPaid}}%
+											</ng-template>
+										</p-column>
+									</p-dataTable>
+									<div class="primeng-paging-container">
+										<!-- <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator (onPageChange)="firstTaskListEvent($event)"
+										 [totalRecords]="taskListResultReqLength"></p-paginator> -->
+										<!-- <span class="total-records-count">
+												<span class="label m-badge m-badge--primary m-badge--wide">
+													Total ({{taskListResultReqLength}})
+												</span>
+										</span> -->
+									</div>
+								</div>
+								<div class="form-group m-form__group row" style="margin: 0px;">
+									<span class="total-records-count">
+										<span class="label m-badge m-badge--primary m-badge--wide">
+												Total ({{taskListResultReqLength}})
+										</span>
+									</span>
+								</div>
+								<!--end: Datatable -->
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-9">
+								<div class="m-portlet__head-title" style="margin-bottom:10px">
+									<h3 class="m-portlet__head-text">
+										Requirement Document
+									</h3>
+								</div>
+							</div>
+							<div class="col-lg-3 text-right">
+							</div>
+						</div>
+						<div style="padding:0px 20px">
+							<div class="form-group m-form__group row">
+								<!--begin: Datatable -->
+								<div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading" style="
+									max-height: 420px;
+									overflow-y: auto;">
+									<p-dataTable #dataTable [value]="taskListResultDoc" rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" [paginator]="true"
+									 [alwaysShowPaginator]="true" [(first)]="secondTaskList" [lazy]="false" emptyMessage="{{l('NoData')}}" [rowsPerPageOptions]="[10,20,50,100]" [responsive]="primengDatatableHelper.isResponsive">
+									   <!-- [paginatorPosition]="none" -->
+									   <!-- [globalFilter]="gb" -->
+									   <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+											<ng-template let-rowIndex="rowIndex" pTemplate="body">
+												{{ rowIndex+1 }}
+											</ng-template>
+										</p-column>
+										<!-- excludeGlobalFilter="true" -->
+										<p-column field="termCode" header="Term Code" [sortable]="false" [style]="{'font-size':'0.9em'}" ></p-column>
+										<p-column field="termDesc" header="Term Desc" [sortable]="false" [style]="{'font-size':'0.9em'}" ></p-column>
+										<p-column field="documentType" header="Document Type" [sortable]="false" [style]="{'font-size':'0.9em'}" ></p-column>
+										<p-column field="documentName" header="Document Name" [sortable]="false" [style]="{'font-size':'0.9em'}" ></p-column>
+									</p-dataTable>
+									<div class="primeng-paging-container">
+										<!-- <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator (onPageChange)="secondTaskListEvent($event)"
+										 [totalRecords]="taskListResultDocLength"></p-paginator> -->
+										<!-- <span class="total-records-count">
+												<span class="label m-badge m-badge--primary m-badge--wide">
+													Total ({{taskListResultDocLength}})
+												</span>
+										</span> -->
+									</div>
+								</div>
+								
+								<div class="form-group m-form__group row" style="margin: 0px;">
+									<span class="total-records-count">
+										<span class="label m-badge m-badge--primary m-badge--wide">
+												Total ({{taskListResultDocLength}})
+										</span>
+									</span>
+								</div>
+								<!--end: Datatable -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

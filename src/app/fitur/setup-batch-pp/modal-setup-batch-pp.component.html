@@ -1,0 +1,195 @@
+<div bsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal"
+    aria-hidden="true" [config]="{backdrop: 'static',keyboard: false}">
+    <div class="modal-dialog modal-lg" style="width:80%">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <span class="caption-subject font-green" *ngIf="isEdit">Edit Batch Priority Pass</span>
+                    <span class="caption-subject font-green" *ngIf="isAdd">Add Batch Priority Pass</span>
+                    <span class="caption-subject font-green" *ngIf="isView">View Batch Priority Pass</span>
+                </h5>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" [busyIf]="saving">
+
+                <form [formGroup]="batchForm" role="form" novalidate>
+                    <div class="row" style="
+    margin: 10px;
+    margin-top: 30px;">
+                        <div class="col-md-12">
+                            <div class="form-group row" *ngIf="!isAdd">
+                                <label class="col-md-3 col-form-label">Batch Sequence
+                                    <sup class="m--font-danger">*</sup>
+                                </label>
+                                <div class="col-md-3">
+                                    <input [(ngModel)]="lastbatch" class="form-control m-input" readonly type="text" [ngModelOptions]="{standalone: true}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-6 col-form-label">Project Name
+                                            <sup class="m--font-danger">*</sup>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <div> <!-- [busyIf]="projectLoading" -->
+                                                <select [disabled]="isView" class="form-control project" formControlName="projectCode" name="projectCode" [(ngModel)]="model.projectCode"
+                                                    jq-plugin="selectpicker" (change)="onChangeProject(model.projectCode)" title="Choose one of project"
+                                                    data-live-search="true">
+                                                    <option *ngFor="let project of _projects" [ngValue]="project.projectCode">
+                                                        {{project.projectCode}} - {{project.projectName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row" [busyIf]="isLoading">
+                                        <label class="col-md-6 col-form-label">Product
+                                            <sup class="m--font-danger">*</sup>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <div> <!-- [busyIf]="projectLoading" -->
+                                                <select [disabled]="isView" class="form-control product" (change)="onChangeProduct(model.productCode)" [(ngModel)]="model.productCode"
+                                                    jq-plugin="selectpicker" title="Choose one of product" data-live-search="true"
+                                                    formControlName="productCode" name="productCode">
+                                                    <option *ngFor="let product of _products" value="{{product.productCode}}">
+                                                        {{product.productCode}} - {{product.productName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Batch Code
+                                    <sup class="m--font-danger">*</sup>
+                                </label>
+                                <div class="col-md-9">
+                                    <input [(ngModel)]="model.batchCode" formControlName="batchCode" class="col-md-3 form-control m-input" type="text" maxlength="3"
+                                        style="text-transform:uppercase" placeholder="Batch Code" [readonly]="isView||isEdit">
+                                    <br>
+                                    <sup class="m--font-danger" style="top:-20px">* Fill Only Alphabet min max 3 digit</sup>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-6 col-form-label">Batch Numbering Start
+                                            <sup class="m--font-danger">*</sup>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <input [(ngModel)]="model.batchNumStart" formControlName="batchStart" class="form-control m-input" type="number" maxlength="3"
+                                                placeholder="Batch Numbering Start" [readonly]="isView" max="999" min="1">
+                                            <br>
+                                            <sup class="m--font-danger" style="top:-20px">* min: 1, max: 999</sup>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-6 col-form-label">Batch Numbering End
+                                            <sup class="m--font-danger">*</sup>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <input [(ngModel)]="model.batchNumEnd" formControlName="batchEnd" class="form-control m-input" type="number" maxlength="3"
+                                                placeholder="Batch Numbering End" max="999" [readonly]="isView" min="1">
+                                            <br>
+                                            <sup class="m--font-danger" style="top:-20px">* min: 1, max: 999</sup>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row" [busyIf]="isLoading">
+                                        <label class="col-md-6 col-form-label">Priority Pass Price (IDR)</label>
+                                        <div class="col-md-6">
+                                            <input disabled currencyMask min="0" maxlength="15" class="form-control" [(ngModel)]="PPPrice" placeholder="" #hasMessage formControlName="PPPrice"
+                                                readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-6 col-form-label">Max Top Up from Old Batch
+                                            <sup class="m--font-danger">*</sup>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <input [(ngModel)]="model.maxTopUpFromOldBatch" placeholder="Max Top Up from Old Batch" formControlName="maxTopUp" class="form-control m-input"
+                                                type="number" min="1" [readonly]="isView">
+                                            <br>
+                                            <sup class="m--font-danger" style="top:-20px">* min: 1</sup>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Batch Purpose
+                                    <sup class="m--font-danger">*</sup>
+                                </label>
+                                <div class="col-md-6">
+                                    <label style="width: 100%;" class="m-radio m-radio--solid">
+                                        <input name="topUp" type="radio" [(ngModel)]="model.batchPurpose" [checked]="a" value="1" formControlName="topUp"> Top Up
+                                        <span></span>
+                                    </label>
+                                    <label style="width: 100%;" class="m-radio m-radio--solid">
+                                        <input name="topUp" type="radio" [(ngModel)]="model.batchPurpose" [checked]="b" value="2" formControlName="topUp"> Booking Fee
+                                        <span></span>
+                                    </label>
+                                    <label style="width: 100%;" class="m-radio m-radio--solid">
+                                        <input name="topUp" type="radio" [(ngModel)]="model.batchPurpose" [checked]="c" value="3" formControlName="topUp"> Convert Only
+                                        <span></span>
+                                    </label>
+                                    <label style="width: 100%;" class="m-radio m-radio--solid">
+                                        <input name="topUp" type="radio" [(ngModel)]="model.batchPurpose" [checked]="d" value="4" formControlName="topUp"> Sell Only
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Status
+                                </label>
+                                <div class="col-md-6">
+                                    <label class="m-checkbox m-checkbox--solid">
+                                        <input [(ngModel)]="model.isActive" formControlName="status" name="status" type="checkbox"> Active
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer m-form__actions m-form__actions--solid">
+                <button type="button" class="btn btn-metal" (click)="close()">
+                    Cancel
+                </button>
+                <button [buttonBusy]="saving" [disabled]="saving" *ngIf="!isView" type="submit" [disabled]="(!batchForm.valid)" class="btn btn-primary"
+                    (click)="save()">
+                    <span>Save
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

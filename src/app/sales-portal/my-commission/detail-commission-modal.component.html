@@ -1,0 +1,249 @@
+<style>
+    .table {
+        font-size: 13px
+    }
+
+    .table tr.last th,
+    .table tr.last td {
+        border-top: 0 !important;
+    }
+    .form-group{
+        padding-left:0px!important;
+    }
+</style>
+<div bsModal #detailCommissionModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detailBookingModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form class="m-form m-form--fit m-form--label-align-right" method="post" novalidate>
+                <!-- <div class="modal-header custom">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                            Detail Commission
+                        </h3>
+                        <small class="m-form__help">
+                            List of commission payments that have taken place
+                        </small>
+                    </div>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                </div> -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="m-portlet__head-title" style="margin-bottom:10px">
+                                <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                                    Detail Unit
+                                </h3>
+                                <small class="m-form__help">
+                                    List tower of this project
+                                </small>
+                            </div>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th>Book Code</th>
+                                        <td>{{bookCode}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Project</th>
+                                        <td>{{project}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cluster</th>
+                                        <td>{{cluster}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Unit Code</th>
+                                        <td>{{unitCode}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Unit No</th>
+                                        <td>{{unitNo}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-lg-12 m--margin-top-20">
+                            <div class="m-portlet__head-title" style="margin-bottom:10px">
+                                <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                                    Detail Data Req
+                                </h3>
+                                <small class="m-form__help">
+                                    List Data Req By Book Code
+                                </small>
+                            </div>
+                            <div style="padding:0px 20px">
+                                <div class="form-group m-form__group row">
+                                    <!--begin: Datatable -->
+                                        <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                                                <p-dataTable [value]="primengDatatableHelper.records" [lazy]="false" [paginator]="true" [rows]="10" [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                                                <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                                                    <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                                        {{ rowIndex+1 }}
+                                                    </ng-template>
+                                                </p-column>
+                                                <p-column field="reqNo" header="Req No" [sortable]="true" [style]="{'font-size':'0.9em','width':'60px','text-align':'center'}"></p-column>
+                                                <p-column field="pctComm" header="Percent Commission" [sortable]="true" [style]="{'font-size':'0.9em','width':'180px','text-align':'center'}">
+                                                    <ng-template let-record="rowData" pTemplate="body">
+                                                        <div class="rowData" style="text-align: center;">
+                                                            {{record.pctComm}} %
+                                                        </div>
+                                                    </ng-template>
+                                                </p-column>
+                                                <p-column field="reqDesc" header="Req Desc" [sortable]="true" [style]="{'font-size':'0.9em','width':'100px','text-align':'center'}"></p-column>
+                                                <p-column field="pctPaid" header="Percent Commission Paid" [sortable]="true" [style]="{'font-size':'0.9em','width':'180px','text-align':'center'}">
+                                                    <ng-template let-record="rowData" pTemplate="body">
+                                                        <div class="rowData" style="text-align: center;">
+                                                            {{record.pctPaid}} %
+                                                        </div>
+                                                    </ng-template>
+                                                </p-column>
+                                                <p-column field="amountComm" header="Amount Commission" [sortable]="false" [style]="{'font-size':'0.9em','width':'150px','text-align':'center'}">
+                                                    <ng-template let-record="rowData" pTemplate="body" >
+                                                        <div class="rowData" style="text-align: right;">
+                                                            {{record.amountComm | currency:'Rp. '}}
+                                                        </div>
+                                                    </ng-template>
+                                                </p-column>
+                                            </p-dataTable>
+                                            <div class="primeng-paging-container">
+                                                <!-- <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator (onPageChange)="taskListEvent($event)"
+                                                [totalRecords]="primengDatatableHelper.totalRecordsCount"></p-paginator> -->
+                                                <!-- <span class="total-records-count">
+                                                        <span class="label m-badge m-badge--primary m-badge--wide">
+                                                            Total ({{primengDatatableHelper.totalRecordsCount}})
+                                                        </span>
+                                                </span> -->
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group m-form__group row" style="margin: 0px;">
+                                                <span class="total-records-count">
+                                                    <span class="label m-badge m-badge--primary m-badge--wide">
+                                                            Total ({{primengDatatableHelper.totalRecordsCount}})
+                                                    </span>
+                                                </span>
+                                            </div>
+                                    <!--end: Datatable -->								
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="m-portlet__head-text" style="border-bottom: 1px solid #e9ecef">
+                        <h3 class="form-section">{{l("Detail Unit")}}</h3>
+                    </div>
+
+                    <div style="padding: 20px">
+                        <div class="row">
+                            <div class="col-lg-6 col-form-label">
+                                <div class="m-portlet__head-title" style="margin-bottom:10px">
+                                    <h4 class="m-portlet__head-text" style="margin-bottom:0">
+                                        {{l("Project Name")}}
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-form-label">
+                                <label for="projectName">{{_detailCommission.projectName}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-form-label">
+                                <h4 class="m-portlet__head-text" style="margin-bottom:0">
+                                    {{l("Cluster / Tower")}}
+                                </h4>
+                            </div>
+                            <div class="col-lg-6 col-form-label">
+                                <label for="cluster">{{_detailCommission.cluster}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-form-label">
+                                <h4 class="m-portlet__head-text" style="margin-bottom:0">
+                                    {{l("Unit Code")}}
+                                </h4>
+                            </div>
+                            <div class="col-lg-6 col-form-label">
+                                <label for="unitCode">{{_detailCommission.unitCode}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-form-label">
+                                <h4 class="m-portlet__head-text" style="margin-bottom:0">
+                                    {{l("Unit No")}}
+                                </h4>
+                            </div>
+                            <div class="col-lg-6 col-form-label">
+                                <label for="unitNo">{{_detailCommission.unitNo}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet__head-text" style="border-bottom: 1px solid #e9ecef">
+                        <h3 class="form-section">{{l("Detail Commission")}}</h3>
+                    </div>
+
+                    <div style="padding: 20px">
+                        <div class="row">
+                            <div class="col-lg-6 col-form-label">
+                                <h4 class="m-portlet__head-text" style="margin-bottom:0">
+                                    {{l("Expected Commission")}}
+                                </h4>
+                            </div>
+                            <div class="col-lg-6 col-form-label">
+                                <span>{{_detailCommission.expectedCommission}}</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-form-label">
+                                <h4 class="m-portlet__head-text" style="margin-bottom:0">
+                                    {{l("PPH")}}
+                                </h4>
+                            </div>
+                            <div class="col-lg-6 col-form-label">
+                                <span>{{_detailCommission.pph}}</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-form-label">
+                                <h4 class="m-portlet__head-text" style="margin-bottom:0">
+                                    {{l("VAT")}}
+                                </h4>
+                            </div>
+                            <div class="col-lg-6 col-form-label">
+
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-top: 1px solid #e9ecef; padding-top: 10px;">
+                            <div class="col-lg-6 col-form-label">
+                                <h4 class="m-portlet__head-text" style="margin-bottom:0">
+                                    {{l("TOTAL")}}
+                                </h4>
+                            </div>
+                            <div class="col-lg-6 col-form-label">
+                                <label for="total">{{_detailCommission.total}}</label>
+                            </div>
+                        </div>
+                    </div> 
+                -->
+
+                <div class="modal-footer m-form__actions m-form__actions--solid">
+                    <button type="button" class="btn btn-metal m-btn--pill m-btn--air m-btn--square m-btn--bolder m-btn--uppercase" (click)="close()"
+                        style="border-radius: 0.2rem !important;">{{l("Close")}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

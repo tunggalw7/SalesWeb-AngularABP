@@ -1,0 +1,60 @@
+<div bsModal #ppnoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ppnoModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog" role="document" style="transform:scale(0.9) !important;border: 0 !important;">
+        <div class="modal-content" style="border: 0 !important">
+            <form [formGroup]="ppForm" method="post" novalidate (ngSubmit)="save()">
+            <div class="loading_layout"></div>
+            <div class="modal-header" style="background-color:#c3111f!important;border-radius:0 !important">
+                <h4 class="modal-title" style="color:white !important">Insert PP</h4>
+                <button style="cursor:pointer" type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true" style="
+                    font-size: 28px;">
+                    &times;
+                </span>
+                </button>
+            </div>
+            <div class="modal-body nobottompadding">
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-12">
+                        <label class="col-form-label">
+                                PP Number 
+                            <i class="text-danger">*</i>
+                        </label>                
+                        <div [busyIf]="ppLoading">
+                            <select class="form-control project" [formControl]="model_ctrl.ppnumber" [(ngModel)]="model.ppnumber" jq-plugin="selectpicker"
+                                title="Choose your PP Number" data-live-search="true" required>
+                                <option *ngFor="let item of _ppno" [ngValue]="item">
+                                    {{item.ppno}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">                        
+                    <div class="col-sm-12">
+                        <label class="col-form-label">
+                            Birth Date 
+                            <i class="text-danger">*</i>
+                        </label>
+                        <div class='input-group date' id=''>
+                            <input (selectedDateChange)="onSelectedBirthDate($event)" [(ngModel)]="model.birthDate" [formControl]="model_ctrl.birthDate"
+                                datePicker="datepicker" #SampleDatePicker name="SampleDatePicker" class="form-control" placeholder="Example: DD/MM/YYYY"
+                                required readonly>
+                            <span class="input-group-addon">
+                                <i class="la la-calendar"></i>
+                            </span>
+                        </div>
+                        <span class="text-danger" *ngIf="model_ctrl.birthDate.hasError('required') && model_ctrl.birthDate.touched">Birth date number cannot be empty</span>
+                        <span class="text-danger" *ngIf="invalidBirthdate">Birth date should not be greater than today</span>                       
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer nobottompadding" style="text-align:right">
+                <button [disabled]="invalidBirthdate || ppForm.invalid" type="submit" [ngClass]="insertPPLoading ? 'm-loader m-loader--light m-loader--right' : ''"
+                    class="btn btn-danger m-btn m-btn--air bottom pull-right m-btn--uppercase">Check
+                </button>
+            </div>            
+        </form>
+        </div>
+    </div>
+</div>

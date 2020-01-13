@@ -1,0 +1,12 @@
+<!-- <label class="col-form-label"> 
+  {{label}} * 
+</label>  -->
+<label style="float:right" class="col-form-label right "> 
+  <a  (click)= "removefile()" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only m-btn--pill m-btn--air">
+      <i class="fa flaticon-refresh"></i>
+  </a>
+</label> 
+<div class="pponline" id="m-dropzone-one"> 
+  <dropzone style="width: 100%; height: 13em;" [config]="config" [message]="'Click or drag images here to upload'"  (error)="onerror($event)" (sending)="onSending($event)" > </dropzone>
+  <span class="text-danger" *ngIf="error !== null ">{{error}}</span>
+</div> 

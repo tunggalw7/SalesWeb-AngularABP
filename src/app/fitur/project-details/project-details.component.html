@@ -1,0 +1,231 @@
+<div id="manageproject">
+    <div id="projectdetail" class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    Manage Project
+                </h3>
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="" class="m-nav__link m-nav__link--icon">
+                            <i class="m-nav__link-icon la la-home"></i>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="app/main/dashboard" class="m-nav__link">
+                            <span class="m-nav__link-text">
+                                Web Online Booking Admin
+                            </span>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a class="m-nav__link">
+                            <span class="m-nav__link-text">
+                                Manage Project
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- END: Subheader -->
+    <div class="m-content">
+        <form [formGroup]="projectForm" role="form" novalidate>
+            <div class="m-portlet">
+                <div class="m-portlet__head" style="padding-top: 20px;">
+                    <div *ngIf="setUpNew==true">
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Product Code<i
+                                    class="text-danger">*</i></label>
+                            <div class="col-md-4">
+                                <input [(ngModel)]="model.productCode" formControlName="productCode"
+                                    class="form-control m-input" type="text" placeholder="Enter product code">
+                                <span style="color:red" class="m-form__help">
+                                    Enter Maximum 10 Char
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Product Name<i
+                                    class="text-danger">*</i></label>
+                            <div class="col-md-6">
+                                <input [(ngModel)]="model.productName" formControlName="productName"
+                                    class="form-control m-input" type="text" placeholder="Enter product name">
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Project <i
+                                    class="text-danger">*</i></label>
+                            <div class="col-md-4">
+                                <div [busyIf]="projectLoading">
+                                    <select class="form-control project" (ngModelChange)="onChangeProject($event)"
+                                        formControlName="projectCode" [(ngModel)]="model.projectCode"
+                                        jq-plugin="selectpicker" title="Choose one of project" data-live-search="true">
+                                        <option [disabled]="actionCluster=='edit'" *ngFor="let project of _projects"
+                                            [value]="project.projectId+'|'+project.projectCode">
+                                            {{project.projectCode}} - {{project.projectName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Cluster Code<i
+                                    class="text-danger">*</i></label>
+                            <div class="col-md-4">
+                                <div [busyIf]="clusterLoading">
+                                    <select [(ngModel)]="clusterModel" class="form-control cluster"
+                                        [ngModelOptions]="{standalone: true}" title="Please Choose Cluster"
+                                        jq-plugin="selectpicker" data-actions-box="true" data-live-search="true"
+                                        multiple>
+                                        <option *ngFor="let item of clusterItem" [value]="item.clusterId">
+                                            {{item.clusterName}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <span style="color:red" class="m-form__help">
+                                    Choose cluster that belong to this project
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Diagrammatic Type<i
+                                    class="text-danger">*</i></label>
+                            <div class="col-md-4">
+                                <div [busyIf]="diagrammaticTypeLoading">
+                                    <select class="form-control diagrammatic-type" formControlName="diagrammaticType" 
+                                        [(ngModel)]="model.diagrammaticType" title="Please Choose Type of Diagrammatic" jq-plugin="selectpicker">
+                                        <option *ngFor="let item of _digrammaticTypes" [value]="item.diagramaticTypeId" style="text-transform: capitalize !important;">
+                                            {{item.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                        <label for="attitude" class="col-md-3 col-form-label">Product Logo</label>
+                        <div class="col-md-4">
+                            <div class="m-input-icon">
+                                <input id="productLogo" type="file" class="form-control" [(ngModel)]="model.logo"
+                                    formControlName="logo" fileUpload [options]="optionsLogo"
+                                    (pictureUrl)="pictureLogo($event)" (onAfterFileUpload)="LogoUploaded($event)"
+                                    name="file" />
+                                <span style="padding: 0px 15px;" class="m-form__help row">
+                                    *Product Logo size must be 1024 X 768
+                                </span>
+                                <span style="color:red" class="m-form__help">
+                                    You can upload JPG/JPEG/PNG file, with maximum file size 1 MB.
+                                </span>
+                                <div class="col-2 row">
+                                    <img style="max-height:100px;width:auto" src="{{LogoFileNamePastSrc}}" />
+                                </div>
+                                <div class="row" style="margin-top:5px;margin-bottom:5px" class="col-2 row"
+                                    *ngIf="LogoFileNamePastSrc != null || LogoFileName !== null">
+                                    <button (click)="delImage()" class="btn btn-danger" style="padding:5px"><i
+                                            class="fa fa-trash"></i>Remove File</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                        <label for="attitude" class="col-md-3 col-form-label">Status</label>
+                        <div class="col-md-4">
+                            <label class="m-checkbox" style="margin-top: 10px;">
+                                <input id="status" name="status" formControlName="status" [(ngModel)]="model.status"
+                                    type="checkbox"> Active
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row" style="margin: 20px 10px;">
+                        <u style="font-weight: 500;">ONLINE BOOKING</u>
+                    </div>
+                    <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                        <label style="font-weight: 500;" for="attitude" class="col-md-1 col-form-label">Status<i
+                                class="text-danger">*</i></label>
+                        <div class="col-md-2">
+                            <div [busyIf]="statusobLoading">
+                                <select formControlName="statusob" class="form-control statusob"
+                                    [(ngModel)]="model.statusob" jq-plugin="selectpicker" title="Select Item">
+                                    <option *ngFor="let item of itemStatusOB" [value]="item.value">
+                                        {{item.display}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button [disabled]="model.statusob=='false' || model.statusob==false"
+                                (click)="setupOB(true);"
+                                class="btn btn-metal m-btn--pill m-btn--air m-btn--square m-btn--bolder"
+                                style="border-radius: 0.2rem !important;margin-bottom: 20px;">
+                                Setup Online Booking</button>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row" style="margin: 20px 10px;">
+                        <u style="font-weight: 500;">PP ONLINE</u>
+                    </div>
+                    <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                        <label style="font-weight: 500;" for="attitude" class="col-md-1 col-form-label">Status<i
+                                class="text-danger">*</i></label>
+                        <div class="col-md-2">
+                            <div [busyIf]="statusppLoading">
+                                <select formControlName="statuspp" class="form-control statuspp"
+                                    [(ngModel)]="model.statuspp" jq-plugin="selectpicker" title="Select Item">
+                                    <option *ngFor="let item of itemStatusPP" [value]="item.value">
+                                        {{item.display}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button [disabled]="model.statuspp=='false' || model.statuspp==false"
+                                (click)="setupPP();addNewProduct.show(statusExistPPOL,model.projectCode);"
+                                class="btn btn-metal m-btn--pill m-btn--air m-btn--square m-btn--bolder"
+                                style="border-radius: 0.2rem !important;margin-bottom: 20px;">
+                                Setup PP Online</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                    <informationSubModul (infoChange)='infoValue($event)' [(getSelectedProject)]="selectedProject">
+                    </informationSubModul>
+                    <locationSubModul (locationChange)='locationValue($event)'
+                        (displayChange)='displaylocationValue($event)' [(getSelectedProject)]="selectedProject">
+                    </locationSubModul>
+                    <siteplanSubModul (siteplanChange)='siteplanValue($event)' [(getSelectedProject)]="selectedProject">
+                    </siteplanSubModul>
+                    <gallerySubModul [(getSelectedProject)]="selectedProject" (galleryChange)='galleryValue($event)'>
+                    </gallerySubModul>
+                    <unittypeSubModul [(getSelectedProject)]="selectedProject" (unitChange)='unitValue($event)'>
+                    </unittypeSubModul>
+                    <addNewProduct #addNewProduct (modalSave)="modalSaveProduct($event)"></addNewProduct>
+                    <!-- 
+                <ng-template *ngIf="false" pTemplate="content">
+                    <priorityPassSubModul [(getSelectedProject)]="selectedProject"></priorityPassSubModul>
+                </ng-template> -->
+                </div>
+                <div class="modal-footer m-form__actions m-form__actions--solid">
+                    <div style="margin: 0px 15px">
+                        <button type="submit"
+                            [ngClass]="saveUniversalLoading ? 'm-loader m-loader--light m-loader--right' : ''"
+                            [disabled]="(!projectForm.valid) || (clusterModel==undefined || !clusterModel.length) || (information.projectDesc==undefined) || (information.projectDesc=='') 
+                || (information.keyfeature==undefined) || (information.keyfeature=='') || (information.projectDeveloper==undefined) || (information.projectDeveloper=='') || (information.projectWebsite==undefined) || (information.projectWebsite=='') || (information.projectMarketingPhone==undefined) || (information.projectMarketingPhone=='') || (information.projectMarketingOffice==undefined) || (information.projectMarketingOffice=='')"
+                            class="btn btn-primary" (click)="save()">
+                            <span>Save Manage Project
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

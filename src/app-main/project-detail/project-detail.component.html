@@ -1,0 +1,580 @@
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style type="text/css">
+        #content.product-detail-content .info-section.primeng-datatable-container .ui-datatable table thead tr th,
+        body .ui-datatable .ui-datatable-data>tr>td,
+        body .ui-datatable .ui-datatable-scrollable-header,
+        body .ui-datatable .ui-datatable-scrollable-footer {
+            background-color: #FFF !important;
+        }
+        /* .mapsvg:not(.mapsvg-scrollpane) { overflow: initial !important; } */
+        
+        .mapsvg {
+            position: unset !important;
+        }
+        
+        .mapsvg-scrollpane {
+            position: relative !important;
+        }
+    </style>
+</head>
+
+<!-- Document Wrapper
+	============================================= -->
+<div id="wrapper" class="clearfix product-detail">
+
+    <div id="top-bar">
+        <div class="container clearfix">
+            <div class="col_half nobottommargin" style="float: right !important">
+                <!-- Top Links
+                    ============================================= -->
+                <div class="top-links">
+                    <ul id="menu_act" class="sf-js-enabled clearfix" style="touch-action: pan-y;">
+                        <li><a href="">Back to View Project</a></li>
+                        <li (click)="viewPromo()"><a style="cursor:pointer !important">View Promotion</a></li>
+                        <li *ngIf="_appSessionService.userId"><a href="app/sales-portal/dashboard">Dashboard</a></li>
+                        <li *ngIf="_appSessionService.userId && hasPermissionRegisterCustomer"><a href="app/main/registerCustomer">Customer</a></li>
+                        <li *ngIf="!_appSessionService.userId"><a href="../account/login">Sign In</a></li>
+                        <li *ngIf="_appSessionService.userId" (click)="logout()"><a style="cursor:pointer !important">Logout</a></li>
+                    </ul>
+                </div>
+                <!-- .top-links end -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Header
+        ============================================= -->
+    <header id="header" class="product-detail-header">
+        <!-- transparent-header semi-transparent full-header -->
+
+        <div id="header-wrap">
+
+            <div class="container clearfix">
+
+                <div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+                <!-- Logo
+                    ============================================= -->
+                <div id="logo">
+                    <a href="" class="standard-logo" data-dark-logo="../../assets/project/app/images/logo-dark.png"><img src="../../assets/project/app/images/online-booking/lippo-home.png" style="padding:15px"></a>
+                    <a href="" class="retina-logo" data-dark-logo="../../assets/project/app/images/logo-dark@2x.png"><img src="../../assets/project/app/images/online-booking/lippo-home.png" style="padding:15px"></a>
+                </div>
+                <!-- #logo end -->
+
+                <!-- Primary Navigation
+                    ============================================= -->
+                <nav id="primary-menu" class="sub-title">
+
+                    <ul class="one-page-menu" data-easing="easeInOutExpo" data-speed="1500">
+                        <li id="isActiveProjectInfo">
+                            <a id="info">
+                                <div>Information</div>
+                                <span>About project</span>
+                            </a>
+                        </li>
+                        <li id="isActiveLocation">
+                            <a id="location">
+                                <div>Location</div>
+                                <span>in map</span>
+                            </a>
+                        </li>
+                        <li id="isActiveSite">
+                            <a id="siteplan">
+                                <div>Site Plan</div>
+                                <span>Lets Start</span>
+                            </a>
+                        </li>
+                        <li id="isActiveGallery">
+                            <a id="gallery">
+                                <div>Gallery</div>
+                                <span>Moments</span>
+                            </a>
+                        </li>
+                        <li id="isActiveUnitType">
+                            <a id="unittype">
+                                <div>Unit Type</div>
+                                <span>Type of unit</span>
+                            </a>
+                        </li>
+                        <li class="current">
+                            <a id="diagramatic">
+                                <div>Book Now</div>
+                                <span>Book a unit</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Top Cart
+                            ============================================= -->
+                    <div id="top-cart" class="top-cart-open">
+                        <button id="top-cart-trigger" class="button button-3d button-small nomargin fright">Product <i
+                            class="icon-angle-right"></i></button>
+                        <div class="top-cart-content">
+                            <div class="top-cart-items">
+                                <div class="top-cart-item clearfix">
+                                    <div class="top-cart-item-desc">
+                                        <a href="#">Product(s) of {{detailInfo.projectName}}</a>
+                                        <span class="top-cart-item-price">All <strong>{{detailInfo.projectName}}'s product</strong>, and you can select product to get information detail.</span>
+                                    </div>
+                                </div>
+
+                                <angular2-multiselect (onSelect)="onProductSelect($event)" [data]="productsList" [(ngModel)]="productItems" [settings]="productSettings"></angular2-multiselect>
+                            </div>
+                            <div class="top-cart-action clearfix">
+                                <button (click)="onChangeDropdownProduct(true,productItems)" class="button button-3d button-small nomargin fright">Select Product
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- #top-cart end -->
+
+                </nav>
+                <!-- #primary-menu end -->
+
+            </div>
+
+        </div>
+
+    </header>
+    <!-- #header end -->
+
+    <div *ngIf="productItems.length">
+        <section id="slider" class="product-detail-slider slider-element slider-parallax swiper_wrapper full-screen clearfix">
+            <div class="slider-parallax-inner">
+                <div class="swiper-container swiper-parent">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide dark" [ngStyle]="{'background-image': 'url(' + detailInfo.projectLogo + ')'}"></div>
+                    </div>
+                </div>
+                <a id="scrolldown-info" data-offset="100" class="dark one-page-arrow"><i
+                    class="icon-angle-down infinite animated fadeInDown" style="color: white"></i></a>
+            </div>
+        </section>
+
+        <!-- Content
+            ============================================= -->
+        <section id="content" class="product-detail-content">
+            <div class="si-sticky si-sticky-right d-none d-lg-block" style="margin-top: -180px;">
+                <div *ngFor="let sosmed of detailSosmed">
+                    <a *ngIf="sosmed.isActive == true" href="{{sosmed.socialMediaLink}}" class="social-icon si-side bounceInLeft animated" data-animate="bounceInLeft">
+                        <img [src]="sosmed.socialMediaIcon">
+                        <!--<i class="icon-facebook"></i>-->
+                    </a>
+                </div>
+            </div>
+
+            <div class="content-wrap">
+                <div id="content-information" *ngIf="(isActiveDesc || isActivePropDetail || isActiveMarketing || isActiveKey) || isActiveTowerCluster" class="container clearfix bottommargin-lg">
+                    <div class="row clearfix">
+
+                        <div class="col-xl-5" *ngIf="isActiveDesc || isActivePropDetail || isActiveMarketing || isActiveKey">
+                            <div *ngIf="isActiveDesc">
+                                <div class="heading-block topmargin">
+                                    <h1>Welcome to {{detailInfo.displayName}}.</h1>
+                                </div>
+                                <p class="lead" [innerHTML]="detailInfo.projectDescription"></p>
+                            </div>
+
+                            <div *ngIf="isActivePropDetail" class="row">
+                                <div class="col-md-6">
+                                    <div class="fancy-title title-border">
+                                        <h4>Property Detail</h4>
+                                    </div>
+                                    <ul class="iconlist">
+                                        <li><i class="icon-users color"></i> <strong>Developer </strong> {{detailInfo.projectDeveloper}}
+                                        </li>
+                                        <li><i class="icon-globe color"></i> <strong>Site </strong> {{detailInfo.projectWebsite}}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div *ngIf="isActiveMarketing" class="col-md-6">
+                                    <div class="fancy-title title-border">
+                                        <h4>Marketing Office</h4>
+                                    </div>
+                                    <ul class="iconlist">
+                                        <li><i class="icon-building color"></i> <strong>Office </strong> {{detailInfo.projectMarketingOffice}}
+                                        </li>
+                                        <li><i class="icon-phone color"></i> <strong>Phone</strong> {{detailInfo.projectMarketingPhone}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div *ngIf="isActiveKey" class="row">
+                                <div class="col-md-12">
+                                    <div class="fancy-title title-border">
+                                        <h4>Key Features</h4>
+                                    </div>
+                                    <div style="margin-top: 5px">
+                                        <span *ngFor="let keyFeatures of detailKeyFeatures" class="badge badge-danger"> {{keyFeatures.keyFeatures}} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-7 col-padding" *ngIf="isActiveTowerCluster">
+
+                            <div class="row">
+                                <div class="info-section primeng-datatable-container">
+                                    <p-dataTable #dataTable [value]="primengDatatableHelper.records" [rows]="primengDatatableHelper.defaultRecordsCountPerPage" [paginator]="true" [lazy]="false" [responsive]="primengDatatableHelper.isResponsive" [(first)]="firstTower" [alwaysShowPaginator]="false"
+                                        [paginatorPosition]="none" scrollable="true">
+                                        <p-column field="" [sortable]="false">
+                                            <ng-template let-record="rowData" pTemplate="body">
+                                                <div class="col-md-12 nopadding clearfix top_tower" style="height: 70px;">
+                                                    <div data-animate="fadeInRight" class="feature-box fbox-outline fbox-effect fadeIn animated" data-animate="fadeIn" style="padding: 20px 0 0 80px !important">
+                                                        <div class="fbox-icon">
+                                                            <a (click)="detailTower(detailTowerCluster)" data-lightbox="inline">
+                                                                <i class="icon-building"></i>
+                                                            </a>
+                                                        </div>
+                                                        <h3>{{record.clusterName}} ({{record.clusterCode}})</h3>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </p-column>
+                                    </p-dataTable>
+                                    <div *ngIf="primengDatatableHelper.records > 4" class="primeng-paging-container">
+                                        <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator (onPageChange)="towerEvent($event)" [totalRecords]="primengDatatableHelper.totalRecordsCount"></p-paginator>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- End: Information Section -->
+
+                <!-- Start: Location Section -->
+
+                <div id="content-location" *ngIf="isActiveLocation" class="row clearfix common-height">
+
+                    <div *ngIf="detailInfo.longitude != 0" class="col-lg-6 center" style="padding: 0 !important">
+                        <!-- <img [src]="detailInfo.sitePlansImageUrl" alt="Image" data-animate="fadeInLeft" style="width: 100% !important;box-shadow: 0px 20px 46px -10px rgba(0,0,0,0.2);"> -->
+                        <agm-map [zoom]="15" [latitude]="detailInfo.latitude" [longitude]="detailInfo.longitude" data-animate="fadeInLeft">
+                            <agm-marker [latitude]="detailInfo.latitude" [longitude]="detailInfo.longitude"></agm-marker>
+                        </agm-map>
+                    </div>
+                    <div *ngIf="detailInfo.longitude == 0" class="col-lg-6 center" style="padding: 0 !important">
+                        <img [src]="detailInfo.locationImageUrl" alt="{{detailInfo.displayName}} Location" data-animate="fadeInLeft" style="width: 100% !important;box-shadow: 0px 20px 46px -10px rgba(0,0,0,0.2);">
+                    </div>
+
+                    <div class="col-lg-6 center col-padding" data-animate="fadeInUp">
+                        <!-- style="background-color: #F5F5F5;" -->
+                        <div>
+                            <div class="heading-block nobottomborder">
+                                <span class="before-heading color">Location.</span>
+                                <h3>Where {{detailInfo.displayName}} products are located ?</h3>
+                            </div>
+                            <p class="lead nobottommargin">You can find {{detailInfo.displayName}} on {{detailInfo.projectAddress}}.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- End: Location Section -->
+
+                <!-- Start: Siteplan Section -->
+
+                <div class="container clearfix">
+
+                    <div class="promo promo-light topmargin bottommargin">
+                        <h3>Call us today at <span>{{detailInfo.projectMarketingPhone}}</span> for more information.
+                        </h3>
+                        <span>We strive to provide Our Customers with Top Notch Support to make your shoping Experience Wonderful</span>
+
+                        <a *ngIf="_appSessionService.userId && (isOBActive == true)" (click)="bookUnit()" class="button button-dark button-xlarge button-rounded button-shadow" style="color: white;">Book an Unit</a>
+                        <a *ngIf="!_appSessionService.userId" href="../account/login" class="button button-dark button-xlarge button-rounded button-shadow" style="color: white;">Sign In</a>
+                    </div>
+
+                </div>
+
+                <div id="content-siteplan" *ngIf="isActiveSite" class="row clearfix common-height topmargin-lg bottommargin-lg">
+
+                    <div *ngIf="!isActiveGallery" class="col-lg-6 center" style="padding: 0 !important">
+                        <div id="mapsvg" [busyIf]="false" data-animate="fadeInRight" style="width: 100% !important;box-shadow: 0px 20px 46px -10px rgba(0,0,0,0.2);"></div>
+                    </div>
+
+                    <div class="col-lg-6 center col-padding" data-animate="fadeInUp">
+                        <div>
+                            <div class="heading-block nobottomborder">
+                                <span class="before-heading color">Site Plan.</span>
+                                <h3>Know interesting places around {{detailInfo.displayName}}</h3>
+
+                            </div>
+                            <p class="lead nobottommargin projectDesc-sort" [innerHTML]="detailInfo.projectDescription"></p>
+                            <a (click)="viewSiteplanDetail()" class="button button-border button-small button-rounded center" style="margin-top:10px !important; cursor: pointer !important">See {{detailInfo.displayName}}'s site plan detail</a>
+
+                            <!-- <div id="tags" class="widget clearfix">
+                                <h4 class="highlight-me">Legends</h4>
+                                <div id="mapsvg-menu-regions" class="tagcloud"></div>
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <div *ngIf="isActiveGallery" class="col-lg-6 center" style="padding: 0 !important">
+                        <div id="mapsvg" [busyIf]="false" data-animate="fadeInRight" style="width: 100% !important;box-shadow: 0px 20px 46px -10px rgba(0,0,0,0.2);"></div>
+                    </div>
+
+                </div>
+
+                <!-- End: Siteplan Section -->
+
+                <!-- Start: Gallery Section -->
+
+                <div id="content-gallery" *ngIf="isActiveGallery" class="row clearfix common-height">
+                    <div class="col-lg-6 center" style="padding: 0 !important">
+                        <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+                    </div>
+
+                    <div class="col-lg-6 center col-padding" data-animate="fadeInUp">
+                        <!-- style="background-color: #F5F5F5;" -->
+                        <div>
+                            <div class="heading-block nobottomborder">
+                                <span class="before-heading color">Gallery.</span>
+                                <h3>More pictures from {{detailInfo.displayName}} to enhance your experience in living.
+                                </h3>
+                            </div>
+                            <p class="lead nobottommargin projectDesc-sort" [innerHTML]="detailInfo.projectDescription"></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- End: Gallery Section -->
+
+                <!-- Start: Unit Type Section -->
+
+                <div id="content-unittype" *ngIf="isActiveUnitType" class="container clearfix">
+
+                    <div class="row topmargin-lg">
+                        <div class="col-lg-4">
+                            <div class="heading-block">
+                                <h2>Unit Type</h2>
+                                <span class="divcenter">Unit types that exist on several towers or clusters in the {{detailInfo.displayName}}.</span>
+                            </div>
+
+                            <label>Filter by Tower / Cluster</label>
+                            <div>
+                                <angular2-multiselect [data]="clusterList" [(ngModel)]="clusterItems" [settings]="clusterSettings" (onSelect)="onClusterSelect($event)"></angular2-multiselect>
+                            </div>
+                            <a (click)="getUnitTypeByCluster(productItems[0].id, clusterItems)" class="button button-rounded button-dark noleftmargin norightmargin nobottommargin center" style="width:100%;margin-top:10px;color: #FFF;">Browse Unit Type</a>
+                        </div>
+                        <div class="col-lg-8">
+                            <div *ngIf="spin_unit" class="loader"></div>
+
+                            <ul *ngIf="show_unit" class="clients-grid grid-4 nobottommargin clearfix">
+                                <li *ngFor="let item of detailUnitType; let i = index" data-animate="fadeInLeft" style="padding:7px">
+                                    <a (click)="detailUnit(item)" data-toggle="modal" data-target="#detail-unit" data-lightbox="inline">
+                                        <!-- style="height: 230px;" -->
+                                        <img *ngIf="item.image != null" [src]="item.image" alt="Clients" style="height:100px!important;width:100px!important;">
+                                        <img *ngIf="item.image == null" src="../../assets/project/app/images/online-booking/noimg.jpg" alt="Clients" style="height:100px!important;width:100px!important;">
+
+                                    </a>
+                                    <div class="feature-box fbox-center fbox-plain nobottomborder" style="margin-top:5px !important;">
+                                        <h3 style="font-size: 14px;text-transform: none">{{item.unitType}}
+                                            <span class="subtitle value-unit-type" style="margin-top:-3px !important;font-size:12px">
+													{{item.unitTypeDesc}}
+												</span>
+                                            <span class="subtitle value-unit-type" style="margin-top:-3px !important;font-size:12px">
+													{{filterByName}}
+												</span>
+                                        </h3>
+                                    </div>
+                                    <a *ngIf="_appSessionService.userId && (isOBActive == true)" (click)="bookNow(item)" class="button button-border button-small button-rounded center booknow-by-unitype" style="width:100%;margin-top:10px !important">Book Now</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- End: Unit Type Section -->
+
+                <!-- Start: Book Now Section -->
+
+                <div class="container clearfix">
+
+                    <div class="heading-block topmargin-lg center">
+                        <h2>What can you do for {{detailInfo.displayName}} ?</h2>
+                        <span class="divcenter">Let's book unit(s) directly through this feature or Get the unit through a faster and less complicated way using Priority Pass.</span>
+                    </div>
+
+                </div>
+
+                <div id="content-diagramatic" class="row clearfix bottommargin-sm common-height">
+
+                    <div class="col-lg-3 col-md-6 dark center col-padding" style="background-color: #FFF;">
+                    </div>
+
+                    <div data-animate="fadeInDown" class="col-lg-3 col-md-6 dark center col-padding" style="background-color: #e74c3c;">
+                        <div>
+                            <i class="i-plain i-xlarge divcenter icon-line2-graph"></i>
+                            <!-- <div class="counter counter-lined"><span data-from="3000" data-to="21500" data-refresh-interval="100" data-speed="2500"></span></div> -->
+                            <h5>Priority Pass</h5>
+                            <p>Get the unit through a faster and less complicated way, just by buying a priority pass
+                            </p>
+                            <a *ngIf="_appSessionService.userId && (isPPOlActive == true)" (click)="buyPriorityPass(detailInfo.projectCode, detailInfo.productCode)" class="button button-border button-light button-rounded button-large noleftmargin cener topmargin-sm">Buy
+                                Priority Pass</a>
+                        </div>
+                    </div>
+
+                    <div data-animate="fadeInUp" class="col-lg-3 col-md-6 dark center col-padding" style="background-color: #c0392b;">
+                        <div>
+                            <i class="i-plain i-xlarge divcenter icon-line2-layers"></i>
+                            <!-- <div class="counter counter-lined"><span data-from="10" data-to="408" data-refresh-interval="25" data-speed="3500"></span></div> -->
+                            <h5>Available Unit</h5>
+                            <p>It will show you the available units and you may book unit(s) directly through this feature.
+                            </p>
+                            <a *ngIf="_appSessionService.userId && (isOBActive == true)" (click)="bookUnit()" class="button button-border button-light button-rounded button-large noleftmargin cener topmargin-sm">Book
+                                Unit</a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 dark center col-padding" style="background-color: #FFF;">
+                    </div>
+
+                </div>
+
+                <!-- End: Book Now Section -->
+
+            </div>
+
+        </section>
+    </div>
+    <!-- #content end -->
+
+    <div class="modal fade" id="detail-unit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 100px;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img *ngIf="PopUpUnit.image" [src]="PopUpUnit.image" alt="Clients">
+                            <img style="padding:50px" *ngIf="!PopUpUnit.image" src="../../assets/project/app/images/online-booking/noimg.jpg" alt="Clients">
+                        </div>
+                        <div class="col-md-6" data-animate="fadeIn" style="background-color:#F9F9F9">
+                            <div style="padding:20px !important">
+
+                                <label style="font-size:30px">Unit Type {{PopUpUnit.unitType}}</label>
+
+                                <div class="feature-box fbox-plain nopadding nobottomborder" style="margin-top:5px !important;">
+                                    <h3 style="font-size: 20px;text-transform: none">Project<span class="subtitle" style="margin-top:-3px !important">{{project_office.projectDeveloper}}</span>
+                                    </h3>
+                                </div>
+                                <div class="feature-box fbox-plain nopadding nobottomborder" style="margin-top:5px !important;">
+                                    <h3 style="font-size: 20px;text-transform: none">Tower or Cluster<span class="subtitle" style="margin-top:-3px !important">{{PopUpUnit.clusterName}}</span></h3>
+                                </div>
+                                <div class="feature-box fbox-plain nopadding nobottomborder" style="margin-top:5px !important;">
+                                    <h3 style="font-size: 20px;text-transform: none">Unit Type<span class="subtitle" style="margin-top:-3px !important">{{PopUpUnit.unitType}}</span>
+                                    </h3>
+                                </div>
+                                <div class="feature-box fbox-plain nopadding nobottomborder" style="margin-top:5px !important;">
+                                    <h3 style="font-size: 20px;text-transform: none">Land Area<span class="subtitle" style="margin-top:-3px !important">{{PopUpUnit.area}} m<sup>2</sup></span>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="detail-tower" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        {{PopUpCluster}}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">
+                                &times;
+                            </span>
+                    </button>
+                </div>
+                <div class="modal-body" style="
+                    max-height: 400px;
+                    overflow-y: scroll;">
+                    <h4 *ngIf="spin_popup">Loading...</h4>
+                    <table *ngIf="spin_popup_tb" class="table table-bordered m-table m-table--head-bg-danger">
+                        <thead>
+                            <tr>
+                                <th class="text-center"> #</th>
+                                <th class="text-center"> Unit Type</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #eee;">
+                            <tr *ngFor="let item of dataDetailCluster; let i = index">
+                                <th class="text-center" scope="row"> {{i+1}}</th>
+                                <td class="text-center"> {{item.unitType }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer
+        ============================================= -->
+    <footer id="footer" class="dark">
+
+        <!-- Copyrights
+            ============================================= -->
+        <div id="copyrights">
+
+            <div class="container clearfix" style="color: #FFF">
+                <div>
+                    <button (click)="userManualModal.show()" class="btn btn-sm btn-outline-danger m-btn m-btn--outline-2x" style="border: 0 !important;margin-top: 3px; color: white; ">
+                        <i class="fa fa-book"></i> User Manual Engine 3
+                    </button>
+                </div>
+                <div>
+                    Copyrights &copy; 2018 All Rights Reserved by Visionet.<br>
+                    <div class="copyright-links"><a href="#" style="color: #FFF">Terms of Use</a> /
+                        <a href="#" style="color: #FFF">Privacy Policy</a></div>
+                </div>
+
+                <div>
+                    <div *ngFor="let sosmed of detailSosmed" class="fright clearfix">
+                        <a *ngIf="sosmed.isActive == true" href="{{sosmed.socialMediaLink}}" class="social-icon si-side bounceInLeft animated" data-animate="bounceInLeft">
+                            <img [src]="sosmed.socialMediaIcon">
+                            <!--<i class="icon-facebook"></i>-->
+                        </a>
+                    </div>
+
+                    <div class="clear"></div>
+
+                    <i class="icon-envelope2"></i> visionet.co.id <span class="middot">&middot;</span> <i class="icon-phone"></i>{{project_office.projectMarketingPhone}}
+                </div>
+
+            </div>
+
+        </div>
+        <!-- #copyrights end -->
+
+    </footer>
+    <!-- #footer end -->
+
+</div>
+<!-- #wrapper end -->
+
+<!-- Go To Top
+	============================================= -->
+<!-- <div id="gotoTop" class="icon-angle-up"></div> -->
+<a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>
+<userManualModal #userManualModal></userManualModal>

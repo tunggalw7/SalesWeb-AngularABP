@@ -1,0 +1,183 @@
+<style>
+    .btn-light {
+       border-color: #ebedf2!important;
+    }
+</style>
+<div [@routerTransition]>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    Booking History
+                </h3>
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="app/main/dashboard" class="m-nav__link">
+						<span class="m-nav__link-text">
+								Online Booking
+							</span>
+					</a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a class="m-nav__link">
+						<span class="m-nav__link-text">
+								Booking History
+							</span>
+					</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-6 text-right"></div>
+        </div>
+        <!-- <div class="d-flex align-items-center" style="color:red">
+                {{l("Booking History will ke ep all your booking data and also you can download your Order Confirmation Letter through this feature")}}
+        </div> -->
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <!--begin: Search Form -->
+                <div class="row">
+                    <span class="m-form__help" style="margin-bottom:20px">
+					<i class="flaticon-exclamation"></i> Booking History will keep all your booking data and also you can download your Order Confirmation Letter through this feature
+                    
+				</span>
+                </div>
+                <div class="m-form m-form--label-align-right">
+                    <div class="row m--margin-bottom-10">                        
+                        <label for="project" class="col-xl-2 col-form-label text-left">
+                            Filter By Project
+                        </label>	
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <div [busyIf]="projectLoading">
+                                    <select [(ngModel)]="projectModel" class="form-control project" [ngModelOptions]="{standalone: true}" title="Please Choose Project" jq-plugin="selectpicker" data-actions-box="true" (change)="onChangeProject(projectModel)" data-live-search="true" multiple>
+                                            <option *ngFor="let item of projectItem" [value]="item.projectID">
+                                                {{item.projectName}}
+                                            </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>   
+                                  
+                    </div>
+                    
+                    <div class="row m--margin-bottom-10">                                                     
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <input [(ngModel)]="filterText" name="filterText" class="form-control m-input" placeholder="Search Booking History .."
+                                    type="text" autofocus>
+                            </div>
+                        </div>
+                        <div class="col-xl-2">
+                            <button name="RefreshButton" class="btn btn-primary m-btn m-btn--air" (click)="getListBookingHst()" [ngClass]="refreshLoading ? 'm-loader m-loader--light m-loader--right' : ''">
+                                <i class="la la-refresh"></i> {{l('Search')}}
+                            </button>
+                        </div> 
+                    </div>
+                </div>
+                <!--begin: Datatable -->
+                <div class="align-items-center">
+                    <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                    <p-dataTable [value]="dataHst" [lazy]="false" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="primengDatatableHelper.totalRecordsCount">                   
+                            <p-column header="No" [sortable]="false" [style]="{'width':'65px', 'text-align':'center'}">
+                                <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                    <span>
+                                        {{rowIndex+1}}
+                                    </span>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="orderCode" header="Order Code" [sortable]="true">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    <span>
+                                        {{record.orderCode}}
+                                    </span>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="orderDate" header="Order Date" [sortable]="true">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    <span>
+                                        {{record.orderDate| date:'dd MMMM yyyy HH:mm'}}
+                                    </span>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="clusterName" header="Cluster Name" [sortable]="true">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    <span>
+                                        {{record.clusterName}}
+                                    </span>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="unitCode" header="Unit Code" [sortable]="true">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    <span>
+                                        {{record.unitCode}}
+                                    </span>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="unitNo" header="Unit No" [sortable]="true">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    <span>
+                                        {{record.unitNo}}
+                                    </span>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="psName" header="Customer" [sortable]="true">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    <span>
+                                        {{record.psName}}
+                                    </span>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="status" header="Status" [sortable]="true">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    <span class="label m-badge m-badge--success m-badge--wide" *ngIf="record.status == 'Fully Paid'">
+                                        Fully Paid
+                                    </span>
+                                    <span class="label m-badge m-badge--warning m-badge--wide" *ngIf="record.status == 'Outstanding'" style="color: white">
+                                        Outstanding
+                                    </span>
+                                    <span class="label m-badge m-badge--danger m-badge--wide" *ngIf="record.status == 'Cancelled'" style="color: white">
+                                        Cancelled
+                                    </span>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="action" header="Action" [sortable]="false" [style]="{'width':'100px'}">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    <div class="text-center">
+                                        <button (click)="detailBookingModal.show(record)" class="btn m-btn m-btn--hover-{{record.status == 'Outstanding' ? 'warning' : (record.status == 'Fully Paid' ? 'success' : 'danger') }} m--font-white m-btn--icon m-btn--icon-only m-btn--pill">
+											<i class="la la-edit"></i>
+										</button>
+                                    </div>
+                                </ng-template>
+                            </p-column>
+                        </p-dataTable>
+                        <div class="primeng-paging-container">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group m-form__group row" style="margin: 0px;">
+                            <span class="total-records-count">
+                                <span class="label m-badge m-badge--primary m-badge--wide">
+                                        Total ({{totalHst}})
+                                </span>
+                            </span>
+                        </div>
+                </div>
+                <!--end: Datatable -->
+            </div>
+        </div>
+    </div>
+
+    <detailBookingModal #detailBookingModal (modalSave)="getListBookingHst()"></detailBookingModal>

@@ -1,0 +1,60 @@
+<div class="m-login__signin" [@routerTransition]>
+    <form #memberForm="ngForm" class="m-login__form m-form member-form" method="post" novalidate (ngSubmit)="save()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>{{l("Member Code")}}</label>
+                    <input #nameInput (blur)="model.memberCode = trimming_fn(model.memberCode)" (mouseleave)="model.memberCode = trimming_fn(model.memberCode)"  class="form-control m-input" type="text" name="memberCode" [formControl]="model_ctrl.memberCode" [(ngModel)]="model.memberCode"
+                        required placeholder="Enter member code">
+                    <span class="m-form__help text-danger" *ngIf="model_ctrl.memberCode.hasError('required')  && model_ctrl.memberCode.touched">member code cannot be empty</span>
+                </div>
+                <div class="form-group">
+                    <label>{{l("Email")}}</label>
+                    <input #nameInput (blur)="model.email = trimming_fn(model.email)" (mouseleave)="model.email = trimming_fn(model.email)"  class="form-control m-input" type="text" name="email" [formControl]="model_ctrl.email" [(ngModel)]="model.email"
+                        required placeholder="Enter email">
+                    <span class="m-form__help text-danger" *ngIf="model_ctrl.email.hasError('email')  && model_ctrl.email.touched">email format is invalid</span><br>
+                    <span class="m-form__help text-danger" *ngIf="model_ctrl.email.hasError('required')  && model_ctrl.email.touched">email cannot be empty</span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>{{l("BirthDate")}}</label>
+                    <div class='input-group date' id=''>
+                        <input (selectedDateChange)="onSelectedBirthDate($event)" [(ngModel)]="model.birthDate" [formControl]="model_ctrl.birthDate"
+                            datePicker="datepicker" #SampleDatePicker name="SampleDatePicker" class="form-control" placeholder="Example: DD/MM/YYYY"
+                            required readonly>
+                        <!-- (focusout)="onChangeBirthDate(model.birthDate)" -->
+                        <span class="input-group-addon">
+									<i class="la la-calendar"></i>
+								</span>
+                    </div>
+                    <span class="m-form__help text-danger" *ngIf="invalidBirthdate">Birth date should not be greater than today</span>
+                    <span class="m-form__help text-danger" *ngIf="model_ctrl.birthDate.hasError('required')  && model_ctrl.birthDate.touched">birthdate cannot be empty</span>
+                </div>
+                <div class="form-group">
+                    <label>{{l("Password")}}</label>
+                    <input #nameInput class="form-control m-input" type="password" name="password" [(ngModel)]="model.password" required [formControl]="model_ctrl.password"
+                        placeholder="Enter password">
+                    <span class="m-form__help text-danger" *ngIf="model_ctrl.password.hasError('required')  && model_ctrl.password.touched">password cannot be empty</span>
+                </div>
+                <div class="form-group">
+                    <label>{{l("Confirm Password")}}</label>
+                    <input #nameInput class="form-control m-input" type="password" name="confirmPassword" [(ngModel)]="model.confirmPassword"
+                        required [formControl]="model_ctrl.confirmPassword" placeholder="Enter confirm password">
+                    <span class="m-form__help text-danger" *ngIf="model_ctrl.confirmPassword.hasError('required')  && model_ctrl.confirmPassword.touched">confirm password cannot be empty</span>
+                    <span class="m-form__help text-danger" *ngIf="model.confirmPassword!=model.password">password and confirm password did not match</span>
+                </div>
+            </div>
+        </div>
+        <div class="m-login__form-action">
+            <button routerLink="/account/login" type="button" class="btn m-btn--pill btn-outline-danger m-btn m-btn--custom m-btn--bolder m-btn--uppercase"
+                style="font-size: 12px !important">
+            {{l("Back")}}
+            </button>
+            <button type="submit" class="btn m-btn--pill btn-danger m-btn m-btn--custom m-btn--bolder m-btn--uppercase" [disabled]="invalidBirthdate || model.memberCode===undefined || model.memberCode==='' || model.email===undefined || model.email==='' || model.birthDate===undefined || model.birthDate==='' || model.password===undefined || model.password==='' || model.confirmPassword===undefined || model.confirmPassword==='' || model_ctrl.email.hasError('email') "
+                [ngClass]="memberLoading ? 'm-loader m-loader--light m-loader--right' : ''">
+            {{l("Activate Member")}}
+            </button>
+        </div>
+    </form>
+</div>

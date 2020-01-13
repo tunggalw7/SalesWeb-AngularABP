@@ -1,0 +1,98 @@
+<head>
+    <!-- <meta name="viewport" content="width=980"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<!-- Document Wrapper
+    ============================================= -->
+<img src="../../assets/project/app/images/online-booking/logo-lippo-homes-corner-new.png" class="logo-corner logo-corner-hide">
+
+<!-- Header
+        ============================================= -->
+<header id="header" class="product-list transparent-header semi-transparent full-header">
+    <!-- transparent-header semi-transparent full-header -->
+
+    <div id="header-wrap">
+
+        <div class="container clearfix">
+
+            <div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+            <!-- Logo
+                ============================================= -->
+            <div id="logo" class="logo-hide hide">
+                <a href="" class="standard-logo" data-dark-logo="../../assets/project/app/images/logo-dark.png"><img
+                        src="../../assets/project/app/images/online-booking/lippo-home.png" style="padding:15px"></a>
+                <a href="" class="retina-logo" data-dark-logo="../../assets/project/app/images/logo-dark@2x.png"><img
+                        src="../../assets/project/app/images/online-booking/lippo-home.png" style="padding:15px"></a>
+            </div>
+            <!-- #logo end -->
+
+            <!-- Primary Navigation
+                ============================================= -->
+            <nav id="primary-menu" class="style-2 sub-title">
+
+                <ul class="one-page-menu" data-easing="easeInOutExpo" data-speed="1500">
+                    <li *ngIf="_appSessionService.userId">
+                        <a href="app/sales-portal/dashboard">
+                            <div>Dashboard</div><span>For other activities</span>
+                        </a>
+                    </li>
+                    <li *ngIf="_appSessionService.userId&&hasPermissionCustomer">
+                        <a href="app/sales-portal/customer">
+                            <div>Customer</div><span>in List</span>
+                        </a>
+                    </li>
+                    <li *ngIf="!_appSessionService.userId">
+                        <a href="account/login" class="current-li">
+                            <div>Sign In</div><span>Let's Start</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="account/member-activation">
+                            <div>Member Activation</div><span>Activate Your Account</span>
+                        </a>
+                    </li>
+
+                    <li *ngIf="_appSessionService.userId" (click)="logout()">
+                        <a style="cursor: pointer !important">
+                            <div>Logout</div><span>See you again</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- #primary-menu end -->
+
+        </div>
+
+    </div>
+
+</header>
+
+<section id="slider" class="product-list slider-element slider-parallax swiper_wrapper full-screen clearfix" attr.data-autoplay="7000" attr.data-loop="true" attr.data-speed="650" attr.data-progress="true">
+    <div class="slider-parallax-inner">
+        <div class="swiper-container swiper-parent">
+            <div class="swiper-wrapper">
+                <div *ngFor="let item of data_projects; let i = index" class="swiper-slide dark" [ngStyle]="{'background-image': 'url(' + (item.productLogo) + ')'}">
+
+                    <div class="promo promo-custom promo-dark promo-full bottommargin-lg header-stick notopborder">
+                        <div class="container clearfix">
+                            <h3 style="font-size: 35px;" [innerHTML]="item.productName"></h3>
+                            <span style="margin-top: 0;font-size: 18px;">We strive to provide Our Customers with Top
+                                Notch Support to make your shoping Experience Wonderful</span>
+                            <a (click)="gotoProjectDetail(item.projectID,item.productID)" data-animate="tada" class="button button-dark button-red-custom button-xlarge button-rounded tada animated"><span>Read
+                                    More</span> &nbsp; <i class="icon-angle-right" style="top: 0.5px;"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-arrow-left"><i class="icon-angle-left"></i></div>
+            <div class="slider-arrow-right"><i class="icon-angle-right"></i></div>
+            <div class="slide-number">
+                <div class="slide-number-current">1</div>
+                <span>/</span>
+                <div class="slide-number-total" style="left: 22px;">3</div>
+            </div>
+        </div>
+    </div>
+</section>

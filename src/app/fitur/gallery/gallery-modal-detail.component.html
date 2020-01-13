@@ -1,0 +1,59 @@
+<div bsModal #detailGalleryModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detailSiteplanModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg" role="document">
+        <form #exampleForm="ngForm" [formGroup]="galleryForm" role="form" class="m-form m-form--state" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        {{title}} Gallery
+                    </h5>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+						<span aria-hidden="true">
+                        &times;
+                    </span>
+					</button>
+                </div>
+                <div class="modal-body">
+                    <div style="padding:0px 20px">
+                        <div class="form-group m-form__group row">
+                            <label for="address" class="col-sm-2 col-form-label">Alt Name<i class="text-danger">*</i></label>
+                            <div class="col-sm-10">
+                                <input [formControl]="model_ctrl.imageAlt" [(ngModel)]="model.imageAlt" class="form-control m-input" type="text">
+                                <span class="text-danger" *ngIf="model_ctrl.imageAlt.hasError('required') && model_ctrl.imageAlt.touched">Image Alt cannot be empty</span>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label for="address" class="col-sm-2 col-form-label">Image</label>
+                            <div class="col-sm-4">
+                                <input type="file" class="form-control" fileUpload formControlName="images" [options]="optionsFile" (pictureUrl)="pictureUrl($event)"
+                                    (onAfterFileUpload)="imgUploaded($event)" name="file" />
+                                <span style="color:  red;" class="m-form__help">
+                                        You can upload JPG/JPEG/PNG file, with maximum file size 1 MB.
+                                </span>
+                                <div class="col-2 row" *ngIf="uploadedFileNamePastSrc !== '-' || uploadedFileName !== '-'">
+                                    <img style="max-height:100px;width:auto" src="{{uploadedFileNamePastSrc}}" />
+                                </div>           
+                                <div class="row" style="margin-top:5px;margin-bottom:5px" class="col-2 row" *ngIf="uploadedFileNamePastSrc != null || uploadedFileName !== null">
+                                        <button (click)="delImage()" class="btn btn-danger" style="padding:5px"><i class="fa fa-trash"></i>Remove File</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label for="address" class="col-sm-2 col-form-label">Sort No<i class="text-danger">*</i></label>
+                            <div class="col-sm-10">
+                                <input [formControl]="model_ctrl.sortNo" [(ngModel)]="model.sortNo" class="form-control m-input" min="0" type="number">
+                                <span class="text-danger" *ngIf="model_ctrl.sortNo.hasError('required') && model_ctrl.sortNo.touched">Sort No cannot be empty</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-form__actions m-form__actions--solid">
+                    <button type="button" class="btn btn-metal" (click)="close()">
+                    {{l("Cancel")}}
+                </button>
+                    <button type="submit" [disabled]="!galleryForm.valid" (click)="onSave(model)" class="btn btn-primary">{{title}} Image Gallery</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

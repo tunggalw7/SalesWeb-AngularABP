@@ -1,0 +1,12 @@
+
+i.text-danger {
+    font-size: 11px;
+}
+.m-checkbox{    
+    margin-top: 5px!important;
+    margin-bottom: 0px!important;
+}
+
+label.col-form-label {
+    font-weight: 400;
+}

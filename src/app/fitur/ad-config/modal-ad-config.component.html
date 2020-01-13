@@ -1,0 +1,81 @@
+<div bsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal"
+    aria-hidden="true" [config]="{backdrop: 'static',keyboard: false}">
+    <div class="modal-dialog modal-lg" style="width:80%">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <span class="caption-subject font-green" *ngIf="isEdit">Edit Setting Login</span>
+                    <span class="caption-subject font-green" *ngIf="isAdd">Add Setting Login</span>
+                </h5>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" [busyIf]="saving">
+
+                <form [formGroup]="batchForm" role="form" novalidate>
+                    <div class="row" style="
+    margin: 10px;
+    margin-top: 30px;">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Domain
+                                    <sup class="m--font-danger">*</sup>
+                                </label>
+                                <div class="col-md-9">
+                                    <input [(ngModel)]="model.domain" formControlName="domain" class="form-control m-input" type="text" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">IP/ Hostname
+                                    <sup class="m--font-danger">*</sup>
+                                </label>
+                                <div class="col-md-9">
+                                    <input [(ngModel)]="model.ip" class="form-control m-input" formControlName="ip" type="text" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Username
+                                    <sup class="m--font-danger">*</sup>
+                                </label>
+                                <div class="col-md-9">
+                                    <input [(ngModel)]="model.username" class="form-control m-input" formControlName="username" type="text" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Password
+                                    <sup class="m--font-danger">*</sup>
+                                </label>
+                                <div class="col-md-9">
+                                    <input [(ngModel)]="model.password" class="form-control m-input" type="password" formControlName="password" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer m-form__actions m-form__actions--solid">
+                <button [buttonBusy]="saving" [disabled]="saving" [disabled]="(!batchForm.valid)" class="btn btn-primary"
+                    (click)="test()">
+                    <span>Test
+                    </span>
+                </button>
+                <button [buttonBusy]="saving" [disabled]="saving" type="submit" [disabled]="(!batchForm.valid)" class="btn btn-primary"
+                    (click)="save()">
+                    <span>Save
+                    </span>
+                </button>
+                <button type="button" class="btn btn-metal" (click)="close()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

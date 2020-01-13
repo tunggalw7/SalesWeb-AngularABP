@@ -1,0 +1,4 @@
+.primeng-datatable-container .primeng-paging-container .ui-paginator span a.ui-state-active {
+    background: #f4516c !important;
+    color: #fff;
+}

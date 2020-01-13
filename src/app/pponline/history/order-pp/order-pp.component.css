@@ -1,0 +1,18 @@
+.dropdown-menu > li > a.active {
+    background: #f4f5f8;
+    color: #000000;
+    text-decoration: none;
+}
+
+.modal-size2{
+    max-width: 921px;
+}
+
+.modal .modal-content .modal-header .modal-title {
+    color: #e6e8f1;
+    font-size: 22px;
+}
+
+.modal-header{
+    background-color: #f4516c;
+}

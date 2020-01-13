@@ -1,0 +1,123 @@
+<style>
+    .red {
+        box-shadow: 0px 0px 2px 2px red;
+    }
+</style>
+<div bsModal #modal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true"
+    [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form [formGroup]="setupOBForm" role="form" novalidate class="m-form m-form--fit m-form--label-align-right form-validation">
+                <div class="modal-header custom">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        {{action}} Tower/Cluster
+                    </h5>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                </div>
+
+                <div class="modal-body"> <!--  [busyIf]="towerLoading"  -->
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-6">
+                            <label for="projectName">
+                                Project Name
+                            </label>
+                            <div class="m-input-icon">
+                                <input disabled formControlName="projectName"  [(ngModel)]="model.projectName" class="form-control m-input" type="text">  
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="projectCode">
+                                Require Priority Pass?
+                            </label>     
+                            <div class="m-input-icon m-input-icon--left">
+                                <label class="m-checkbox" style="margin-top: 10px;">
+                                    <input formControlName="requirePP" [(ngModel)]="model.requirePP"  type="checkbox" checked="checked"> Yes
+                                    <span></span>
+                                </label>  
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-6">
+                            <label for="projectName">
+                                Tower/Cluster Code
+                            </label>
+                            <div class="m-input-icon m-input-icon--left">
+                                <input disabled formControlName="towerCode"  [(ngModel)]="model.towerCode" class="form-control m-input" type="text">
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                <span>
+                                    <i class="la la-building-o"></i>
+                                </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="projectCode">
+                               Tower/Cluster Name
+                            </label>     
+                            <div class="m-input-icon m-input-icon--left">
+                                <input disabled formControlName="towerName"  [(ngModel)]="model.towerName" class="form-control m-input" type="text">
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                <span>
+                                    <i class="la la-building-o"></i>
+                                </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-6">
+                            <label for="activeFrom">
+                                Active Start Date<i class="text-danger">*</i>
+                            </label>
+                            <div class="m-input-icon m-input-icon--left">
+                                <input style="background-color: #fff!important;" formControlName="activeStart" id="activeStart" (selectedDateChange)="onSelectedDate($event, 'start')" [(ngModel)]="model.activeStart" 
+                                    datePicker="datepicker" #ActiveFromDatePicker name="ActiveFromDatePicker" class="form-control" placeholder="Example: MM/DD/YYYY"
+                                    required readonly>
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                <span>
+                                    <i class="la la-calendar"></i>
+                                </span>
+                                </span>
+                            </div>
+                            <span style="color:red" class="m-form__help">
+                                Please enter active start date
+                            </span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="activeEnd">
+                                Active End Date
+                            </label>
+                            <div class="m-input-icon m-input-icon--left">
+                                <input style="background-color: #fff!important;" formControlName="activeEnd" id="activeEnd" (selectedDateChange)="onSelectedDate($event, 'end')" [(ngModel)]="model.activeEnd" 
+                                    datePicker="datepicker" #ActiveToDatePicker name="ActiveToDatePicker" class="form-control" placeholder="Example: MM/DD/YYYY"
+                                    readonly>
+
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                <span>
+                                    <i class="la la-calendar"></i>
+                                </span>
+                                </span>
+                            </div>
+                            <span class="m-form__help text-danger" *ngIf="invalidBirthdate">Active End Date should not be greater than Active Start Date</span>
+                        </div>
+                    </div> 
+                </div>
+                <div class="modal-footer m-form__actions m-form__actions--solid">
+                    <button [disabled]="saving" type="button" class="btn btn-metal" (click)="close()">
+                        {{l("Cancel")}}
+                    </button>
+                    <button type="submit" [disabled]="!setupOBForm.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" class="btn btn-primary"
+                        (click)="save()">
+                        <span>Save
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

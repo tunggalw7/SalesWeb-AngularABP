@@ -1,0 +1,80 @@
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style type="text/css">
+        .mapsvg {
+            position: unset !important;
+        }
+        
+        .mapsvg-scrollpane {
+            position: relative !important;
+        }
+    </style>
+</head>
+
+<div id="mapsvg" style="width: 100% !important;height: 100% !important;overflow-y: scroll !important;"></div>
+
+<!-- Document Wrapper
+	============================================= -->
+<!-- <div id="wrapper" class="clearfix product-detail">
+
+    <div id="top-bar">
+        <div class="container clearfix">
+            <div class="col_half nobottommargin" style="float: right !important">
+                <div class="top-links">
+                    <ul id="menu_act" class="sf-js-enabled clearfix" style="touch-action: pan-y;">
+                        <li><a href="">Back to View Project</a></li>
+                        <li *ngIf="_appSessionService.userId"><a href="app/sales-portal/dashboard">Dashboard</a></li>
+                        <li *ngIf="_appSessionService.userId && hasPermissionRegisterCustomer"><a href="app/main/registerCustomer">Customer</a></li>
+                        <li *ngIf="!_appSessionService.userId"><a href="../account/login">Sign In</a></li>
+                        <li *ngIf="_appSessionService.userId"><a href="javascript:void(0)" (click)="logout()">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+
+        <section id="content" class="product-detail-content">
+
+            <div id="mapsvg" class="content-wrap" style="width: 100% !important;">
+
+
+                <div id="content-siteplan" *ngIf="isActiveSite" class="row clearfix common-height topmargin-lg bottommargin-lg">
+                    <div class="col-lg-6 center" style="padding: 0 !important">
+                        <div id="mapsvg" [busyIf]="false" data-animate="fadeInRight" style="width: 100% !important;box-shadow: 0px 20px 46px -10px rgba(0,0,0,0.2);"></div>
+                    </div>
+
+                    <div class="col-lg-6 center col-padding" data-animate="fadeInUp">
+                        <div>
+                            <div class="heading-block nobottomborder">
+                                <span class="before-heading color">Site Plan.</span>
+                                <h3>Know interesting places around {{detailInfo.displayName}}</h3>
+
+                            </div>
+                            <p class="lead nobottommargin projectDesc-sort" [innerHTML]="detailInfo.projectDescription"></p>
+                            <a href="/siteplan-detail/4/2" class="button button-border button-small button-rounded center" style="margin-top:10px !important">See {{detailInfo.displayName}}'s site plan detail</a>
+
+                            <div id="tags" class="widget clearfix">
+                                <h4 class="highlight-me">Legends</h4>
+                                <div id="mapsvg-menu-regions" class="tagcloud"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </section>
+    </div>
+
+</div> -->
+<!-- #wrapper end -->
+
+<!-- Go To Top
+	============================================= -->
+<!-- <div id="gotoTop" class="icon-angle-up"></div> -->
+<a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>

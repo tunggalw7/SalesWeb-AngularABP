@@ -1,0 +1,74 @@
+<div bsModal #modal="bs-modal" class="modal fade" tabindex="1" role="dialog" aria-labelledby="createOrEditModal"
+     aria-hidden="true"
+     [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top: 10%">
+            <div class="modal-header" style="padding-bottom: 0;background-color: inherit;">
+                <div class="row">
+                    <div class="col-lg-10">
+                        <div class="m-portlet__head-title">
+                            <h3 class="m-portlet__head-text">
+                                User Manual
+                            </h3>
+                            <p style="font-size: 13px">
+                                The User Manual contains all essential information for the user to make full use of the
+                                information system. This manual includes a description of the system functions and
+                                capabilities, contingencies and alternate modes of operation, and step-by-step
+                                procedures for system access and use.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 text-right">
+                        <button
+                            class="btn btn-metal m-btn m-btn--air m-btn--uppercase m--margin-top-30 m--margin-bottom-30"
+                            (click)="close()">Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                    <p-dataTable #dataTable [value]="primengDatatableHelper.records"
+                                 [rows]="primengDatatableHelper.defaultRecordsCountPerPage"
+                                 [paginator]="true" paginatorPosition="none" [(first)]="first" [lazy]="false"
+                                 emptyMessage="{{l('NoData')}}"
+                                 [scrollable]="true" [responsive]="primengDatatableHelper.isResponsive">
+                        <p-column field="no" header="No" [sortable]="false"
+                                  [style]="{'font-size':'0.9em','text-align':'center','width':'100px'}">
+                            <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                <div class="text-center">
+                                    {{rowIndex+1}}
+                                </div>
+                            </ng-template>
+                        </p-column>
+                        <p-column field="app" header="User Manual" [sortable]="true"
+                                  [style]="{'font-size':'0.9em','text-align':'center'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.manualName}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="" header="Download" [sortable]="false"
+                                  [style]="{'font-size':'0.9em','text-align':'center','width':'150px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                <button title="Download PDF" data-toggle="m-tooltip" (click)="download(record.manualLink)"
+                                        class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only m-btn--pill">
+                                    <i class="fa fa-download"></i>
+                                </button>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                    <div class="primeng-paging-container">
+                        <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator
+                                     (onPageChange)="taskListEvent($event)"
+                                     [totalRecords]="primengDatatableHelper.totalRecordsCount"></p-paginator>
+                        <span class="total-records-count">
+                            <span class="label m-badge m-badge--primary m-badge--wide">
+                                Total ({{primengDatatableHelper.totalRecordsCount}})
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

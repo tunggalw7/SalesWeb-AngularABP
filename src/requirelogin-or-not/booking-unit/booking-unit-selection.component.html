@@ -1,0 +1,286 @@
+<div [@routerTransition]>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    Booking Unit
+                </h3>
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="" class="m-nav__link m-nav__link--icon">
+                            <i class="m-nav__link-icon la la-home"></i>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="app/main/dashboard" class="m-nav__link">
+						<span class="m-nav__link-text">
+				Online Booking
+				</span>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="app/main/cart" class="m-nav__link">
+						<span class="m-nav__link-text">
+				Cart
+				</span>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a class="m-nav__link">
+						<span class="m-nav__link-text">
+				Unit Selection
+				</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div></div>
+        </div>
+    </div>
+    <!-- END: Subheader -->
+    <div class="m-content">
+        <ol class="progress-track">
+            <li class="progress-done">
+                <div class="icon-wrap">
+                    <svg class="icon-state icon-check-mark">
+                        <use xlink:href="#icon-check-mark"></use>
+                    </svg>
+                    <svg class="icon-state icon-down-arrow">
+                        <use xlink:href="#icon-down-arrow"></use>
+                    </svg>
+                </div>
+                <span class="progress-text">Unit Selection</span>
+            </li>
+            <li class="progress-todo">
+                <div class="icon-wrap">
+                    <svg class="icon-state icon-check-mark">
+                        <use xlink:href="#icon-check-mark"></use>
+                    </svg>
+                    <svg class="icon-state icon-down-arrow">
+                        <use xlink:href="#icon-down-arrow"></use>
+                    </svg>
+                </div>
+                <span class="progress-text">Verify Customer</span>
+            </li>
+            <li class="progress-todo">
+                <div class="icon-wrap">
+                    <svg class="icon-state icon-check-mark">
+                        <use xlink:href="#icon-check-mark"></use>
+                    </svg>
+                    <svg class="icon-state icon-down-arrow">
+                        <use xlink:href="#icon-down-arrow"></use>
+                    </svg>
+                </div>
+                <span class="progress-text">Confirm Order</span>
+            </li>
+        </ol>
+        <div class="m-portlet book_unit customForm">
+            <div id="data-unit-selection" class="m-portlet__body">
+                <div class="m-form m-form--label-align-right m--margin-bottom-20">
+                    <div class="row align-items-center">
+                        <div class="col-xl-8 order-2 order-xl-1">
+                            <div class="form-group m-form__group row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="form-group m-form__group">
+										<span class="m-form__help" style="margin-bottom:10px">
+										<i class="flaticon-exclamation"></i> You should complete booking data through several steps
+
+									</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title" style="margin-bottom:10px">
+                        <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                            Unit Selection
+                        </h3>
+                        <small style="color:#95a5a6;font-size:14px">
+                            Please complete unit selection information below
+                            <br>
+                            <code>(Renovation, Term of Payment and others)</code>
+                        </small>
+                    </div>
+                </div>
+                <form [formGroup]="selectionForm" (ngSubmit)="checkAuthenticatedUser()">
+                    <div class="row m-portlet__body">
+                        <div class="col-md-2 col-xs-12" style="text-align:center">
+                            <img *ngIf="unitImg" class="unit_select" [src]="unitImg" width="100%">
+                            <img *ngIf="!unitImg" src="../../assets/project/app/images/online-booking/noimg.jpg"
+                                 alt="Clients" style="height:200px">
+                        </div>
+                        <div class="col-md-10 col-xs-12">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-5">
+                                            <label>Project</label>
+                                        </div>
+                                        <div class="col-7">
+                                            <label>{{view.projectName}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-5">
+                                            <label>Unit Code</label>
+                                        </div>
+                                        <div class="col-7">
+                                            <label>{{params_url.unitCode}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-5">
+                                            <label>Tower / Cluster </label>
+                                        </div>
+                                        <div class="col-7">
+                                            <label>{{view.clusterName}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-5">
+                                            <label>Unit No</label>
+                                        </div>
+                                        <div class="col-7">
+                                            <label>{{params_url.unitNo}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-5">
+                                            <label for="rennovation">Renovation <i class="text-danger">*</i></label>
+                                        </div>
+                                        <div class="col-7">
+                                            <div [busyIf]="rennovationLoading">
+                                                <select 
+                                                        class="form-control renovation" 
+                                                        (ngModelChange)="onchangerenov($event)"
+                                                        [formControl]="model_ctrl.renovation"
+                                                        [(ngModel)]="renov" jq-plugin="selectpicker"
+                                                        required>
+                                                    <option *ngFor="let renovation of renovations" [ngValue]="renovation.renovationID" [selected]="renovation.renovationCode == 'GO'">
+                                                        {{renovation.renovationName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <span class="text-danger"
+                                                  *ngIf="model_ctrl.renovation.hasError('required')  && model_ctrl.renovation.touched">renovation cannot be empty</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-5">
+                                            <label for="termOfPayment">Term of Payment <i
+                                                class="text-danger">*</i></label>
+                                        </div>
+                                        <div class="col-7">
+                                            <select class="form-control term" title="Choose your term of payment"
+                                                    [formControl]="model_ctrl.term"
+                                                    (ngModelChange)="onchangeterm($event)"
+                                                    [(ngModel)]="_model_form.term" jq-plugin="selectpicker" required>
+                                                <option *ngFor="let term of terms" [ngValue]="term">{{term.termName}}</option>
+                                            </select>
+                                            <span class="text-danger"
+                                                  *ngIf="model_ctrl.term.hasError('required')  && model_ctrl.term.touched">term of payment cannot be empty</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-5">
+                                            <label for="exampleInputPassword1">Price</label>
+                                        </div>
+                                        <div class="col-7">
+                                            <!-- {{prices | round | currency:'Rp. '}} -->
+                                            {{prices | currency:'Rp. '}}
+                                            <!-- {{(prices*10/11) | currency:'Rp. ':true:'0.0-0'}} -->
+                                        </div>
+                                    </div>
+                                        
+                                    <div class="form-group m-form__group row">
+                                            <div class="col-12">
+                                                <span *ngIf="PpnPreview == false" class="text-danger" style="font-weight:500!important; font-style: italic">Exlude VAT (PPN)</span>
+                                                <span *ngIf="PpnPreview == true" class="text-danger" style="font-weight:500!important; font-style: italic">Include VAT (PPN)</span>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7"
+                                     *ngIf="showBank">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-5">
+                                            <label>Bank <i class="text-danger">*</i></label>
+                                        </div>
+                                        <div class="col-7">
+                                            <p-multiSelect class="bankList" [options]="bankList" [(ngModel)]="modelBankList" 
+                                                [style]="{'width': '100%'}" [panelStyle]="{minWidth:'100%'}"
+                                                (onChange)="myMethod($event)" [formControl]="model_ctrl.bank">
+                                                <ng-template let-bank pTemplate="item">
+                                                        {{bank.label}}
+                                                    <!-- <img src="assets/project/app/images/online-booking/noimg.jpg" style="width:24px;display:inline-block;vertical-align:middle"/> {{bank.label}} -->
+                                                </ng-template>
+                                            </p-multiSelect>
+                                                <!-- <select class="form-control bankList1" title="Choose your Bank"
+                                                        [formControl]="model_ctrl.bank1"
+                                                    jq-plugin="selectpicker" [(ngModel)]="modelBankList"
+                                                    (ngModelChange)="onchangeBankList($event)">
+                                                <option *ngFor="let _bankList of bankList"
+                                                        [value]="_bankList.bankID">{{_bankList.bankName}}
+                                                </option>
+                                            </select> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-7"
+                                     *ngIf="changeBankList.termID == 3881 || changeBankList.termName == 'KPA'">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-5">
+                                            <label>Bank 1 <i class="text-danger">*</i></label>
+                                        </div>
+                                        <div class="col-7">
+                                            <select class="form-control bankList1" title="Choose your Bank"
+                                                    [formControl]="model_ctrl.bank1"
+                                                    jq-plugin="selectpicker" [(ngModel)]="modelBankList"
+                                                    (ngModelChange)="onchangeBankList($event)">
+                                                <option *ngFor="let _bankList of bankList"
+                                                        [value]="_bankList.bankID">{{_bankList.bankName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit text-right">
+                        <div class="m-form__actions" style="margin-top: 10px">
+                            <button id="start_timer" [disabled]="!selectionForm.valid || !button_status"
+                                    type="submit"
+                                    [ngClass]="unitLoading ? 'm-loader m-loader--light m-loader--right' : ''"
+                                    class="btn btn-danger m-btn m-btn--air m-btn--uppercase">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

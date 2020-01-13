@@ -1,0 +1,159 @@
+<div class="m-subheader ">
+		<div class="d-flex align-items-center">
+			<div class="mr-auto">
+				<h3 class="m-subheader__title m-subheader__title--separator">
+					Profile
+				</h3>
+				<span class="m-section__sub">
+					All the work you have to finish in the near future
+				</span>
+			</div>
+			<div>
+				<span class="m-subheader__daterange" id="m_dashboard_daterangepicker">
+					<span class="m-subheader__daterange-label">
+						<span class="m-subheader__daterange-date m--font-brand">Scheme</span>
+						<span class="m-subheader__daterange-title">{{scmCode}}</span>
+					</span>
+				</span>
+			</div>
+		</div>
+	</div>
+	<!-- END: Subheader -->
+	<div class="m-content">
+		<div class="m-portlet">
+			<div class="m-portlet__body">
+			
+				<div class="m-portlet">
+					<div class="m-portlet__body">
+						<div style="margin-bottom:20px">
+							<div class="m-portlet__head-caption">
+								<div class="row">
+									<div class="col-lg-7">
+										<div class="m-portlet__head-title" style="margin-bottom:10px">
+											<h3 class="m-portlet__head-text">
+												Tree Member
+											</h3>
+											<p class="m-form__help" style="line-height:1.2rem;color: #7b7e8a;font-weight: 300;font-size: 0.85rem;">
+												Show Member Tree
+											</p>
+										</div>
+									</div>
+									<div class="col-lg-3 text-right">
+									</div>
+								</div>
+							</div>
+							<!-- <div id="data">
+								<ul>
+									<li> satu </li>
+									<li> dua </li>
+									<li> file
+										<ul>
+											<li> anak 1 </li>
+											<li> anak 2 </li>
+										</ul>
+									</li>
+							
+									<li> tiga </li>
+								</ul>
+							</div> -->
+							<div style="padding:0px 20px">
+								<div class="css-treeview">
+									<ul>
+										<li>
+											<i class="fa fa-male m--font-warning "></i>
+											<input type="checkbox" id="item-0" />
+											<label for="item-0">{{parents}} (Parent)</label>
+											<ul>
+												<li *ngFor="let child of _childs">
+													<i class="fa fa-male m--font-warning"></i>
+													<input type="checkbox" id="item-0-0" />
+													<label for="item-0-0">{{child.memberCode}} (Child)</label>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+				<div class="m-portlet__head-caption">
+					<div class="row">
+						<div class="col-lg-7">
+							<div class="m-portlet__head-title" style="margin-bottom:10px">
+								<h3 class="m-portlet__head-text">
+									My Product
+								</h3>
+								<p class="m-form__help" style="line-height:1.2rem;color: #7b7e8a;font-weight: 300;font-size: 0.85rem;">
+									The entire product being handled and managed.
+								</p>
+							</div>
+						</div>
+						<div class="col-lg-3 text-right">
+						</div>
+					</div>
+				</div>
+	
+				<div class="row">
+					<div class="col-xl-4" *ngFor="let product of _products">
+						<!--begin:: Widgets/Blog-->
+						
+						<div class="m-portlet m-portlet--bordered-semi m-portlet--full-height" style="box-shadow: 0px 5px 15px 5px rgba(113, 106, 202, 0.08)">
+							<div class="m-portlet__head m-portlet__head--fit">
+								<div class="m-portlet__head-caption">
+									<div class="m-portlet__head-action">
+										<button type="button" class="btn btn-sm m-btn--pill  btn-brand">
+											New
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class="m-portlet__body">
+								<div class="m-widget19">
+									<div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height-: 286px">
+										<img src="assets/app/media/img//bg/other-project/{{product.projectName}}.png" alt="">
+										 <h3 class="m-widget19__title m--font-light">
+											{{product.projectName}}
+										 </h3> 
+										<div class="m-widget19__shadow"></div>
+									</div>
+									<div class="m-widget19__content">
+										<div class="m-widget19__header">
+											<div class="m-widget19__info" style="padding-left:0 !important">
+												<span class="m-widget19__username">
+													Mapanget, Manado
+												</span>
+												<br>
+												<span class="m-widget19__time">
+													(0431) 721.0180
+												</span>
+											</div>
+											<div class="m-widget19__stats">
+												<span class="m-widget19__number m--font-brand">
+													18
+												</span>
+												<span class="m-widget19__comment">
+													Customer(s)
+												</span>
+											</div>
+										</div>
+										<div class="m-widget19__body" style="text-align:left !important">
+											Holland Village luxurious apartment will be a lifestyle choice based on convenient access to great shops and diners, proximity to work, and an energy that is definitely urban.
+										</div>
+									</div>
+									<div class="m-widget19__action">
+										<button type="button" class="btn m-btn--pill btn-secondary m-btn m-btn--air m-btn--custom" style="width: 100%;">
+											Read More
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

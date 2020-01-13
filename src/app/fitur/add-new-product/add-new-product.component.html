@@ -1,0 +1,373 @@
+<div bsModal #addNewProduct="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="detailBookingModal"
+     aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg" role="document" style="max-width: 1200px;">
+        <!-- END: Subheader -->
+        <div class="m-content">
+            <form [formGroup]="projectForm" role="form" novalidate>
+                <div class="m-portlet">
+                    <div class="modal-header" style="padding: 20px 40px;
+                    background-color: #e6e6e6 !important;
+                    color: #000;">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Setup PP Online
+                        </h5>
+                        <button style="cursor:pointer" type="button" class="close" (click)="close()" aria-label="Close">
+                            <span aria-hidden="true" style="
+                            font-size: 28px;">
+                            &times;
+                        </span>
+                        </button>
+                    </div>
+                    <div class="m-portlet__head" style="padding-top: 20px;">
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Product Code<i
+                                class="text-danger">*</i></label>
+                            <div class="col-md-4">
+                                <input [(ngModel)]="model.productCode" formControlName="productCode"
+                                       class="form-control m-input" type="text" placeholder="Enter product code"
+                                       disabled>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Product Name<i
+                                class="text-danger">*</i></label>
+                            <div class="col-md-4">
+                                <input [(ngModel)]="model.productName" formControlName="productName"
+                                       class="form-control m-input" type="text" placeholder="Enter product name"
+                                       disabled>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Project <i
+                                class="text-danger">*</i></label>
+                            <div class="col-md-4">                                
+                                <input [(ngModel)]="model.projectName" formControlName="projectName"
+                                    class="form-control m-input" type="text"
+                                    disabled>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Cluster/Tower</label>
+                            <div class="col-md-6"> 
+                                <!-- <div [busyIf]="clusterLoading">                               
+                                    <select [(ngModel)]="clusterModel" class="form-control selectedcluster" [ngModelOptions]="{standalone: true}" title="Show Cluster" jq-plugin="selectpicker" data-actions-box="true" data-live-search="true" multiple>
+                                            <option disabled *ngFor="let item of clusterItem" [value]="item.clusterId">
+                                                {{item.clusterName}}
+                                            </option>
+                                    </select>
+                                </div> -->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div *ngIf="!clusterItem.length">
+                                            <span style="color:#FFF" class="m-badge m-badge--metal m-badge--wide">No Item Selected</span>
+                                        </div>    
+                                        <div *ngFor="let item of clusterItem">
+                                            <span style="float:left; margin:2px" class="m-badge m-badge--info m-badge--wide">{{item.clusterName}}</span>                                                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="m-form__help">
+                                    *By default , or by selecting nothing the priority pass can be used to buy any unit withing
+                                     this
+                                        product.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Category <i
+                                class="text-danger">*</i></label>
+                            <div class="col-md-4">
+                                <div [busyIf]="projectLoading">
+                                    <select class="form-control category" formControlName="category"
+                                            [(ngModel)]="model.category" jq-plugin="selectpicker"
+                                            title="Choose one of category" data-live-search="true">
+                                        <option *ngFor="let category of _categorys" [ngValue]="category.categoryTypeID">
+                                            {{category.categoryName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Product Description<i
+                                class="text-danger">*</i></label>
+                            <div class="col-md-9">
+                                <p-editor [(ngModel)]="model.projectDesc" name="desc" formControlName="projectDesc"
+                                          name="desc"
+                                          [style]="{'height':'100px'}">
+                                    <p-header>
+                                        <span class="ql-formats">
+                                          <select class="ql-size">
+                                            <option value="small">Small</option>
+                                            <option selected></option>
+                                            <option value="large">Subheader</option>
+                                            <option value="huge">Header</option>
+                                          </select>
+                                        </span>
+                                        <span class="ql-formats">
+                                          <select class="ql-font">
+                                            <option selected></option>
+                                            <option value="serif">Serif</option>
+                                            <option value="monospace">Monospace</option>
+                                          </select>
+                                        </span>
+                                        <span class="ql-formats">
+                                          <button class="ql-bold" aria-label="Bold"></button>
+                                          <button class="ql-italic" aria-label="Italic"></button>
+                                          <button class="ql-underline" aria-label="Underline"></button>
+                                          <button class="ql-strike" aria-label="Strike"></button>
+                                        </span> 
+                                        <span class="ql-formats">
+                                            <button class="ql-list" value="ordered"></button>
+                                            <button class="ql-list" value="bullet"></button>
+                                            <select title="Text Alignment" class="ql-align" >
+                                                <option selected>Gauche</option>
+                                                <option value="center" label="Center"></option>
+                                                <option value="right" label="Right"></option>
+                                                <option value="justify" label="Justify"></option>
+                                            </select> 
+                                            <!-- <button class="ql-code-block" aria-label="Insert Code Block"></button>            -->
+                                        </span> 
+                                    </p-header>
+                                </p-editor>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Active From<i
+                                class="text-danger">*</i></label>
+                            <div class="col-md-4">
+                                <div class="m-input-icon m-input-icon--left">
+                                    <input style="background-color: #fff!important;" formControlName="activeStart"
+                                           id="activeStart" (selectedDateChange)="onSelectedDate($event, 'start')"
+                                           [(ngModel)]="model.activeStart"
+                                           datePicker="datepicker" #ActiveFromDatePicker name="ActiveFromDatePicker"
+                                           class="form-control" placeholder="Example: MM/DD/YYYY"
+                                           required readonly>
+                                    <span class="m-input-icon__icon m-input-icon__icon--left">
+                        <span>
+                            <i class="la la-calendar"></i>
+                        </span>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Active To</label>
+                            <div class="col-md-4">
+                                <div class="m-input-icon m-input-icon--left">
+                                    <input style="background-color: #fff!important;" formControlName="activeEnd"
+                                           id="activeEnd"
+                                           (selectedDateChange)="onSelectedDate($event, 'end')"
+                                           [(ngModel)]="model.activeEnd"
+                                           datePicker="datepicker" #ActiveToDatePicker name="ActiveToDatePicker"
+                                           class="form-control" placeholder="Example: MM/DD/YYYY"
+                                           readonly>
+                                    <span class="m-input-icon__icon m-input-icon__icon--left">
+                        <span>
+                            <i class="la la-calendar"></i>
+                        </span>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Priority Pass<i
+                                class="text-danger">*</i></label>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 50px 0px;">
+                            <label class="m-radio m-radio--solid m-radio--brand">
+                                <input checked="" formControlName="ppselect" [(ngModel)]="model.ppselect"
+                                       name="account_group"
+                                       type="radio" value="1">
+                                Add PP Price per unit type
+                                <span></span>
+                            </label>
+                        </div>
+                        <div *ngIf="model.ppselect=='1'" class="form-group m-form__group row" style="margin: 0px 50px;">
+                            <div style="padding:10px 0px">
+                                <button (click)="priceUnitModal.show('','')"
+                                        class="btn btn-danger m-btn--pill m-btn--air m-btn--square m-btn--bolder"
+                                        style="border-radius: 0.2rem !important;">Add Unit Type
+                                </button>
+                            </div>
+                            <div class="primeng-datatable-container" [busyIf]="primeNgUnitType.isLoading">
+                                <p-dataTable #dataTable [value]="primeNgUnitType.records"
+                                             rows="{{primeNgUnitType.defaultRecordsCountPerPage}}" [paginator]="true"
+                                             [(first)]="firstUnitType" [alwaysShowPaginator]="false" [lazy]="false"
+                                             emptyMessage="{{l('NoData')}}"
+                                             [responsive]="primeNgUnitType.isResponsive" [paginatorPosition]="none">
+                                    <p-column header="#" [sortable]="false"
+                                              [style]="{'width':'50px', 'text-align':'center'}">
+                                        <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                    <span>
+                                {{rowIndex+1}}
+                            </span>
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="unitType" header="Unit Type" [sortable]="false">
+                                        <!-- {{record.status}} -->
+                                    </p-column>
+                                    <p-column field="price" header="Price" [sortable]="false">
+                                        <!-- {{record.price}} -->
+                                    </p-column>
+                                    <p-column field="" header="{{l('Actions')}}" [sortable]="false"
+                                              [style]="{'width':'130px','text-align':'center'}">
+                                        <ng-template let-record="rowData" pTemplate="body">
+                                            <div class="btn-group dropdown">
+                                                <button
+                                                    class="dropdown-toggle btn btn-brand btn-sm dropdown-toggle btn-primary"
+                                                    data-toggle="dropdown" tooltip="{{l('Actions')}}"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-cog"></i>
+                                                    <span class="caret"></span> {{l("Actions")}}
+
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a (click)="keyfeatureModal.show(getSelectedProject, record)">{{l('Edit')}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </ng-template>
+                                    </p-column>
+                                </p-dataTable>
+                                <div class="primeng-paging-container">
+                                    <p-paginator rows="{{primeNgUnitType.defaultRecordsCountPerPage}}" #paginator
+                                                 (onPageChange)="unitTypeEvent($event)"
+                                                 [totalRecords]="primeNgUnitType.totalRecordsCount"></p-paginator>
+                                    <span class="total-records-count">
+                        {{l('TotalRecordsCount', primeNgUnitType.totalRecordsCount)}}
+                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 50px 0px;">
+                            <label class="m-radio m-radio--solid m-radio--brand">
+                                <input name="account_group" formControlName="ppselect" [(ngModel)]="model.ppselect"
+                                       type="radio"
+                                       value="2">
+                                Add PP Price per product
+                                <span></span>
+                            </label>
+                        </div>
+                        <div *ngIf="model.ppselect=='2'" class="form-group m-form__group row"
+                             style="margin: 0px 50px 50px;">
+                            <label for="attitude" class="col-md-3">Price</label>
+                            <div class="col-md-4">
+                                <input currencyMask class="form-control m-input" formControlName="ppprice"
+                                       [(ngModel)]="model.ppprice"
+                                       type="text" placeholder="Enter price per product">
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Logo <i
+                                class="text-danger">*</i></label>
+                            <div class="col-md-4">
+                                <div class="m-input-icon">
+                                    <input id="logo" name="logo" type="file" class="form-control upload" formControlName="logo" fileUpload
+                                           [options]="optionsLogo" (pictureUrl)="pictureLogo($event)"
+                                           (onAfterFileUpload)="LogoUploaded($event)" name="file"/>
+                                    <span style="padding: 0px 15px;" class="m-form__help row">
+                                        *Logo size must be 200px X 200px
+                                    </span>
+                                    <span style="color:red"  class="m-form__help">
+                                            You can upload JPG/JPEG/PNG file, with maximum file size 5 MB.
+                                    </span>
+                                    <div class="col-2 row" *ngIf="LogoFileNamePastSrc !== '-' || LogoFileName !== '-'">
+                                        <img style="max-height:100px;width:auto" src="{{LogoFileNamePastSrc}}"/>
+                                    </div>            
+                                    <div class="row" style="margin-top:5px;margin-bottom:5px" class="col-2 row" *ngIf="LogoFileNamePastSrc != null || LogoFileName !== null">
+                                            <button (click)="delLogoImage()" class="btn btn-danger" style="padding:5px"><i class="fa fa-trash"></i>Remove File</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Banner <i class="text-danger">*This
+                                will
+                                be
+                                used while printing Priority Pass</i></label>
+                            <div class="col-md-4">
+                                <div class="m-input-icon">
+                                    <input id="banner" type="file" class="form-control" formControlName="banner" fileUpload
+                                           [options]="optionsBanner" (pictureUrl)="pictureBanner($event)"
+                                           (onAfterFileUpload)="BannerUploaded($event)" name="file"/>
+                                    <span style="padding: 0px 15px;" class="m-form__help row">
+                                        *Banner size must be 1280px X 120px
+                                    </span>
+                                    <span style="color:red"  class="m-form__help">
+                                            You can upload JPG/JPEG/PNG file, with maximum file size 5 MB.
+                                    </span>
+                                    <div class="col-2 row"
+                                         *ngIf="BannerFileNamePastSrc !== '-' || BannerFileName !== '-'">
+                                        <img style="max-height:50px;width:400px" src="{{BannerFileNamePastSrc}}"/>
+                                    </div>       
+                                    <div class="row" style="margin-top:5px;margin-bottom:5px" class="col-2 row" *ngIf="BannerFileNamePastSrc != null || BannerFileName !== null">
+                                            <button (click)="delBannerImage()" class="btn btn-danger" style="padding:5px"><i class="fa fa-trash"></i>Remove File</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Terms and Condition <i
+                                class="text-danger">*This
+                                will be used while printing Priority Pass</i></label>
+                            <div class="col-md-4">
+                                <div class="m-input-icon">
+                                    <input id="terms" type="file" class="form-control" formControlName="terms" fileUpload
+                                           [options]="optionsTerms" (pictureUrl)="pictureTerms($event)"
+                                           (onAfterFileUpload)="TermsUploaded($event)" name="file"/>
+                                    <span style="padding: 0px 15px;" class="m-form__help row">
+                                        *Terms and Condition size must be 1280px X 830px
+                                    </span>
+                                    <span style="color:red"  class="m-form__help">
+                                            You can upload JPG/JPEG/PNG file, with maximum file size 5 MB.
+                                    </span>
+                                    <div class="col-2 row"
+                                         *ngIf="TermsFileNamePastSrc !== '-' || TermsFileName !== '-'">
+                                        <img style="max-height:100px;width:auto" src="{{TermsFileNamePastSrc}}"/>
+                                    </div>   
+                                    <div class="row" style="margin-top:5px;margin-bottom:5px" class="col-2 row" *ngIf="TermsFileNamePastSrc != null || TermsFileName !== null">
+                                            <button (click)="delTermsImage()" class="btn btn-danger" style="padding:5px"><i class="fa fa-trash"></i>Remove File</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-md-3 col-form-label">Buy PP by:</label>
+                            <div class="col-md-4">
+                                <div class="m-checkbox-inline">
+                                    <label class="m-checkbox m-checkbox--solid m-checkbox--brand">
+                                        <input checked="" name="account_communication[]" [(ngModel)]="buyBySales"
+                                               [ngModelOptions]="{standalone: true}" type="checkbox" value="true">
+                                        Sales
+                                        <span></span>
+                                    </label>
+                                    <label class="m-checkbox m-checkbox--solid  m-checkbox--brand">
+                                        <input disabled name="account_communication[]" [(ngModel)]="buyByCust"
+                                               [ngModelOptions]="{standalone: true}" type="checkbox" value="true">
+                                        Customer
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer m-form__actions m-form__actions--solid">
+                        <!--<button type="submit"-->
+                                <!--class="btn btn-primary"-->
+                                <!--(click)="">-->
+                <!--<span>Save Product-->
+                <!--</span>-->
+                        <!--</button>-->
+                        <button type="button" [disabled]="(!projectForm.valid) ||(TermsFileNamePastSrc==null) || (BannerFileNamePastSrc==null) || (LogoFileNamePastSrc==null)"  class="btn btn-primary" (click)="save()">
+                            <span>Setup PP Online</span>
+                        </button>                 
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<priceUnitModal #priceUnitModal (getProject)="getListUnit($event)" (modalSave)="keyValue($event)"></priceUnitModal>

@@ -1,0 +1,78 @@
+<style>
+    body .ui-datatable .ui-paginator {
+        border-top: solid 1px #eee;
+        padding: 5px!important;
+    }
+</style>
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title">
+                Tasklist Setting Login
+            </h3>
+        </div>
+    </div>
+</div>
+
+<div class="m-content">
+        <div class="m-portlet">
+            <div class="m-portlet__body">
+                <div class="row align-items-center m--margin-top-10">
+                    <div class="col-md-12">
+                        <button (click)="appAdConfigModal.show()" class="btn btn-primary pull-right" style="margin-bottom: 10px;">
+                            <i class="fa fa-plus"></i>
+                            Create New
+                        </button>
+                    </div>
+                    <!--<Primeng-Datatable-Start>-->
+
+                    <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                        <p-dataTable #dataTable
+                                     [value]="primengDatatableHelper.records"
+                                     [rows]="primengDatatableHelper.defaultRecordsCountPerPage"
+                                     [paginator]="true"
+                                     [rowsPerPageOptions]="[5,10,20]"
+                                     [lazy]="false" emptyMessage="{{l('NoData')}}"
+                                     [responsive]="primengDatatableHelper.isResponsive"
+                                     [(first)]="first"
+                                     [alwaysShowPaginator]="false"
+                                     scrollable="true"> <!-- [paginatorPosition]="none" -->
+                            <p-column field="domain"  header="No" [sortable]="false">
+                                <ng-template let-record="rowData" let-i="rowIndex" pTemplate="body">
+                                    {{i+1}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="domain"  header="Domain">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    {{record.domain}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="ip"  header="IP/ Hostname">
+                                <ng-template let-record="rowData" pTemplate="body">
+                                    {{record.ip}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="action" header="Action" [sortable]="false"  [style]="{'text-align':'center'}">
+                                <ng-template let-record="rowData" pTemplate="body">                            
+                                    <button (click)="appAdConfigModal.show(record,'edit')" class="btn btn-brand btn-md btn-primary">
+                                        <i class="fa fa-pencil"></i><span class="caret"></span> {{l("Edit")}}
+                                    </button>
+                                </ng-template>
+                            </p-column>
+                        </p-dataTable>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator
+                                         (onPageChange)="getLatestList($event)"
+                                         [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                    {{l('TotalRecordsCount', primengDatatableHelper.totalRecordsCount)}}
+                                </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+<appAdConfigModal #appAdConfigModal (modalSave)="getLatestList($event)"></appAdConfigModal>

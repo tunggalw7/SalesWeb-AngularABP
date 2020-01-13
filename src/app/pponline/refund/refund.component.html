@@ -1,0 +1,313 @@
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Refund Payment
+            </h3>
+        </div>
+    </div>
+</div>
+<!-- END: Subheader -->
+<!--begin::Portlet-->
+<div class="m-content" [busyIf]="createRefundLoading">
+    <div class="row" [busyIf]="undoRefundLoading">
+        <div class="col-lg-12">
+            <div class="m-portlet">
+                <div class="m-portlet__head" style="padding: 0px 15px;">
+                    <div class="m-portlet__head-caption">
+                        <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                            <label for="attitude" class="col-2 col-form-label">PP Number<i
+                                class="text-danger">*</i></label>
+                            <div class="col-sm-8 row">
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" [(ngModel)]="search"
+                                               placeholder="PP Number">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="submit"
+                                                    title="Click the button to show refund payment data"
+                                                    (click)="onChangeSearch(search)">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="model.ppStatus == 'Z'" class="col-lg-6 m-form__group pull-right"
+                                     style="margin-top: 10px; margin-bottom: 10px;">
+                                    <i class="text-danger"> PP Number is Already Refund</i>
+                                </div>
+                                <div *ngIf="model.ppStatus == 'B'" class="col-lg-6 m-form__group pull-right"
+                                     style="margin-top: 10px; margin-bottom: 10px;">
+                                    <i class="text-danger"> PP Number is Already Booked</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form [busyIf]="getDataLoading" [formGroup]="validationForm"
+                      class="m-login__form m-form email-activation-form">
+                    <div class="m-portlet__body form_body" *ngIf="getDataShow == true">
+                        <div class="row">
+                            <div class="group col-md-6"
+                                 *ngIf="model.ppStatus === 'N' || model.ppStatus === 'Z' || model.ppStatus === 'B'">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Customer Name</b>
+                                    </label>
+                                    <div class="col-sm-8 input-group">
+                                        <input class="form-control m-input form-control-sm"
+                                               type="text"
+                                               [(ngModel)]="model.customerName" [ngModelOptions]="{standalone: true}"
+                                               placeholder="Costumer Name" disabled required autofocus/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="costumerCode" class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Customer Code</b>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input id="costumerCode"
+                                               class="form-control m-input form-control-sm"
+                                               [(ngModel)]="model.customerCode" [ngModelOptions]="{standalone: true}"
+                                               type="text" placeholder="Costumer Code" disabled required autofocus/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="salesChannel" class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Sales Channel</b>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input id="salesChannel"
+                                               class="form-control m-input form-control-sm"
+                                               [(ngModel)]="model.scmCode" [ngModelOptions]="{standalone: true}"
+                                               type="text" placeholder="Sales Channel" disabled required autofocus/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="dealCloserCode" class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Deal Closer Code</b>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input #hasMessage id="dealCloserCode"
+                                               class="form-control m-input form-control-sm"
+                                               [(ngModel)]="model.memberCode" [ngModelOptions]="{standalone: true}"
+                                               type="text" placeholder="Deal Closer Code" disabled required autofocus/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="dealCloserName" class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Deal Closer Name</b>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input #dealCloserName id="dealCloserName"
+                                               class="form-control m-input form-control-sm"
+                                               [(ngModel)]="model.memberName" [ngModelOptions]="{standalone: true}"
+                                               type="text" placeholder="Deal Closer Name" disabled required autofocus/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="ppPrice" class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>PP Price</b>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <p-spinner size="30"
+                                                   [(ngModel)]="model.ppPrice"
+                                                   styleClass="my-spiner" [ngModelOptions]="{standalone: true}"
+                                                   id="ppPrice" name="ppPrice" disabled="">
+                                        </p-spinner>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Form input-->
+                            <div class="group col-md-6" *ngIf="model.ppStatus == 'N'">
+                                <div class="form-group row" [formControlStyle]="validationForm">
+                                    <label for="bankName" class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Bank Name</b><i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input #hasMessage id="bankName"
+                                               class="form-control m-input form-control-sm"
+                                               formControlName="bankName"
+                                               [(ngModel)]="modelRefund.namaBank"
+                                               type="text" placeholder="Bank Name" required autofocus/>
+                                    </div>
+                                </div>
+                                <div class="form-group row" [formControlStyle]="validationForm">
+                                    <label for="rekNo" class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Account No</b><i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input #hasMessage id="rekNo"
+                                               class="form-control m-input form-control-sm"
+                                               formControlName="rekNo"
+                                               [(ngModel)]="modelRefund.noRek"
+                                               placeholder="Account No" required autofocus/>
+                                    </div>
+                                </div>
+                                <div class="form-group row" [formControlStyle]="validationForm">
+                                    <label for="rekName" class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Account Name</b><i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input #hasMessage id="rekName"
+                                               class="form-control m-input form-control-sm"
+                                               formControlName="rekName"
+                                               [(ngModel)]="modelRefund.namaRek"
+                                               type="text" placeholder="Account Name" required autofocus/>
+                                    </div>
+                                </div>
+                                <div class="form-group row" [formControlStyle]="validationForm" formComponent="select">
+                                    <label class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Reason</b><i class="text-danger">*</i>
+                                    </label>
+                                    <div [busyIf]="getReasonLoading" class="col-sm-8" formComponent="select">
+                                        <select id="reason" class="form-control reason"
+                                                formControlName="reason"
+                                                [(ngModel)]="reasonSelect"
+                                                (change)="onChangeReason(reasonSelect)"
+                                                [attr.data-live-search]="true"
+                                                jq-plugin="selectpicker" title="Choose your Reason">
+                                            <option *ngFor=" let a of reason" [value]="a.refundReasonID">
+                                                {{a.refundReasonName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row"
+                                     *ngIf="reasonSelect == 5" [formControlStyle]="validationForm"
+                                     formComponent="textarea">
+                                    <label class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Your Reason</b><i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-sm-8 reasontext" formComponent="select">
+                                        <textarea rows="4" cols="42"
+                                                  [(ngModel)]="reasonText" formControlName="yourReason">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Form input End-->
+                            <!-- form disable -->
+                            <div class="group col-md-6" *ngIf="model.ppStatus == 'Z' || model.ppStatus == 'B'">
+                                <div class="form-group row">
+                                    <label for="bankName" class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Bank Name</b>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control m-input form-control-sm"
+                                               [(ngModel)]="model.namaBank" [ngModelOptions]="{standalone: true}"
+                                               type="text" placeholder="Bank Name" disabled required autofocus/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="rekNo" class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Account No</b>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input
+                                            class="form-control m-input form-control-sm"
+                                            [(ngModel)]="model.noRek" [ngModelOptions]="{standalone: true}"
+                                            placeholder="Account No" disabled required autofocus/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="rekName" class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Account Name</b>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input
+                                            class="form-control m-input form-control-sm"
+                                            [(ngModel)]="model.namaRek" [ngModelOptions]="{standalone: true}"
+                                            type="text" placeholder="Account Name" disabled required autofocus/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label col-form-label-sm">
+                                        <b>Your Reason</b>
+                                    </label>
+                                    <div class="col-sm-8" >
+                                        <textarea  #hasMessage rows="4" cols="42" style="max-width:100%;"
+                                                  [(ngModel)]="model.refundReason" [ngModelOptions]="{standalone: true}"
+                                                  disabled required>
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- form Disable End -->
+                        </div>
+                        <!--start data table-->
+                        <div class="row" *ngIf="model.ppStatus == 'B'">
+                            <div class="col-md-12"
+                                 style="padding-left: 28px; padding-right: 28px; margin-bottom: 25px;">
+                                <div class="row align-items-center m--margin-top-10">
+                                    <div class="primeng-datatable-container"
+                                         [busyIf]="primengDatatableHelper.isLoading">
+                                        <p-dataTable [value]="primengDatatableHelper.records" [lazy]="false" [globalFilter]="gb" [paginator]="true" [rows]="10"  [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                                            <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                                                <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                                    {{ rowIndex+1 }}
+                                                </ng-template>
+                                            </p-column>
+                                            <p-column field="unitCode" header="Unit Code" [sortable]="false">
+                                                <ng-template let-record="rowData" pTemplate="body">
+                                                    {{record.unitCode}}
+                                                </ng-template>
+                                            </p-column>
+                                            <p-column field="unitNo" header="Unit No" [sortable]="false">
+                                                <ng-template let-record="rowData" pTemplate="body">
+                                                    {{record.unitNo}}
+                                                </ng-template>
+                                            </p-column>
+                                            <p-column field="cencelDate" header="Cencel Date" [sortable]="false">
+                                                <ng-template let-record="rowData" pTemplate="body">
+                                                    {{record.cancelDate | date:'dd MMMM yyyy'}}
+                                                </ng-template>
+                                            </p-column>
+                                            <p-column field="bookDate" header="Book Date" [sortable]="false">
+                                                <ng-template let-record="rowData" pTemplate="body">
+                                                    {{record.bookDate | date:'dd MMMM yyyy'}}
+                                                </ng-template>
+                                            </p-column>
+                                        </p-dataTable>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--data table start-->
+
+                        <!--<Primeng-Datatable-End>-->
+                        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                            <div class="m-form__actions m-form__actions--solid">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                    </div>
+                                    <div class="col-lg-6 m--align-right" *ngIf="model.ppStatus !== 'B'">
+                                        <button type="submit" *ngIf="model.ppStatus == 'N' || model.ppStatus == 'B'"
+                                                [disabled]="!validationForm.valid || model.ppStatus == 'Z' || model.ppStatus == 'B'"
+                                                data-toggle="tooltip" data-placement="top"
+                                                title="Click the button to create refund payment"
+                                                (click)="createRefund()" class="btn grey-mint">
+                                            <i class="fa fa-mail-reply"></i>
+                                            Refund
+                                        </button>
+                                        <!-- <button type="submit" *ngIf="model.ppStatus == 'Z' || model.ppStatus == 'B'"
+                                                [disabled]="model.ppStatus == 'N' || model.ppStatus == 'B'"
+                                                title="Click the button to undo refund payment"
+                                                (click)="createUndoRefund()" class="btn btn-danger">
+                                            <i class="fa fa-mail-forward"></i>
+                                            Undo Refund
+                                        </button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Portlet-->

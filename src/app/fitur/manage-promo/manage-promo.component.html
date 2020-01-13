@@ -1,0 +1,184 @@
+<style>
+    .ui-paginator {
+        border-top: solid 1px #eee!important;
+        padding: 5px!important;
+    }
+</style>
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto col-sm-7">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Manage Promo
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a href="" class="m-nav__link m-nav__link--icon">
+                        <i class="m-nav__link-icon la la-home"></i>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="app/main/dashboard" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                                Web Online Booking Admin
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            Manage Promo
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-5 text-right">
+            <button (click)="managePromoModal.show('Add','',primengDatatableHelper.records)" class="btn btn-primary m-btn m-btn--icon text-right ng-tns-c9-7 ng-star-inserted" style="">
+                <i class="la la-plus"></i>Create New Promo
+            </button>
+        </div>
+    </div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content">
+    <div class="m-portlet">
+        <div class="m-portlet__body">            
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="form-group m-form__group row align-items-center">
+                        <div class="col-sm-6">
+                            <div class="m-input-icon m-input-icon--left">
+                                <input autocomplete="off" id="filterInput" #gf type="text" class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                <span class="m-input-icon__icon m-input-icon__icon--left"><span><i class="la la-search"></i></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 align-right text-right">
+                    <button type="button" class="btn btn-accent m-btn--icon" (click)="getLatestList()"><i class="la la-refresh"></i> {{l("Refresh")}}</button>
+                </div>
+            </div>    
+            <div class="row align-items-center m--margin-top-10">
+                <!--<Primeng-Datatable-Start>-->                                
+                <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                        <p-dataTable [value]="primengDatatableHelper.records" [lazy]="false" [globalFilter]="gf" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50,100]" [scrollable]="true" [style]="{width:'500px'}" [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                        <p-column header="No." [sortable]="false" [style]="{'width':'80px', 'text-align':'center'}">
+                            <ng-template let-rowIndex="rowIndex" pTemplate="body">
+                                {{ rowIndex+1 }}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="preview" header="Preview Web"
+                                  [sortable]="false" [style]="{'width':'100px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                <a *ngIf="record.promoFileWeb != '-' && record.promoFileWeb != null" (click)="setImage(record.promoFileWeb); staticModal.show()">
+                                    <img src="{{record.promoFileWeb}}" alt="HTML"
+                                         style="width: 40px; height: 40px; border: 0; ">
+                                </a>
+                            </ng-template>
+                        </p-column>
+                        <p-column field="preview" header="Preview Mobile"
+                                  [sortable]="false" [style]="{'width':'100px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                <a *ngIf="record.promoFileApp != '-' && record.promoFileApp != null" (click)="setImage(record.promoFileWeb); staticModal.show()">
+                                    <img src="{{record.promoFileApp}}" alt="HTML"
+                                         style="width: 40px; height: 40px; border: 0; ">
+                                </a>
+                            </ng-template>
+                        </p-column>
+                    
+                        <p-column field="targetURL" header="Promo URL" [sortable]="false" [style]="{'width':'100px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.targetURL}}
+                            </ng-template>  
+                        </p-column>
+                        <p-column field="projectName" header="Project Name" [sortable]="false" [style]="{'width':'160px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.projectName}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="sortNo" header="Sort No" [style]="{'width':'100px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.sortNo}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="periodStart" header="Periode Start" [sortable]="true"
+                                  [style]="{'width':'150px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.periodStart | date:'dd MMMM yyyy'}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="periodEnd" header="Periode End" [sortable]="true" [style]="{'width':'150px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.periodEnd | date:'dd MMMM yyyy'}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="status" header="Status" [sortable]="false" [style]="{'width':'80px'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                <!-- <span *ngIf="record.status" class="m-badge m-badge--info m-badge--wide"
+                                        data-toggle="tooltip" title="{{l('ThisRecordIsActive')}}"
+                                        data-placement="top">
+                                        {{record.status}}
+                                </span>    -->
+                                <span *ngIf="record.status == 'active'" class="m-badge m-badge--info m-badge--wide">
+                                        active
+                                    </span>   
+                                    <span *ngIf="record.status == 'expired'" class="m-badge m-badge--danger m-badge--wide">
+                                            expired
+                                        </span> 
+                            </ng-template>
+                        </p-column>
+                        <p-column field="action" header="Action" [sortable]="false" [style]="{'width':'100px'}">
+                            <ng-template let-record="rowData" pTemplate="body">                            
+                                <button class="btn btn-brand btn-md btn-primary" (click)="managePromoModal.show('Edit',record,primengDatatableHelper.records)">
+                                        <i class="fa fa-pencil"></i><span class="caret"></span> {{l("Edit")}}
+                                    </button>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                    <div class="primeng-paging-container">
+                        <!-- <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator
+                                     (onPageChange)="ProjectDetailEvent($event)"
+                                     [totalRecords]="primengDatatableHelper.totalRecordsCount">
+                        </p-paginator> -->
+                       
+                    </div>
+                </div>
+                
+                <div class="form-group m-form__group row" style="margin: 0px;">
+                    <span class="total-records-count">
+                        <span class="label m-badge m-badge--primary m-badge--wide">
+                                Total ({{primengDatatableHelper.totalRecordsCount}})
+                        </span>
+                    </span>
+                </div>
+                <!--<Primeng-Datatable-End>-->
+            </div>
+        </div>
+    </div>
+    <managePromoModal #managePromoModal (modalSave)="getLatestList()"></managePromoModal>
+</div>
+
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+            Preview Image
+        </h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div style="text-align:center" class="modal-body">
+            <img src="{{currentImage}}" alt="HTML" style="">
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+body .ui-tabview.ui-tabview-top .ui-tabview-nav li {
+    padding: 10px !important;
+}
+body .ui-multiselect{    
+    width: 100%!important;
+}
+
+span.m-form__help {
+    font-size: 11px;
+    font-weight: 500;
+}   
+
+label.col-md-3.col-form-label {
+    font-weight: 500;
+}
+
+i.text-danger {
+    font-size: 11px;
+}
+
+ss-multiselect-dropdown .dropdown-inline , ss-multiselect-dropdown .dropdown-menu{
+    min-width:100%
+}
+
+ss-multiselect-dropdown .input-group-prepend{
+    display:none!important;
+}
+#projectdetail .nav-link.dropdown-toggle:after, .btn.dropdown-toggle:after{    
+    text-align: right!important;
+}
+
+.dropdown-menu > .dropdown-item.active{    
+    background: #f4f5f8;
+    color: #000;
+}
+
+.dropdown-toggle[_ngcontent-c7] .caret[_ngcontent-c7]{    
+    margin-left: 140px!important;
+}

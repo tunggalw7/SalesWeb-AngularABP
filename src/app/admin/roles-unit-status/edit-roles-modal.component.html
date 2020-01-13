@@ -1,0 +1,188 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal"
+     aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form autocomplete="off" >
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{l("User Unit Status")}}: {{userName}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                        <label class="col-3 col-form-label">Unit Status Before</label>
+                        <div class="col-sm-6 row">
+                            <div class="col-sm-12" [busyIf]="getListLoading">                                             
+                                <select class="form-control listAf" style="border: 1px solid #ebedf2!important;"
+                                    [attr.data-live-search]="true"
+                                    [(ngModel)]="selectedBeforeTemp" 
+                                        [ngModelOptions]="{standalone: true}">
+                                        <option value="">{{l('NothingSelected')}}</option>
+                                        <option *ngFor="let a of listBf" [ngValue]="a.unitStatusCode">
+                                                {{a.unitStatusName}}
+                                        </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                        <label class="col-3 col-form-label">Unit Status After </label>
+                        <div class="col-sm-6 row">
+                            <div class="col-sm-12" [busyIf]="getListLoading">                                             
+                                <select class="form-control listAf" style="border: 1px solid #ebedf2!important;"
+                                    [attr.data-live-search]="true"
+                                    [(ngModel)]="selectedAfterTemp" 
+                                        [ngModelOptions]="{standalone: true}">
+                                        <option value="">{{l('NothingSelected')}}</option>
+                                        <option *ngFor="let a of listBf" [ngValue]="a.unitStatusCode">
+                                                {{a.unitStatusName}}
+                                        </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                        <label class="col-3 col-form-label"> </label>
+                        <div class="col-sm-6 row">
+                            <div class="col-sm-12" style="text-align:right">
+                                <button type="submit" [disabled]="!selectedBeforeTemp || !selectedAfterTemp" (click)="save()" class="btn btn-primary" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Add")}}</span></button>
+                            </div>
+                        </div>
+                    </div>                    
+                  
+                    <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                        <p-dataTable #dataTable [value]="primengDatatableHelper.records" [rows]="primengDatatableHelper.defaultRecordsCountPerPage" [paginator]="true" [lazy]="false" emptyMessage="{{l('NoData')}}" [responsive]="primengDatatableHelper.isResponsive"
+                            [(first)]="first" [alwaysShowPaginator]="false" paginatorPosition="none">
+                            <p-column field=""
+                            header="{{l('Actions')}}"
+                            [sortable]="false"
+                            [style]="{'width':'100px','text-align':'center'}">
+                            <ng-template let-col let-i="rowIndex" let-record="rowData" pTemplate="body">
+                                <div class="text-center">
+                                    <button  type="submit"  class="btn btn-primary btn-sm" (click)="actEdit(record.id,i)">
+                                            <i class="la la-edit"></i> {{actBtn[i]}}
+                                    </button>
+                                </div>
+                            </ng-template>
+                            </p-column>
+                            <p-column field="unitStatusFrom" header="{{l('Unit Status From')}}" [style]="{'width':'200px'}">
+                                    <ng-template let-col let-i="rowIndex" let-record="rowData" pTemplate="body">
+                                        <select
+                                            [busyIf]="isLoading"
+                                            name="UnitStatusFrom[{{ i}}]"
+                                            class="form-control form-control-sm"
+                                            [(ngModel)]="statusBefore[i]" [disabled]="disabledBefore[i]">
+                                            <option selected [ngValue]='0'>{{l("Select")}}</option>
+                                            <option *ngFor="let a of listBf" [ngValue]="a.unitStatusCode">
+                                                <small>
+                                                    {{a.unitStatusName}}
+                                                </small>
+                                            </option>
+                                        </select>
+                                    </ng-template>
+                            </p-column>    
+                            <p-column field="unitStatusTo" header="{{l('Unit Status To')}}" [style]="{'width':'200px'}">
+                                    <ng-template let-col let-i="rowIndex" let-record="rowData" pTemplate="body">
+                                        <select
+                                            [busyIf]="isLoading"
+                                            name="UnitStatusAfter[{{ i}}]"
+                                            class="form-control form-control-sm"
+                                            [(ngModel)]="statusAfter[i]" [disabled]="disabledAfter[i]">
+                                            <option selected [ngValue]='0'>{{l("Select")}}</option>
+                                            <option *ngFor="let a of listBf" [ngValue]="a.unitStatusCode">
+                                                <small>
+                                                    {{a.unitStatusName}}
+                                                </small>
+                                            </option>
+                                        </select>
+                                    </ng-template>
+                            </p-column>     
+                        </p-dataTable>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}" #paginator (onPageChange)="getLatestList($event)" totalRecords="{{dataTable.totalRecords}}" [(first)]="first">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', dataTable.totalRecords)}}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                        <div class="col-12"> 
+                            
+                            <!-- <div class="primeng-datatable-container"
+                            [busyIf]="primengDatatableHelper.isLoading">
+                                <p-dataTable [value]="primengDatatableHelper.records" [lazy]="false" [globalFilter]="gf" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50,100]" [totalRecords]="totalRecordsCountt">												
+
+                                    <p-column field=""
+                                        header="{{l('Actions')}}"
+                                        [sortable]="false"
+                                        [style]="{'width':'100px','text-align':'center'}">
+                                        <ng-template let-col let-i="rowIndex" let-record="rowData" pTemplate="body">
+                                            <div class="text-center">
+                                                <button  type="submit"  class="btn btn-primary btn-sm" (click)="actEdit(record.id,i)">
+                                                        <i class="la la-edit"></i> Edit
+                                                </button>
+                                            </div>
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="unitStatusFrom" header="{{l('Unit Status From')}}" [style]="{'width':'200px'}">
+                                            <ng-template let-col let-i="rowIndex" let-record="rowData" pTemplate="body">
+                                                <select
+                                                    [busyIf]="isLoading"
+                                                    name="UnitStatusFrom[{{ i}}]"
+                                                    class="form-control form-control-sm"
+                                                    [(ngModel)]="statusBefore[i]">
+                                                    <option selected [ngValue]='0'>{{l("Select")}}</option>
+                                                    <option *ngFor="let a of listBf" [ngValue]="a.unitStatusCode">
+                                                        <small>
+                                                            {{a.unitStatusName}}
+                                                        </small>
+                                                    </option>
+                                                </select>
+                                            </ng-template>
+                                    </p-column>    
+                                    <p-column field="unitStatusTo" header="{{l('Unit Status To')}}" [style]="{'width':'200px'}">
+                                            <ng-template let-col let-i="rowIndex" let-record="rowData" pTemplate="body">
+                                                <select
+                                                    [busyIf]="isLoading"
+                                                    name="UnitStatusAfter[{{ i}}]"
+                                                    class="form-control form-control-sm"
+                                                    [(ngModel)]="statusAfter[i]">
+                                                    <option selected [ngValue]='0'>{{l("Select")}}</option>
+                                                    <option *ngFor="let a of listBf" [ngValue]="a.unitStatusCode">
+                                                        <small>
+                                                            {{a.unitStatusName}}
+                                                        </small>
+                                                    </option>
+                                                </select>
+                                            </ng-template>
+                                    </p-column>                                      
+                                </p-dataTable>
+                                <div class="primeng-paging-container">
+                                 </div>
+                            </div>
+                            <div class="form-group m-form__group row" style="margin: 0px;">
+                                <span class="total-records-count">
+                                    <span class="label m-badge m-badge--primary m-badge--wide">
+                                        Total ({{primengDatatableHelper.totalRecordsCount}})
+                                    </span>
+                                </span>
+                            </div> -->
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" [disabled]="noData===false"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button> -->
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+@media only screen and (max-width: 768px) {
+    .tb_res{
+        width: 330px;
+        overflow-x: auto;
+    }
+}

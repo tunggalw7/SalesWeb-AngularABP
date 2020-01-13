@@ -1,0 +1,842 @@
+<div [@routerTransition]>
+  <div class="m-subheader ">
+    <div class="d-flex align-items-center">
+      <div class="mr-auto">
+        <h3 class="m-subheader__title m-subheader__title--separator">
+          Update Customer
+        </h3>
+        <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+          <li class="m-nav__item m-nav__item--home">
+            <a href="" class="m-nav__link m-nav__link--icon">
+						<i class="m-nav__link-icon la la-home"></i>
+					</a>
+          </li>
+          <li class="m-nav__separator">
+            -
+          </li>
+          <li class="m-nav__item">
+            <a href="app/main/dashboard" class="m-nav__link">
+						<span class="m-nav__link-text">
+                 Online Booking
+                 </span>
+					</a>
+          </li>
+          <li class="m-nav__separator">
+            -
+          </li>
+          <li class="m-nav__item">
+            <a class="m-nav__link">
+						<span class="m-nav__link-text">
+                 Update Customer
+                 </span>
+					</a>
+          </li>
+        </ul>
+      </div>
+      
+      <span *ngIf="byPP!='true'" class="m-subheader__daterange" id="m_dashboard_daterangepicker">
+          <myduration></myduration>
+      </span>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <!-- END: Subheader -->
+  <div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+      <form [formGroup]="customerForm" (ngSubmit)="getlistCustomer()">
+        <div id="register-customer-wrapper" class="m-portlet__body">
+          <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title" style="margin-bottom:10px">
+              <h3 class="m-portlet__head-text method-type" style="margin-bottom:0">
+                Update Customer
+              </h3>
+              <small style="color:#95a5a6;font-size:14px">
+                 Please complete data bellow
+                 </small>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="idtype-ktp-kitas">
+              <div class="form-group m-form__group row">
+                <div class="col-sm-4">
+                  <label class="col-form-label">
+                       ID Type   
+									<i class="text-danger">*</i>
+                </label>
+                  <div [busyIf]="typesLoading">
+                    <select name="type" [formControl]="type_ctrl.typeCard" class="form-control types" (ngModelChange)="onChangeType($event)"
+                      [(ngModel)]="_type_ctrl.typeCard" jq-plugin="selectpicker" disabled>
+									  <option *ngFor="let idtype of idtypes" [value]="idtype.typeId">{{idtype.typeName}}</option>
+                </select>
+                  </div>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 1" class="col-sm-4">
+                  <label class="col-form-label">
+                       Full Name  
+											<i class="text-danger">*</i>
+										</label>
+                  <input [(ngModel)]="_model_ktp.fullname" [formControl]="model_ctrl.fullname" type="text" class="form-control m-input" name="fullname"
+                    placeholder="Enter your fullname" readonly disabled>
+                  <span class="text-danger" *ngIf="model_ctrl.fullname.hasError('required')  && model_ctrl.fullname.touched">fullname cannot be empty</span>
+                  <span class="text-danger" *ngIf="model_ctrl.fullname.hasError('maxlength')  && model_ctrl.fullname.touched">fullname max 50 char </span>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 5" class="col-sm-4">
+                  <label class="col-form-label">
+                      Full Name  
+												<i class="text-danger">*</i>
+											</label>
+                  <input [(ngModel)]="_model_kitas.fullname" [formControl]="model_kitas.fullname" type="text" class="form-control m-input"
+                    name="fullname" placeholder="Enter your fullname" disabled>
+                  <span class="text-danger" *ngIf="model_kitas.fullname.hasError('required')  && model_kitas.fullname.touched">fullname cannot be empty</span>
+                  <span class="text-danger" *ngIf="model_kitas.fullname.hasError('maxlength')  && model_kitas.fullname.touched">fullname max 50 char </span>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 1" class="col-sm-4">
+                  <label class="col-form-label">
+                       Gender  
+																<i class="text-danger">*</i>
+															</label>
+                  <div class="m-radio-inline">
+                    <label class="m-radio">
+																	<input [(ngModel)]="_model_ktp.gender" [formControl]="model_ctrl.gender" type="radio" name="gender" value="L">
+                          Male
+                          
+																		<span></span>
+																	</label>
+                    <label class="m-radio">
+																		<input [(ngModel)]="_model_ktp.gender" [formControl]="model_ctrl.gender" type="radio" name="gender" value="P">
+                          Female
+                          
+																			<span></span>
+																		</label>
+                  </div>
+                  <span class="text-danger" *ngIf="model_ctrl.gender.hasError('required')  && model_ctrl.gender.touched">gender cannot be empty</span>
+                  <span class="text-danger" *ngIf="model_ctrl.gender.hasError('maxlength')  && model_ctrl.gender.touched">gender max 50 char </span>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 5" class="col-sm-4">
+                  <label class="col-form-label">
+                      Gender  
+																		<i class="text-danger">*</i>
+																	</label>
+                  <div class="m-radio-inline">
+                    <label class="m-radio">
+																			<input   [(ngModel)]="_model_kitas.gender" [formControl]="model_kitas.gender" type="radio"  name="gender" value="L">
+                         Male
+                         
+																				<span></span>
+																			</label>
+                    <label class="m-radio">
+																				<input  [(ngModel)]="_model_kitas.gender" [formControl]="model_kitas.gender" type="radio" name="gender" value="P">
+                         Female
+                         
+																					<span></span>
+																				</label>
+                  </div>
+                  <span class="text-danger" *ngIf="model_kitas.gender.hasError('required')  && model_kitas.gender.touched">gender cannot be empty</span>
+                  <span class="text-danger" *ngIf="model_kitas.gender.hasError('maxlength')  && model_kitas.gender.touched">gender max 50 char </span>
+                </div>
+                 <!--if perusahhan  -->
+                <div *ngIf="_type_ctrl.typeCard == 7" class="col-sm-4">
+                  <label class="col-form-label">
+                       Company Name  
+													<i class="text-danger">*</i>
+												</label>
+                  <input type="text" [(ngModel)]="_model_dtt.companyname" [formControl]="model_dtt.companyname" class="form-control m-input"
+                    name="companyname" placeholder="Enter your company name" disabled>
+                </div>
+                <!-- end if perusahhan -->
+                 <!-- if tdd perusahhan -->
+                <div *ngIf="_type_ctrl.typeCard ==7" class="col-sm-4">
+                  <label class="col-form-label">
+                    KTP Address 
+											<i class="text-danger">*</i>
+										</label>
+                  <textarea class="form-control " [(ngModel)]="_model_dtt.corresponden" name="address" [formControl]="model_dtt.corresponden"
+                    placeholder="Enter your complete address"></textarea>                    
+                  <span class="text-danger" *ngIf="model_dtt.corresponden.hasError('required')  && model_dtt.corresponden.touched">  KTP Address cannot be empty </span>
+                  <span class="text-danger" *ngIf="model_dtt.corresponden.hasError('maxlength') && model_dtt.corresponden.touched"> KTP Address max 1000 char </span>
+                </div>
+              </div>
+
+              <div class="form-group m-form__group row">
+                <!-- ktp -->
+                <div *ngIf="_type_ctrl.typeCard == 1" class="col-sm-4">
+                  <label class="col-form-label">
+                       Email Address  
+																					<i class="text-danger">*</i>
+																				</label>
+                  <input [(ngModel)]="_model_ktp.email" [formControl]="model_ctrl.email" type="text" class="form-control m-input" placeholder="Enter your email" disabled>
+                  <span class="m-form__help" style="font-size:12px">
+                       We'll never share your email with anyone else.
+                       </span>
+                  <span class="text-danger" *ngIf="model_ctrl.email.hasError('email')  && model_ctrl.email.touched">email format is invalid</span>
+                  <span class="text-danger" *ngIf="model_ctrl.email.hasError('required')  && model_ctrl.email.touched">email cannot be empty</span>
+                </div>
+                <!-- end ktp -->
+                <!-- kitas -->
+                <div *ngIf="_type_ctrl.typeCard == 5" class="col-sm-4">
+                  <label class="col-form-label">
+                      Email Address  
+																						<i class="text-danger">*</i>
+																					</label>
+                  <input [(ngModel)]="_model_kitas.email" [formControl]="model_kitas.email" type="text" class="form-control m-input" placeholder="Enter your email" disabled>
+                  <span class="m-form__help" style="font-size:12px">
+                      We'll never share your email with anyone else.
+                      </span>
+                  <span class="text-danger" *ngIf="model_kitas.email.hasError('email')  && model_kitas.email.touched">email format is invalid</span>
+                  <span class="text-danger" *ngIf="model_kitas.email.hasError('required')  && model_kitas.email.touched">email cannot be empty</span>
+                </div>
+                <!-- end kitas -->
+                <!--ktp  -->
+                <div *ngIf="_type_ctrl.typeCard == 1 " class="col-sm-4">
+                  <label class="col-form-label">
+                       Mobile Phone No  
+																							<i class="text-danger">*</i>
+																						</label>
+                  <input [(ngModel)]="_model_ktp.phone" [formControl]="model_ctrl.phone" type="text" class="form-control m-input" name="mobilephoneno"
+                    placeholder="Enter your phone number">
+                  <span class="text-danger" *ngIf="model_ctrl.phone.hasError('required')  && model_ctrl.phone.touched">Mobile Phone No is required.</span>
+                  <!-- <span class="text-danger" *ngIf="model_ctrl.phone.hasError('minlength')  && model_ctrl.phone.touched">mobile phone min 5 char </span> -->
+                  <span class="text-danger" *ngIf="model_ctrl.phone.hasError('maxlength')  && model_ctrl.phone.touched">Please enter at most 15 characters.</span>
+                </div>
+                <!-- end ktp -->
+                <!-- kitas -->
+                <div *ngIf="_type_ctrl.typeCard == 5 " class="col-sm-4">
+                  <label class="col-form-label">
+                          Mobile Phone No  
+																								<i class="text-danger">*</i>
+																							</label>
+                  <input [(ngModel)]="_model_kitas.phone" [formControl]="model_kitas.phone" type="text" class="form-control m-input" name="mobilephoneno"
+                    placeholder="Enter your phone number">
+                  <span class="text-danger" *ngIf="model_kitas.phone.hasError('required')  && model_kitas.phone.touched">Mobile Phone No is required.</span>
+                  <!-- <span class="text-danger" *ngIf="model_kitas.phone.hasError('minlength')  && model_kitas.phone.touched">mobile phone min 5 char </span> -->
+                  <span class="text-danger" *ngIf="model_kitas.phone.hasError('maxlength')  && model_kitas.phone.touched">Please enter at most 15 characters.</span>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 1 " class="col-sm-4">
+                  <label class="col-form-label">
+                      Relatives Phone No  
+																								<i class="text-danger">*</i>
+																							</label>
+                  <input [(ngModel)]="_model_ktp.relativesNumber" [formControl]="model_ctrl.relativesNumber" type="text" class="form-control m-input" name="relativesphoneno"
+                    placeholder="Enter relatives phone number">
+                  <span class="text-danger" *ngIf="model_ctrl.relativesNumber.hasError('required')  && model_ctrl.relativesNumber.touched">Relatives Phone No is required.</span>
+                  <!-- <span class="text-danger" *ngIf="model_ctrl.relativesNumber.hasError('minlength')  && model_ctrl.relativesNumber.touched">relatives phone min 5 char </span> -->
+                  <span class="text-danger" *ngIf="model_ctrl.relativesNumber.hasError('maxlength')  && model_ctrl.relativesNumber.touched">Please enter at most 15 characters.</span>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 5 " class="col-sm-4">
+                  <label class="col-form-label">
+                      Relatives Phone No
+																								<i class="text-danger">*</i>
+																							</label>
+                  <input [(ngModel)]="_model_kitas.relativesNumber" [formControl]="model_kitas.relativesNumber" type="text" class="form-control m-input" name="relativesphoneno"
+                    placeholder="Enter relatives phone number">
+                  <span class="text-danger" *ngIf="model_kitas.relativesNumber.hasError('required')  && model_kitas.relativesNumber.touched">Relatives Phone No is required.</span>
+                  <!-- <span class="text-danger" *ngIf="model_kitas.relativesNumber.hasError('minlength')  && model_kitas.relativesNumber.touched">relatives phone min 5 char </span> -->
+                  <span class="text-danger" *ngIf="model_kitas.relativesNumber.hasError('maxlength')  && model_kitas.relativesNumber.touched">Please enter at most 15 characters.</span>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 7" class="col-sm-4">
+                    <label class="col-form-label">
+                          Email Address *
+                          </label>
+                    <input [(ngModel)]="_model_dtt.email2" [formControl]="model_dtt.email2" type="text" class="form-control m-input" name="email"
+                      placeholder="Enter your email" disabled>
+                    <span class="m-form__help" style="font-size:12px">
+                          We'll never share your email with anyone else.
+                          </span>
+                    <span class="text-danger" *ngIf="model_dtt.email2.hasError('email')  && model_dtt.email2.touched">invalid email format</span>
+                    <span class="text-danger" *ngIf="model_dtt.email2.hasError('required')  && model_dtt.email2.touched">email cannot be empty </span>
+                  </div>
+                <!--if perusahhan  -->
+                <div *ngIf="_type_ctrl.typeCard == 7 " class="col-sm-4">
+                      <label class="col-form-label">
+                           Mobile Phone No  
+                                                  <i class="text-danger">*</i>
+                                                </label>
+                      <input [(ngModel)]="_model_dtt.phone" [formControl]="model_dtt.phone" type="text" class="form-control m-input" name="mobilephoneno"
+                        placeholder="Enter your phone number">
+                      <span class="text-danger" *ngIf="model_dtt.phone.hasError('required')  && model_dtt.phone.touched">Mobile Phone No is required.</span>
+                      <!-- <span class="text-danger" *ngIf="model_dtt.phone.hasError('minlength')  && model_dtt.phone.touched">mobile phone min 5 char </span> -->
+                      <span class="text-danger" *ngIf="model_dtt.phone.hasError('maxlength')  && model_dtt.phone.touched">Please enter at most 15 characters. </span>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 7 " class="col-sm-4">
+                  <label class="col-form-label">
+                      Relatives Phone No
+																								<i class="text-danger">*</i>
+																							</label>
+                  <input [(ngModel)]="_model_dtt.relativesNumber" [formControl]="model_dtt.relativesNumber" type="text" class="form-control m-input" name="relativesphoneno"
+                    placeholder="Enter relatives phone number">
+                    <span class="text-danger" *ngIf="model_dtt.relativesNumber.hasError('required')  && model_dtt.relativesNumber.touched">Relatives Phone No is required.</span>
+                    <!-- <span class="text-danger" *ngIf="model_dtt.relativesNumber.hasError('minlength')  && model_dtt.relativesNumber.touched">relatives phone min 5 char </span> -->
+                    <span class="text-danger" *ngIf="model_dtt.relativesNumber.hasError('maxlength')  && model_dtt.relativesNumber.touched">Please enter at most 15 characters.</span>
+                </div>
+              </div>
+              <div class="form-group m-form__group row">
+                <!-- if tddcompany  -->
+                <div *ngIf="_type_ctrl.typeCard == 7" class="col-sm-4">
+                  <label class="col-form-label">
+                       Established Date  
+																				<i class="text-danger">*</i>
+																			</label>
+                  <div class='input-group date' id=''>
+                    <input (selectedDateChange)="dateSelected3($event)" [(ngModel)]="_model_dtt.established" [formControl]="model_dtt.established"
+                      datePicker="datepicker" #SampleDatePicker3 name="SampleDatePicker3" class="form-control form-date" placeholder="Example: DD/MM/YYYY"
+                      required disabled>
+                    <!-- (focusout)="onChangeBirthDate(model.birthDate)" -->
+                    <span class="input-group-addon">
+																						<i class="la la-calendar"></i>
+																					</span>
+                  </div>
+                  <span class="text-danger" *ngIf="model_dtt.established.hasError('required') && model_dtt.established.touched">Established date number cannot be empty</span>
+                  <span class="text-danger" *ngIf="invalidBirthdate3">Birth date should not be greater than today</span>
+                </div>
+                <!-- end if tdd company -->
+                <div *ngIf="_type_ctrl.typeCard ==7" class="col-sm-4">
+                  <label class="col-form-label ">
+                       Country  
+																<i class="text-danger">*</i>
+															</label>
+                  <div [busyIf]="countryLoading">
+                    <select class="form-control country" [(ngModel)]="_model_dtt.country2" (ngModelChange)="onChangeCountry($event)" [formControl]="model_dtt.country2"
+                      [attr.data-live-search]="true" jq-plugin="selectpicker">
+																	<option value="">{{emptyText}}</option>
+																	<option *ngFor="let c of country" [value]="c.country">{{c.country}}</option>
+																</select>
+                  </div>
+                  <span class="text-danger" *ngIf="model_dtt.country2.hasError('required')  && model_dtt.country2.touched">country cannot be empty</span>
+                  <span class="text-danger" *ngIf="model_dtt.country2.hasError('maxlength')  && model_dtt.country2.touched">country max 50 char </span>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 1" class="col-sm-4">
+                  <label class="col-form-label">
+                    KTP Address
+                    <i class="text-danger">*</i>
+                  </label>
+                  <textarea [(ngModel)]="_model_ktp.corresponden" [formControl]="model_ctrl.corresponden" [formControl]="model_ctrl.corresponden"
+                    class="form-control \" name="address" placeholder="Enter your complete address"></textarea>
+                  <span class="text-danger" *ngIf="model_ctrl.corresponden.hasError('required')  && model_ctrl.corresponden.touched">  KTP Address cannot be empty </span>
+                  <span class="text-danger" *ngIf="model_ctrl.corresponden.hasError('maxlength') && model_ctrl.corresponden.touched"> KTP Address max 1000 char </span>
+
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 5" class="col-sm-4">
+                  <label class="col-form-label">
+                    KTP Address
+                    <i class="text-danger">*</i>
+                  </label>
+                  <textarea [(ngModel)]="_model_kitas.corresponden" [formControl]="model_kitas.corresponden" class="form-control \" name="address"
+                    placeholder="Enter your complete address"></textarea>
+                  <span class="text-danger" *ngIf="model_kitas.corresponden.hasError('required')  && model_kitas.corresponden.touched">  KTP Address cannot be empty </span>
+                  <span class="text-danger" *ngIf="model_kitas.corresponden.hasError('maxlength') && model_kitas.corresponden.touched"> KTP Address max 1000 char </span>
+
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 1" class="col-sm-4">
+                  <label class="col-form-label">
+                       Birth Place  
+									<!-- <i class="text-danger">*</i> -->
+								</label>
+                  <input [formControl]="model_ctrl.birthplace" [(ngModel)]="_model_ktp.birthplace" type="text" class="form-control m-input"
+                    name="birthplace" placeholder="Enter your birth place">
+                  <span class="text-danger" *ngIf="model_ctrl.birthplace.hasError('required')  && model_ctrl.birthplace.touched">birthplace cannot be empty</span>
+                  <span class="text-danger" *ngIf="model_ctrl.birthplace.hasError('maxlength')  && model_ctrl.fullname.touched">birthplace max 50 char </span>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 5" class="col-sm-4">
+                  <label class="col-form-label">
+                      Birth Place  
+										<!-- <i class="text-danger">*</i> -->
+									</label>
+                  <input [formControl]="model_kitas.birthplace" [(ngModel)]="_model_kitas.birthplace" type="text" class="form-control m-input"
+                    name="birthplace" placeholder="Enter your birth place">
+                  <span class="text-danger" *ngIf="model_kitas.birthplace.hasError('required')  && model_kitas.birthplace.touched">fullname cannot be empty</span>
+                  <span class="text-danger" *ngIf="model_kitas.birthplace.hasError('maxlength')  && model_kitas.fullname.touched">fullname max 50 char </span>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 1" class="col-sm-4">
+                  <label class="col-form-label">
+                          Birth Date  
+														<!-- <i class="text-danger">*</i> -->
+													</label>
+                  <div class='input-group date' id=''>
+                    <input (selectedDateChange)="dateSelected($event)" [(ngModel)]="_model_ktp.birthdate" [formControl]="model_ctrl.birthdate"
+                      datePicker="datepicker" #SampleDatePicker name="SampleDatePicker" class="form-date" placeholder="Example: DD/MM/YYYY"
+                      required disabled>
+                    <!-- (focusout)="onChangeBirthDate(model.birthDate)" -->
+                    <span class="input-group-addon">
+																<i class="la la-calendar"></i>
+															</span>
+                  </div>
+                  <span class="text-danger" *ngIf="model_ctrl.birthdate.hasError('required')  && model_ctrl.birthdate.touched">birthdate cannot be empty</span>
+                  <span class="text-danger" *ngIf="invalidBirthdate">Birth date should not be greater than today</span>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 5" class="col-sm-4">
+                  <label class="col-form-label">
+                      Birth Date  
+															<!-- <i class="text-danger">*</i> -->
+														</label>
+                  <div class='input-group date' id=''>
+                    <input (selectedDateChange)="dateSelected2($event)" [(ngModel)]="_model_kitas.birthdate" [formControl]="model_kitas.birthdate"
+                      datePicker="datepicker" #SampleDatePicker name="SampleDatePicker" class="form-control form-date" placeholder="Example: DD/MM/YYYY"
+                      required disabled>
+                    <!-- (focusout)="onChangeBirthDate(model.birthDate)" -->
+                    <span class="input-group-addon">
+																	<i class="la la-calendar"></i>
+																</span>
+                  </div>
+                  <span class="text-danger" *ngIf="model_kitas.birthdate.hasError('required')  && model_kitas.birthdate.touched">birthdate cannot be empty</span>
+                  <span class="text-danger" *ngIf="invalidBirthdate2">Birth date should not be greater than today</span>
+                </div>
+                <!-- end if -->
+                
+                <div *ngIf="_type_ctrl.typeCard == 7" class="col-sm-4">
+                    <label class="col-form-label">
+                              Nationality  
+                                                <!-- <i class="text-danger">*</i> -->
+                                              </label>
+                    <div [busyIf]="nationLoading">
+                      <select [formControl]="model_dtt.nation" class="form-control nation" [attr.data-live-search]="true" jq-plugin="selectpicker"
+                        [(ngModel)]="_model_dtt.nation">
+                                                  <option value="">{{emptyText}}</option>
+                                                  <option *ngFor="let c of nations" [value]="c.nationID">{{c.nationality}}</option>
+                                                </select>
+                    </div>
+                    <span class="text-danger" *ngIf="model_dtt.nation.hasError('required')  && model_dtt.nation.touched">nationality cannot be empty</span>
+                    <span class="text-danger" *ngIf="model_dtt.nation.hasError('maxlength')  && model_dtt.nation.touched">nationality max 50 char </span>
+                  </div>
+                <!-- ktp -->
+                <div *ngIf="_type_ctrl.typeCard == 1" class="col-sm-4">
+                  <label class="col-form-label ">
+                       Country  
+											<i class="text-danger">*</i>
+										</label>
+                  <div [busyIf]="countryLoading">
+                    <select [formControl]="model_ctrl.country" class="form-control country" [(ngModel)]="_model_ktp.country" (ngModelChange)="onChangeCountry($event)"
+                      [attr.data-live-search]="true" jq-plugin="selectpicker">
+												<option value="">{{emptyText}}</option>
+												<option *ngFor="let c of country" [value]="c.country">{{c.country}}</option>
+											</select>
+                  </div>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 5" class="col-sm-4">
+                  <label class="col-form-label ">
+                      Country  
+											<i class="text-danger">*</i>
+										</label>
+                  <div [busyIf]="countryLoading">
+                    <select [formControl]="model_kitas.country" class="form-control country" [(ngModel)]="_model_kitas.country" (ngModelChange)="onChangeCountry($event)"
+                      [attr.data-live-search]="true" jq-plugin="selectpicker">
+												<option value="">{{emptyText}}</option>
+												<option *ngFor="let c of country" [value]="c.country">{{c.country}}</option>
+											</select>
+                  </div>
+                </div>
+                <!-- ktp -->
+                <div *ngIf="_type_ctrl.typeCard == 1" class="col-sm-4">
+                  <label class="col-form-label">
+                       Nationality  
+																							<!-- <i class="text-danger">*</i> -->
+																						</label>
+                  <div [busyIf]="nationLoading">
+                    <select [formControl]="model_ctrl.nation" class="form-control nation" [attr.data-live-search]="true" jq-plugin="selectpicker"
+                      [(ngModel)]="_model_ktp.nation">
+																								<option value="">{{emptyText}}</option>
+																								<option *ngFor="let c of nations" [value]="c.nationID">{{c.nationality}}</option>
+																							</select>
+                  </div>
+                  <span class="text-danger" *ngIf="model_ctrl.nation.hasError('required')  && model_ctrl.nation.touched">nationality cannot be empty</span>
+                  <span class="text-danger" *ngIf="model_ctrl.nation.hasError('maxlength')  && model_ctrl.nation.touched">nationality max 50 char </span>
+                </div>
+                <!-- end ktp -->
+                <!-- kitas -->
+                <div *ngIf="_type_ctrl.typeCard == 5" class="col-sm-4">
+                  <label class="col-form-label">
+                          Nationality  
+																							<!-- <i class="text-danger">*</i> -->
+																						</label>
+                  <div [busyIf]="nationLoading">
+                    <select [formControl]="model_kitas.nation" class="form-control nation" [attr.data-live-search]="true" jq-plugin="selectpicker"
+                      [(ngModel)]="_model_kitas.nation">
+																								<option value="">{{emptyText}}</option>
+																								<option *ngFor="let c of nations" [value]="c.nationID">{{c.nationality}}</option>
+																							</select>
+                  </div>
+                  <span class="text-danger" *ngIf="model_kitas.nation.hasError('required')  && model_kitas.nation.touched">nationality cannot be empty</span>
+                  <span class="text-danger" *ngIf="model_kitas.nation.hasError('maxlength')  && model_kitas.nation.touched">nationality max 50 char </span>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 1" class="col-sm-4">
+                  <label class="col-form-label">
+                        Province  
+																<!-- <i class="text-danger">*</i> -->
+															</label>
+                  <div [busyIf]="provinceLoading">
+                    <select [formControl]="model_ctrl.province" class="form-control province" [(ngModel)]="_model_ktp.province" [attr.data-live-search]="true"
+                      jq-plugin="selectpicker" (change)="onChangeProvince($event)">
+																	<option value="">{{emptyText}}</option>
+																	<option *ngFor="let province of provinces" [value]="province.provinceCode + '|' + province.provinceName">{{province.provinceName}}</option>
+																</select>
+                  </div>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard === '5'" class="col-sm-4">
+                  <label class="col-form-label">
+                      Province  
+																<!-- <i class="text-danger">*</i> -->
+															</label>
+                  <div [busyIf]="provinceLoading">
+                    <select [formControl]="model_kitas.province" class="form-control province" title="Choose your province" [(ngModel)]="_model_kitas.province"
+                      jq-plugin="selectpicker" (change)="onChangeProvince($event)" [attr.data-live-search]="true">
+																	<option value="">{{emptyText}}</option>
+																	<option *ngFor="let  province of provinces" [value]="province.provinceCode + '|' + province.provinceName">{{province.provinceName}}</option>
+																</select>
+                  </div>
+                </div>
+                <!-- kitas -->
+              </div>
+              <div class="form-group m-form__group row">
+                <div *ngIf="_type_ctrl.typeCard == 1" class="col-sm-4">
+                  <label class="col-form-label">
+                       City  
+																							<!-- <i class="text-danger">*</i> -->
+																						</label>
+                  <div [busyIf]="cityLoading">
+                    <select [(ngModel)]="_model_ktp.city" class="form-control city" [formControl]="model_ctrl.city" [attr.data-live-search]="true"
+                      jq-plugin="selectpicker" (change)="onChangeCity($event)">
+																								<option value="">{{emptyText}}</option>
+																								<option *ngFor="let  city of citys" [value]="city.cityCode + '|' + city.cityName">{{city.cityName}}</option>
+																							</select>
+                  </div>
+                </div>
+                <!-- end ktp -->
+                <!-- kitas -->
+                <div *ngIf="_type_ctrl.typeCard == 5" class="col-sm-4">
+                  <label class="col-form-label">
+                      City  
+																							<!-- <i class="text-danger">*</i> -->
+																						</label>
+                  <div [busyIf]="cityLoading">
+                    <select [(ngModel)]="_model_kitas.city" class="form-control city" [formControl]="model_kitas.city" [attr.data-live-search]="true"
+                      jq-plugin="selectpicker" (change)="onChangeCity($event)">
+																								<option value="">{{emptyText}}</option>
+																								<option *ngFor="let  city of citys" [value]="city.cityCode + '|' + city.cityName">{{city.cityName}}</option>
+																							</select>
+                  </div>
+                </div>
+                <!-- end kitas -->
+                <!-- if tdd company -->
+                <div *ngIf="_type_ctrl.typeCard == 7" class="col-sm-4">
+                    <label class="col-form-label">
+                      Province  
+                                                <!-- <i class="text-danger">*</i> -->
+                                              </label>
+                    <div [busyIf]="provinceLoading">
+                      <select [formControl]="model_dtt.province" class="form-control province" title="Choose your province" [(ngModel)]="_model_dtt.province"
+                        jq-plugin="selectpicker" (change)="onChangeProvince($event)" [attr.data-live-search]="true">
+                                                  <option value="">{{emptyText}}</option>
+                                                  <option *ngFor="let  province of provinces" [value]="province.provinceCode + '|' + province.provinceName">{{province.provinceName}}</option>
+                                                </select>
+                    </div>
+                  </div>
+                <div *ngIf="_type_ctrl.typeCard == 7" class="col-sm-4">
+                  <label class="col-form-label">
+                        City  
+																							<!-- <i class="text-danger">*</i> -->
+																						</label>
+                  <div [busyIf]="cityLoading">
+                    <select [(ngModel)]="_model_dtt.city" class="form-control city" [formControl]="model_dtt.city" [attr.data-live-search]="true"
+                      jq-plugin="selectpicker" (change)="onChangeCity($event)">
+																								<option value="">{{emptyText}}</option>
+																								<option *ngFor="let  city of citys" [value]="city.cityCode + '|' + city.cityName">{{city.cityName}}</option>
+																							</select>
+                  </div>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 7 " class="col-sm-4">
+                  <label class="col-form-label">
+                        Post Code  
+																										<!-- <i class="text-danger">*</i> -->
+																									</label>
+                  <div [busyIf]="postcodeLoading">
+                    <select [formControl]="model_dtt.postcode" class="form-control postcode" [(ngModel)]="_model_dtt.postcode" [attr.data-live-search]="true"
+                      jq-plugin="selectpicker">
+																											<option value="">{{emptyText}}</option>
+																											<option *ngFor="let postcode of postcodes" [value]="postcode.postCode">{{postcode.postCode}}</option>
+																										</select>
+                  </div>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 7 " class="col-sm-4">
+                  <label class="col-form-label">
+                       Occupation
+                  </label>
+                  <!-- <input [(ngModel)]="_model_ktp.occupation" [formControl]="model_ctrl.occupation" type="text" class="form-control m-input" name="occupation"
+                    placeholder="Enter your Occupation"> -->
+                    <select #hasMessage id="customerJob" class="form-control job" title="Select a Occupation" name="occupation" [(ngModel)]="_model_dtt.occupation" [formControl]="model_dtt.occupation" jq-plugin="selectpicker" data-live-search="true">
+                      <option *ngFor="let item of _jobList" [value]="item.occupationID">
+                          {{item.occupationDesc}}
+                      </option>
+                  </select>
+                </div>
+                <!--end kitas  -->
+                <!-- ktp -->
+                <div *ngIf="_type_ctrl.typeCard == 1 " class="col-sm-4">
+                  <label class="col-form-label">
+                       Post Code  
+																									<!-- <i class="text-danger">*</i> -->
+																								</label>
+                  <div [busyIf]="postcodeLoading">
+                    <select [formControl]="model_ctrl.postcode" class="form-control postcode" [(ngModel)]="_model_ktp.postcode" [attr.data-live-search]="true"
+                      jq-plugin="selectpicker">
+																										<option value="">{{emptyText}}</option>
+																										<option *ngFor="let postcode of postcodes" [value]="postcode.postCode">{{postcode.postCode}}</option>
+																									</select>
+                  </div>
+                </div>
+                <!-- end ktp -->
+                <!-- kitas -->
+                <div *ngIf="_type_ctrl.typeCard == 5 " class="col-sm-4">
+                  <label class="col-form-label">
+                       Post Code 
+																									<!-- <i class="text-danger">*</i> -->
+																								</label>
+                  <div [busyIf]="postcodeLoading">
+                    <select [formControl]="model_kitas.postcode" class="form-control postcode" [(ngModel)]="_model_kitas.postcode" [attr.data-live-search]="true"
+                      jq-plugin="selectpicker">
+																										<option value="">{{emptyText}}</option>
+																										<option *ngFor="let postcode of postcodes" [value]="postcode.postCode">{{postcode.postCode}}</option>
+																									</select>
+                  </div>
+                </div>
+                <!--end  kitas -->
+                <div *ngIf="_type_ctrl.typeCard == 1" class="col-sm-4">
+                  <label class="col-form-label">
+                       Marital Status 
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                  <div [busyIf]="maritalLoading">
+                    <select [(ngModel)]="_model_ktp.marcode" [formControl]="model_ctrl.marcode" class="form-control marital" title="Choose your marital status"
+                      data-live-search="true" jq-plugin="selectpicker">
+                      <option *ngFor="let marital of maritals" [value]="marital.marStatus">{{marital.marStatusName}}</option> 
+                    </select>
+                  </div>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 1" class="col-sm-4">
+                  <label class="col-form-label">
+                       Occupation
+                  </label>
+                  <!-- <input [(ngModel)]="_model_ktp.occupation" [formControl]="model_ctrl.occupation" type="text" class="form-control m-input" name="occupation"
+                    placeholder="Enter your Occupation"> -->
+                    <select #hasMessage id="customerJob" class="form-control job" title="Select a Occupation" name="occupation" [(ngModel)]="_model_ktp.occupation" [formControl]="model_ctrl.occupation" jq-plugin="selectpicker" data-live-search="true">
+                      <option *ngFor="let item of _jobList" [value]="item.occupationID">
+                          {{item.occupationDesc}}
+                      </option>
+                  </select>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 5" class="col-sm-4">
+                  <label class="col-form-label">
+                          Marital Status  
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                  <div [busyIf]="maritalLoading">
+                    <select [(ngModel)]="_model_kitas.marcode" [formControl]="model_kitas.marcode" class="form-control marital" title="Choose your marital status"
+                      data-live-search="true" jq-plugin="selectpicker">
+                      <option *ngFor="let marital of maritals" [value]="marital.marStatus">{{marital.marStatusName}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div *ngIf="_type_ctrl.typeCard == 5" class="col-sm-4">
+                  <label class="col-form-label">
+                       Occupation
+                  </label>
+                  <!-- <input [(ngModel)]="_model_ktp.occupation" [formControl]="model_ctrl.occupation" type="text" class="form-control m-input" name="occupation"
+                    placeholder="Enter your Occupation"> -->
+                    <select #hasMessage id="customerJob" class="form-control job" title="Select a Occupation" name="occupation" [(ngModel)]="_model_kitas.occupation" [formControl]="model_kitas.occupation" jq-plugin="selectpicker" data-live-search="true">
+                      <option *ngFor="let item of _jobList" [value]="item.occupationID">
+                          {{item.occupationDesc}}
+                      </option>
+                  </select>
+                </div>
+              </div>
+              </div>
+            <br>
+            <hr>
+            <div *ngIf="_type_ctrl.typeCard == 1" class="idtype-ktp-sub">
+              <div class="form-group m-form__group row">
+                <div class="col-sm-4">
+                  <label class="col-form-label">
+                       KTP Number  
+                    <i class="text-danger">*</i>
+                  </label>
+                  <input [(ngModel)]="_model_ktp.ktp1" [formControl]="model_ctrl.ktp1" type="text" class="form-control m-input" name="ktpnumber"
+                    placeholder="Enter your KTP number" disabled>
+                  <span class="text-danger" *ngIf="model_ctrl.ktp1.hasError('required')  && model_ctrl.ktp1.touched">ktp cannot be empty</span>
+                  <span class="text-danger" *ngIf="model_ctrl.ktp1.hasError('minlength')  && model_ctrl.ktp1.touched">ktp min 15 char </span>
+                  <span class="text-danger" *ngIf="model_ctrl.ktp1.hasError('maxlength')  && model_ctrl.ktp1.touched">ktp max 16 char </span>
+                  <div class="text-danger" *ngIf="chk_ktp1">
+                    Minimum required number is 15.
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <label class="col-form-label">
+                       NPWP Number
+                       <i class="text-danger">*</i>
+                       </label>
+                  <input [(ngModel)]="_model_ktp.npwp1" [formControl]="model_ctrl.npwp1" type="text" class="form-control m-input" name="npwpnumber"
+                   placeholder="Enter your NPWP number">
+                  <!-- <span class="text-danger" *ngIf="model_ctrl.npwp1.hasError('minlength')  && model_ctrl.npwp1.touched">min lenght 15</span><span class="text-danger" *ngIf="model_ctrl.npwp1.hasError('maxlength')  && model_ctrl.npwp1.touched">max lenght 15</span> -->
+                </div>
+              </div>
+              <div class="form-group m-form__group row">
+                <div class="col-sm-4">
+                  <label> Upload KTP 
+                  <i class="text-danger">*</i>
+                  </label>
+                  <app-dropimage *ngIf="isktp == false" id="KTP" (onRemovefile)="removefile($event)" (onChangefile)="onSending($event)"></app-dropimage>
+                  <img *ngIf="ktp != null && isktp == true" src="data:image/png;base64,{{ktp}}" width="100%">
+                  <span *ngIf="ktp != null && isktp == true" (click)="removefile('KTP')" class="text-primary" style="font-size:12px;cursor:pointer">Click here to update image</span>
+                </div>
+                <div class="col-sm-4">
+                  <label> Upload NPWP
+                  <i class="text-danger">*</i>
+                  </label>
+                  <app-dropimage *ngIf="isnpwp == false" id="NPWP" (onRemovefile)="removefile($event)" (onChangefile)="onSending($event)"></app-dropimage>
+                  <img *ngIf="npwp != null && isnpwp == true" src="data:image/png;base64,{{npwp}}" width="100%">
+                  <span *ngIf="npwp != null && isnpwp == true" (click)="removefile('NPWP')" class="text-primary" style="font-size:12px;cursor:pointer">Click here to update image</span>
+                </div>
+                <div class="col-sm-4">
+                  <label>Upload Kartu Keluarga</label>
+                  <app-dropimage *ngIf="iskk == false" id="KK" (onRemovefile)="removefile($event)" (onChangefile)="onSending($event)"></app-dropimage>
+                  <img *ngIf="kk != null && iskk == true" src="data:image/png;base64,{{kk}}" width="100%">
+                  <span *ngIf="kk != null && iskk == true" (click)="removefile('KK')" class="text-primary" style="font-size:12px;cursor:pointer">Click here to update image</span>
+                </div>
+              </div>
+              <div *ngIf="_model_ktp.marcode == 'M'" class="form-group m-form__group row">
+                <div class="col-sm-4">
+                  <label>Upload KTP Pasangan</label>
+                  <app-dropimage *ngIf="isktppasangan == false" id="KTPC" (onRemovefile)="removefile($event)" (onChangefile)="onSending($event)"></app-dropimage>
+                  <img *ngIf="ktppasangan != null && isktppasangan == true" src="data:image/png;base64,{{ktppasangan}}" width="100%">
+                  <span *ngIf="ktppasangan != null && isktppasangan == true" (click)="removefile('KTPC')" class="text-primary" style="font-size:12px;cursor:pointer">Click here to update image</span>
+                </div>
+              </div>
+            </div>  
+            <div *ngIf="_type_ctrl.typeCard == 5" class="idtype-kitas-sub">
+              <div class="form-group m-form__group row">
+                <div class="col-sm-4">
+                  <label class="col-form-label">
+                       KITAS Number  
+                      <i class="text-danger">*</i>
+                  </label>
+                  <input [(ngModel)]="_model_kitas.kitas" [formControl]="model_kitas.kitas" type="text" class="form-control m-input" name="ktpnumber"
+                    placeholder="Enter your KITAS number" disabled>
+                  <span class="text-danger" *ngIf="model_kitas.kitas.hasError('required')  && model_kitas.kitas.touched">kitas cannot be empty</span>
+                  <span class="text-danger" *ngIf="model_kitas.kitas.hasError('maxlength')  && model_kitas.kitas.touched">kitas max 15 char </span>
+                  <div class="text-danger" *ngIf="chk_kitas">
+                    Minimum required number is 15.
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <label class="col-form-label">
+                       Passport Number
+                  </label>
+                  <input [(ngModel)]="_model_kitas.passport" pattern="[a-zA-Z0-9]+" type="text" class="form-control m-input" [ngModelOptions]="{standalone: true}">
+                  <!-- <span class="text-danger" *ngIf="model_kitas.passport.hasError('minlength') && model_kitas.passport.touched">passport min 13 char</span><span class="text-danger" *ngIf="model_kitas.passport.hasError('maxlength') && model_kitas.passport.touched">passport max 13 char </span>     -->
+                  <!-- <span class="text-danger" *ngIf="model_kitas.passport.hasError('required')  && model_kitas.passport.touched">passport cannot be empty</span> -->
+                </div>
+              </div>
+              <div class="form-group m-form__group row">
+                <div class="col-sm-4">
+                  <label> Upload KITAS 
+                    <i class="text-danger">*</i>
+                  </label>
+                  <app-dropimage *ngIf="iskitas == false" id="KITAS" (onRemovefile)="removefile($event)" (onChangefile)="onSending($event)"></app-dropimage>
+                  <img *ngIf="kitas != null && iskitas == true" src="data:image/png;base64,{{kitas}}" width="100%">
+                  <span *ngIf="kitas != null && iskitas == true" (click)="removefile('KITAS')" class="text-primary" style="font-size:12px;cursor:pointer">Click here to update image</span>
+                </div>
+                <div class="col-sm-4">
+                  <label> Upload Passport</label>
+                  <app-dropimage *ngIf="ispassport == false" id="PASS" (onRemovefile)="removefile($event)" (onChangefile)="onSending($event)"></app-dropimage>
+                  <img *ngIf="passport != null && ispassport == true" src="data:image/png;base64,{{passport}}" width="100%">
+                  <span *ngIf="passport != null && ispassport == true" (click)="removefile('PASS')" class="text-primary" style="font-size:12px;cursor:pointer">Click here to update image</span>
+                </div>
+                <div class="col-sm-4">
+                  <label> Upload NPWP</label>
+                  <app-dropimage *ngIf="isnpwp == false" id="NPWP" (onRemovefile)="removefile($event)" (onChangefile)="onSending($event)"></app-dropimage>
+                  <img *ngIf="npwp != null && isnpwp == true" src="data:image/png;base64,{{npwp}}" width="100%">
+                  <span *ngIf="npwp != null && isnpwp == true" (click)="removefile('NPWP')" class="text-primary" style="font-size:12px;cursor:pointer">Click here to update image</span>
+                </div>
+              </div>
+              <div class="form-group m-form__group row">
+                <div class="col-sm-4">
+                  <!-- <label>Upload KITAS / Passport Pasangan</label>
+                  <div *ngIf="_model_kitas.marcode == 'M'" class="col-sm-12">
+                    <app-dropimage *ngIf="ispassportpassangan == false" id="passpasangan" (onRemovefile)="removefile($event)" (onChangefile)="onSending($event)"></app-dropimage>
+                    <img *ngIf="passportpassangan != null && ispassportpassangan == true" src="data:image/png;base64,{{passportpassangan}}" width="100%">
+                    <span *ngIf="passportpassangan != null && ispassportpassangan == true" (click)="ispassportpassangan=false" class="text-primary"
+                      style="font-size:12px;cursor:pointer">Click here to update image</span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+            <div *ngIf="_type_ctrl.typeCard == 7" class="idtype-tdp-sub">
+              <div class="form-group m-form__group row">
+                <div class="col-sm-4">
+                  <label class="col-form-label">
+                       KTP Direksi / Pengurus Number  
+                    <i class="text-danger">*</i>
+                  </label>
+                  <input [(ngModel)]="_model_dtt.ktp2" [formControl]="model_dtt.ktp2" type="text" class="form-control m-input" name="ktpdireksipengurus"
+                    placeholder="Enter your KTP number" disabled>
+                  <span class="text-danger" *ngIf="model_dtt.ktp2.hasError('required')  && model_dtt.ktp2.touched">ktp cannot be empty</span>
+                  <span class="text-danger" *ngIf="model_dtt.ktp2.hasError('minlength')  && model_dtt.ktp2.touched">ktp min 15 char </span>
+                  <span class="text-danger" *ngIf="model_dtt.ktp2.hasError('maxlength')  && model_dtt.ktp2.touched">ktp max 16 char </span>
+                  <div class="text-danger" *ngIf="chk_tdp">
+                    Minimum required number is 5.
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <label class="col-form-label">
+                       NPWP Number
+                       <i class="text-danger">*</i>
+                       </label>
+                  <input [(ngModel)]="_model_dtt.npwp2" [formControl]="model_dtt.npwp2" type="text" class="form-control m-input" name="npwpnumber"
+                    inputMask="mask" [inputMaskOptions]="inputmasnpwp()" placeholder="Enter your NPWP number">
+                  <!-- <span class="text-danger" *ngIf="model_dtt.npwp2.hasError('minlength')  && model_dtt.npwp2.touched">min lenght 15</span><span class="text-danger" *ngIf="model_dtt.npwp2.hasError('maxlength')  && model_dtt.npwp2.touched">max lenght 15</span> -->
+                </div>
+              </div>
+              <div class="form-group m-form__group row">
+                <div class="col-sm-4">
+                  <label> Upload KTP Direksi / Pengurus 
+                    <i class="text-danger">*</i>
+                  </label>
+                  <app-dropimage *ngIf="isdir == false" id="KTPP" (onRemovefile)="removefile($event)" (onChangefile)="onSending($event)"></app-dropimage>
+                  <img *ngIf="dir != null && isdir == true" src="data:image/png;base64,{{dir}}" width="100%">
+                  <span *ngIf="dir != null && isdir == true" (click)="removefile('KTPP')" class="text-primary" style="font-size:12px;cursor:pointer">Click here to update image</span>
+                </div>
+                <div class="col-sm-4">
+                  <label> Upload NPWP </label>
+                  <app-dropimage *ngIf="isnpwp == false" id="NPWP" (onRemovefile)="removefile($event)" (onChangefile)="onSending($event)"></app-dropimage>
+                  <img *ngIf="npwp != null && isnpwp == true" src="data:image/png;base64,{{npwp}}" width="100%">
+                  <span *ngIf="npwp != null && isnpwp == true" (click)="removefile('NPWP')" class="text-primary" style="font-size:12px;cursor:pointer">Click here to update image</span>
+                </div>
+                <div class="col-sm-4">
+                  <label>Upload Tanda Daftar Perusahaan </label>
+                  <app-dropimage *ngIf="istdp == false" id="TDP" (onRemovefile)="removefile($event)" (onChangefile)="onSending($event)"></app-dropimage>
+                  <img *ngIf="tdp != null && istdp == true" src="data:image/png;base64,{{tdp}}" width="100%">
+                  <span *ngIf="tdp != null && istdp == true" (click)="removefile('TDP')" class="text-primary" style="font-size:12px;cursor:pointer">Click here to update image</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="m-portlet__foot m-portlet__foot--fit text-right pad">
+            <div class="m-form__actions">
+              <button *ngIf="_type_ctrl.typeCard==1" type="submit" [disabled]="(!customerForm.valid || updateLoading) || (_model_ktp.image_ktp==undefined || _model_ktp.image_ktp==null || _model_ktp.image_ktp=='') ||
+              (_model_ktp.image_npwp==undefined || _model_ktp.image_npwp==null || _model_ktp.image_npwp=='')" id="register-customer-submit" class="btn btn-danger m-btn m-btn--air m-btn--uppercase"
+                [ngClass]="updateLoading ? 'm-loader m-loader--light m-loader--right' : ''">
+                    Update Customer Ktp
+              </button>
+              <button *ngIf="_type_ctrl.typeCard==5" type="submit" [disabled]="(!customerForm.valid || updateLoading) || (_model_kitas.image_kitas==null || _model_kitas.image_kitas=='')" id="register-customer-submit" class="btn btn-danger m-btn m-btn--air m-btn--uppercase"
+                [ngClass]="updateLoading ? 'm-loader m-loader--light m-loader--right' : ''">
+                    Update Customer KITAS
+              </button>
+              <button *ngIf="_type_ctrl.typeCard==7" type="submit" [disabled]="(!customerForm.valid || updateLoading) || (_model_dtt.image_ktp_dir==null || _model_dtt.image_ktp_dir=='')" id="register-customer-submit" class="btn btn-danger m-btn m-btn--air m-btn--uppercase"
+                [ngClass]="updateLoading ? 'm-loader m-loader--light m-loader--right' : ''">
+                    Update Customer Perusahaan
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

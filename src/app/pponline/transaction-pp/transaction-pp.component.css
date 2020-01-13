@@ -1,0 +1,44 @@
+ui-spinner, body .modal .ui-spinner.ui-widget.ui-corner-all, .my-spiner span.ui-spinner {
+    width: 100% !important;
+}
+
+body .ui-button {
+    background-color: #d8023d;
+    display: none;
+}
+
+body .ui-widget:disabled {
+    opacity: 0.99;
+    background-color: #f4f5f8;
+}
+
+body .ui-inputtext {
+    width: 127%;
+}
+
+body .ui-buttonset.ui-selectbutton .ui-button {
+    border-radius: 0.25rem !important;
+    border: 1px solid #cccccc !important;
+    width: 120px !important;
+    margin: 0px 4px 4px 0px !important;
+}
+
+body .ui-selectbutton.ui-buttonset .ui-button.ui-state-active {
+    background-color: #f4516c !important;
+    border-color: #f12143 !important;
+}
+
+.ui-multiselect {
+    width: 100%;
+}
+
+.dropdown-menu > li > a.active {
+    background: #f4f5f8;
+    color: #000000;
+    text-decoration: none;
+}
+
+.filter-option {
+    border: 1px solid #ebedf2;
+    border-radius: 0.3rem;
+}

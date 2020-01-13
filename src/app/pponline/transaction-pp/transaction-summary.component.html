@@ -1,0 +1,259 @@
+<style>
+    .swal-text {
+        text-align: center !important;
+    }
+</style>
+
+<div [@routerTransition]>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    Transaction
+                </h3>
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="" class="m-nav__link m-nav__link--icon">
+                            <i class="m-nav__link-icon la la-home"></i>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="app/main/dashboard" class="m-nav__link">
+                            <span class="m-nav__link-text">
+                                Order Summary
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-6 text-right"></div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <form #exampleForm="ngForm" [formGroup]="validationForm" [busyIf]="TrBuyPPonlineLoading">
+                <div class="m-portlet__body">
+                    <div class="col-md-12 row">
+                        <div class="col-sm-2" id="ImageContainerr">
+                            <img src="{{detailOrder.imageLogo}}" style="max-width: 140px;">
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                                <label class="col-4 col-form-label">Order No</label>
+                                <div class="col-sm-6">
+                                    <div class="col-sm-8">
+                                        <input class="form-control" [value]="detailOrder.orderNo" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                                <label class="col-4 col-form-label">Project Name</label>
+                                <div class="col-sm-6">
+                                    <div class="col-sm-8">
+                                        <input class="form-control" [value]="detailOrder.projectName" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                                <label class="col-4 col-form-label">Product Name</label>
+                                <div class="col-sm-6">
+                                    <div class="col-sm-8">
+                                        <input class="form-control" [value]="detailOrder.productName" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                                <label class="col-4 col-form-label">Preferred Unit Type</label>
+                                <div class="col-sm-6">
+                                    <div class="col-sm-8">
+                                        <input class="form-control" [value]="detailOrder.preferredUnitType" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                                <label class="col-4 col-form-label">Preferred Term Of Payment</label>
+                                <div class="col-sm-6">
+                                    <div class="col-sm-8">
+                                        <input class="form-control" [value]="detailOrder.termName" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="ojkHidden == true" class="form-group m-form__group row" style="margin: 20px 0px;">
+                                <label class="col-4 col-form-label">Preferred Bank</label>
+                                <div class="col-sm-6" style="margin-left: 16px;">
+                                    <button class="btn btn-primary btn-sm">{{bankList.bankName}}</button>
+                                    <button *ngIf="bankList2 !== undefined" class="btn btn-primary btn-sm">
+                                        {{bankList2.bankName}}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                                <label class="col-4 col-form-label">Priority Pass Quantity</label>
+                                <div class="col-sm-6">
+                                    <div class="col-sm-8">
+                                        <input class="form-control" [value]="detailOrder.qty" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <br>
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title" style="margin-bottom:10px">
+                                <h3 class="m-portlet__head-text method-type" style="margin-bottom:0;font-size:14px">
+                                    Amount to be Paid
+                                </h3>
+                                <small style="color:#95a5a6;font-size:12px">
+                                    Total Booking Fee
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="alert m-alert--default" role="alert">
+                                <strong>
+                                    {{detailOrder.totalOrder | currency:'Rp. '}}
+                                </strong>
+                                <!-- ( Dua Puluh Lima Juta Rupiah ) -->
+                            </div>
+                        </div>
+                        <br>
+                        <!-- *ngIf="detailOrder.qty==1" -->
+                        <div class="col-sm-12">
+                            <div class="col-sm-8">
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-3" style="margin-top: 10px;">
+                                        <input type="checkbox" name="voucherType" [(ngModel)]="VoucherPp" [ngModelOptions]="{standalone: true}" (change)="onChangeVoucherByUnitCheck(VoucherPp)" value="1">
+                                        <b style="font-size: 14px;">Voucher No</b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" *ngIf="VoucherPp" [busyIf]="onChangeVoucherByUnitCheckLoading" style="background-color: #f4f5f8;padding-top: 10px; padding-bottom: 1px;">
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-6">
+                                        <b style="font-size: 14px;">Amount To Be Paid</b>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <b style="font-size: 14px;">{{rpInput}}</b>
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-6">
+                                        <input [(ngModel)]="voucherValue" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChangeVoucher($event)" type="text" class="form-control m-input" placeholder="Voucher No">
+                                    </div>
+                                    <div class="col-sm-5" style="padding-top: 8px;" [busyIf]="onChangeVoucherLoading">
+                                        <b style="font-size: 14px;">{{voucherPrice}}</b>
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-6">
+                                        <b style="font-size: 14px;">Total To Be Paid</b>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <b style="font-size: 14px;">
+                                            {{voucherTotalToBePaid}}
+                                        </b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12" *ngIf="hiddenPayment == false">
+                            <div *ngIf="totalToBePaid != 0" class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title" style="margin-bottom:10px">
+                                    <h3 class="m-portlet__head-text method-type" style="margin-bottom:0;font-size:14px">
+                                        Payment Method
+                                    </h3>
+                                    <small style="color:#95a5a6;font-size:12px">
+                                        Please choose one for your Booking Fee Payment
+                                    </small>
+                                </div>
+                            </div>
+                            <div *ngIf="totalToBePaid != 0" class="form-group m-form__group row" style="margin-left: 10px;">
+                                <div class="m-radio-inline col-sm-12">
+                                    <label *ngFor="let item of paySource; let i = index" class="m-radio m-radio--solid">
+
+                                        <input id="pay_{{item.paymentTypeId}}" [(ngModel)]="payType"
+                                            [value]="item.paymentTypeId+'|'+item.paymentType"
+                                            [ngModelOptions]="{standalone: true}" type="radio" name="paymentMethod" (click)="imgClick()">
+                                        
+                                        <img 
+                                            style="height:30px" 
+                                            width="100" 
+                                            title="{{item.paymentTypeName}}"
+                                            src="data:image/png;base64,{{item.image}}" 
+                                            (click)="imgClick()">
+
+                                        <!-- <img *ngIf="item.paymentType=='3'" style="height:30px" width="100"
+                                             src="../../../assets/app/media/img/bank-logo/visamastercard.png" (click)="imgClick()">
+                                        <img *ngIf="item.paymentType=='10'" style="height:30px" width="100"
+                                             src="../../../assets/app/media/img/bank-logo/bcaklikpay.png" (click)="imgClick()">
+                                        <img *ngIf="item.paymentType=='11'" style="height:30px" width="100"
+                                             src="../../../assets/app/media/img/bank-logo/cimbclicls.png" (click)="imgClick()">
+                                        <img *ngIf="item.paymentType=='4'" style="height:30px" width="100"
+                                             src="../../../assets/app/media/img/bank-logo/banktransfer.png" (click)="imgClick()"> -->
+                                        
+                                             <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-sm-10">
+                            <input type="checkbox" [(ngModel)]="termCondition" [ngModelOptions]="{standalone: true}" (ngModelChange)="termConditionChange()"> I agreed to the terms and conditions
+                        </div>
+                        <div class="col-sm-10" *ngIf="ojkHidden == true">
+                            <input type="checkbox" [(ngModel)]="ojkChecking" [ngModelOptions]="{standalone: true}" (ngModelChange)="termConditionChange(); showModal();"> I agreed to go through SLIK OJK Checking
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom: 30px; margin-top: 20px;">
+                        <button type="button" [disabled]="((payType == undefined && payTypee == false) || (payType == undefined && totallastbepaid != 0 && payTypee == true)) || buttonDisable == false" [ngClass]="TrBuyPPonlineLoading ? 'm-loader m-loader--light m-loader--right' : ''"
+                            class="btn btn-danger pull-right" (click)="TrBuyPPonline()">
+                            Pay Now
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isShowing" id="popup-banktransfer" class="swal-overlay swal-overlay--hide-modal" tabindex="-1">
+    <div class="swal-modal modal-lg" role="dialog" aria-modal="true">
+        <div class="swal-icon swal-icon--info"></div>
+        <div class="swal-title">Please make a payment for each item to BNI (Bank Negara Indonesia) virtual account number bellow:</div>
+        <div class="swal-text">
+            <table>
+                <tr>
+                    <td style="text-align: left !important">
+                        <span class="label m-badge m-badge--primary m-badge--wide" style="width:100% !important">
+                           {{listOfBookedUnit.trx_id}}
+                        </span>
+                    </td>
+                    <td style="text-align: right !important;padding-left: 15px;">{{listOfBookedUnit.virtual_account}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="swal-footer" style="padding-top: 20px;">
+            <div class="swal-button-container">
+
+                <button class="swal-button swal-button--confirm" routerLink="/app/sales-portal/dashboard">OK</button>
+
+                <div class="swal-button__loader">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<ojkModal #ojkModal></ojkModal>

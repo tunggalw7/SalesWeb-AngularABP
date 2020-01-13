@@ -1,0 +1,79 @@
+<style>
+</style>
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>View Project & Promotions</span>
+                </h3>
+                <span class="m-section__sub">
+                    List promotion of this project
+                </span>
+            </div>
+
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <div class=row>
+                    <div class='col-md-6'></div>
+                    <label for="project" class="col-md-3 col-form-label text-left">
+                        Project
+                    </label>
+                    <div class="col-md-3">
+                        <div [busyIf]="projectLoading" formComponent="select">
+                            <select #hasMessage id="project" (ngModelChange)="projectChange($event)" class="form-control project" title="Select Project" [(ngModel)]="project" jq-plugin="selectpicker"
+                                data-live-search="true">
+                                <option [value]="">
+                                    All
+                                </option>
+                                <option *ngFor="let proj of _projectList" [value]="proj.projectId">
+                                    {{proj.projectName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div *ngIf="data_projects.length==0&&!poromotionLoading">
+                    <div class="m-portlet__head-title" style="margin-bottom:10px; margin-top:10px">
+                        <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                            There is no data promotion
+                        </h3>
+                        <small class="m-form__help">
+                        </small>
+                    </div>
+                </div>
+                <fieldset  style="border:1px solid #c2cad8; padding-left: 20px;padding-right: 20px" *ngFor="let promo of data_projects" [busyIf]="poromotionLoading">
+                    <div class="m-portlet__head-title" style="margin-bottom:10px; margin-top:10px">
+                        <h3 class="m-portlet__head-text" style="margin-bottom:0">
+                            {{promo.projectName}}
+                        </h3>
+                        <small class="m-form__help">
+                            List promotion of this project
+                        </small>
+                    </div>
+                    <div class="row">
+                        <div *ngFor="let item of promo.listPromo" class="col-xl-4" style="margin-bottom:30px">
+                            <div class="column">
+                                <div class="post-module">
+                                    <div class="thumbnail">
+                                        <img src="{{item.promoFile}}" />
+                                    </div>
+                                    <div class="post-content">
+                                        <!-- <a target="_blank" class="btn m-btn--pill  btn-brand"  style="border-radius: 0!important;width:100%" [href]="item.targetURL">Read More</a>                     -->
+                                        <button style="border-radius: 0!important;width:100%" type="button" (click)="redirectToProjectDetail(item.targetURL)" class="btn m-btn--pill  btn-brand">
+                                            Read More
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset >
+            </div>
+        </div>
+    </div>
+</div>

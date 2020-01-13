@@ -1,0 +1,16 @@
+body .ui-tabview.ui-tabview-top .ui-tabview-nav li {
+    padding: 10px !important;
+}
+
+span.m-form__help {
+    font-size: 11px;
+    font-weight: 500;
+}   
+
+label.col-md-3.col-form-label {
+    font-weight: 500;
+}
+
+i.text-danger {
+    font-size: 11px;
+}

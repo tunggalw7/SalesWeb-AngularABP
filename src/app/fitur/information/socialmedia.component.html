@@ -1,0 +1,77 @@
+<div bsModal #socialModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detailBookingModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form [formGroup]="socialMediaForm" class="m-form m-form--fit m-form--label-align-right" method="post" novalidate>
+                <div class="modal-header custom">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Social Media
+                    </h5>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+						<span aria-hidden="true">
+                                &times;
+                            </span>
+					</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-12">
+                            <label for="sosialMediaID">
+                                    Social Media<i class="text-danger">*</i>
+                                </label>
+                            <div [busyIf]="sosmedListLoading">
+                                <select id="sosialMediaID" name="sosialMedia" formControlName="sosialMedia" [(ngModel)]="model.sosialMediaID"
+                                 class="form-control socialmedia"
+                                    jq-plugin="selectpicker" title="Nothing Selected" data-live-search="true">                               
+                                    <option *ngFor="let social of _socials"
+                                    [value]="social.socialMediaID+'|'+social.socialMediaName">
+                                        {{social.socialMediaName}}
+                                    </option>
+								</select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-12">
+                            <label for="socialMediaLink">
+                                    Url<i class="text-danger">*</i>
+                                </label>
+                            <div class="m-input-icon m-input-icon--left">
+                                <input id="socialMediaLink" name="url" formControlName="url" [(ngModel)]="model.socialMediaLink" class="form-control m-input"
+                                    type="text" placeholder="Enter social media url">
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+										<span>
+											<i class="la la-link"></i>
+										</span>
+                                </span>
+                            </div>
+                            <span style="color:  red;" class="m-form__help"> Please enter key feature</span>
+                            <!-- <span class="m-form__help text-danger" *ngIf="model.phone.hasError('required') && model.phone.touched">Phone cannot be empty</span> -->
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-12">
+                            <label for="isActive">
+                                    Status
+                                </label>
+                            <div class="m-radio-inline">
+                                <label class="m-checkbox" style="margin-top: 10px;">
+                                    <input formControlName="status" [(ngModel)]="model.isActive" type="checkbox" checked="checked"> Active
+                                    <span></span>
+                                </label>
+                            </div>
+                            <span style="color:  red;" class="m-form__help">
+                                    Please select social media active
+                                </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-form__actions m-form__actions--solid">
+                    <button type="button" class="btn btn-metal" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!socialMediaForm.valid" [buttonBusy]="sosmedLoading" [busyText]="l('SavingWithThreeDot')"
+                        (click)="save()">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

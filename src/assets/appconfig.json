@@ -1,0 +1,14 @@
+{
+    "remoteServiceBaseUrl": "http://10.12.1.42:2002",
+    "userManualBaseUrl": "http://10.12.1.42/PDFService",
+    "appBaseUrl": "http://localhost:4200",
+    "localeMappings": [{
+            "from": "pt-BR",
+            "to": "pt"
+        },
+        {
+            "from": "zh-CN",
+            "to": "zh"
+        }
+    ]
+}

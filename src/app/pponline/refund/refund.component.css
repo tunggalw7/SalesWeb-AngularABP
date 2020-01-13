@@ -1,0 +1,23 @@
+.ui-spinner, body .modal .ui-spinner.ui-widget.ui-corner-all, .my-spiner span.ui-spinner {
+    width: 100% !important;
+}
+
+body .ui-button {
+    background-color: #d8023d;
+    display: none;
+}
+
+body .ui-widget:disabled {
+    opacity: 0.99;
+    background-color: #f4f5f8;
+}
+
+body .ui-inputtext {
+    width: 100%;
+}
+
+.dropdown-menu > li > a.active {
+    background: #f4f5f8;
+    color: #000000;
+    text-decoration: none;
+}

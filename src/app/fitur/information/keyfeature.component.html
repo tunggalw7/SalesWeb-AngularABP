@@ -1,0 +1,44 @@
+<div bsModal #keyfeatureModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detailBookingModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form [formGroup]="keyfeatureForm" class="m-form m-form--fit m-form--label-align-right" method="post" novalidate>
+                <div class="modal-header custom">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Key Feature
+                    </h5>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+						<span aria-hidden="true">
+                            &times;
+                        </span>
+					</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-12">
+                            <label for="keyfeatures">
+                                Key Feature<i class="text-danger">*</i>
+                            </label>
+                            <div class="m-input-icon m-input-icon--left">
+                                <input id="keyfeatures" type="text" class="form-control m-input" name="keyfeature" formControlName="keyfeature" [(ngModel)]="model.keyFeatures"
+                                    placeholder="Enter key feature">
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+										<span>
+											<i class="la la-gg-circle"></i>
+										</span>
+                                </span>
+                            </div>
+                            <span style="color:  red;" class="m-form__help"> Please enter key feature</span>
+                            <!-- <span class="m-form__help text-danger" *ngIf="model.phone.hasError('required') && model.phone.touched">Phone cannot be empty</span> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-form__actions m-form__actions--solid">
+                    <button type="button" class="btn btn-metal" [disabled]="keyfeatureLoading" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!keyfeatureForm.valid" [buttonBusy]="keyfeatureLoading" [busyText]="l('SavingWithThreeDot')"
+                        (click)="save()">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

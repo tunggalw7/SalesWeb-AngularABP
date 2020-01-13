@@ -1,0 +1,227 @@
+<div [@routerTransition]>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    Transaction
+                </h3>
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="#" class="m-nav__link m-nav__link--icon">
+                        </a>
+                    </li>
+
+                    <li class="m-nav__item">
+                        <a class="m-nav__link">
+						<span class="m-nav__link-text"dropDownProduct>
+								Priority Pass Online
+							</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-6 text-right"></div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <form #exampleForm="ngForm" [formGroup]="validationForm">
+                <div class="m-portlet__body">
+                    <div class="col-md-12 row">
+                        <div class="col-sm-2" id="ImageContainerr" [busyIf]="onChangeLogoLoading">
+                            <img src="{{changeProjectLogo}}"
+                                 style="max-width: 140px;">
+                        </div>
+                        <div class="col-sm-10">
+                            <div *ngIf="quicActionDetail == false">
+                                <div *ngIf="projectDetailOrder == false" class="form-group m-form__group row"
+                                     style="margin: 20px 0px;">
+                                    <label class="col-3 col-form-label">Customer Name
+                                        <i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input [(ngModel)]="customerName" [ngModelOptions]="{standalone: true}"
+                                                       class="form-control m-input"
+                                                       type="text" disabled>
+                                                <!-- <div class="input-group-btn">
+                                                    <button class="btn btn-default" type="button"
+                                                            title="Click the button to change customer"
+                                                            (click)="searchCustomer()">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" [formControlStyle]="validationForm"
+                                 formComponent="select"
+                                 style="margin: 20px 0px;">
+                                <label class="col-3 col-form-label">Project Name
+                                    <i class="text-danger">*</i>
+                                </label>
+                                <div class="col-sm-8">
+                                    <div class="col-sm-8" [busyIf]="getDropdownProjectPpLoading" formComponent="select">
+                                        <select #hasMessage id="project" class="form-control project"
+                                                [(ngModel)]="modelDropDownProject" title="Choose Project Name"
+                                                formControlName="project"
+                                                (ngModelChange)="onChangeDropdownProject(modelDropDownProject)"
+                                                jq-plugin="selectpicker"
+                                                data-live-search="true">
+                                            <option *ngFor="let _project of dropDownProject"
+                                                    [ngValue]="_project">
+                                                {{_project.projectName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" [formControlStyle]="validationForm"
+                                 formComponent="select"
+                                 style="margin: 20px 0px;">
+                                <label class="col-3 col-form-label">Product Name
+                                    <i class="text-danger">*</i>
+                                </label>
+                                <div class="col-sm-8">
+                                    <div class="col-sm-8" [busyIf]="getDropdownProductByProjectPPLoading"
+                                         formComponent="select">
+                                        <select #hasMessage id="product" class="form-control product"
+                                                [(ngModel)]="modelDropDownProduct" title="Choose Product Name"
+                                                formControlName="product"
+                                                (ngModelChange)="onChangeProduct(modelDropDownProduct)"
+                                                jq-plugin="selectpicker"
+                                                data-live-search="true">
+                                            <option *ngFor="let _product of dropDownProduct"
+                                                    [ngValue]="_product">
+                                                {{_product.productName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" [formControlStyle]="validationForm"
+                                 formComponent="select"
+                                 style="margin: 20px 0px;">
+                                <label class="col-3 col-form-label">Preferred Unit Type
+                                    <i class="text-danger">*</i>
+                                </label>
+                                <div class="col-sm-8">
+                                    <div class="col-sm-8" [busyIf]="getPreferredTypeLoading" formComponent="select">
+                                        <select #hasMessage id="preferredUnit" class="form-control preferredType"
+                                                [(ngModel)]="modelDropDownPreferredType" title="Choose Unit Type"
+                                                formControlName="preferredunit"
+                                                (ngModelChange)="onChangePreferredType($event)"
+                                                jq-plugin="selectpicker"
+                                                data-live-search="true">
+                                            <option *ngFor="let _preferredtype of dropDownPreferredType"
+                                                    [ngValue]="_preferredtype">
+                                                {{_preferredtype.preferredTypeName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" [formControlStyle]="validationForm"
+                                 formComponent="select"
+                                 style="margin: 20px 0px;">
+                                <label class="col-3 col-form-label">Preferred Term Of Payment
+                                    <i class="text-danger">*</i>
+                                </label>
+                                <div class="col-sm-8">
+                                    <div class="col-sm-8" [busyIf]="getDropdownTermLoading" formComponent="select">
+                                        <select #hasMessage id="preferredTerm" class="form-control preferredTerm"
+                                                [(ngModel)]="modelDropDownPreferredTerm" title="Choose Preferred Term"
+                                                formControlName="preferredterm"
+                                                (ngModelChange)="onChangeTermPayment()"
+                                                jq-plugin="selectpicker"
+                                                data-live-search="true">
+                                            <option *ngFor="let _preferredterm of dropDownPreferredTerm"
+                                                    [ngValue]="_preferredterm">
+                                                {{_preferredterm.termName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="banlListHiden == true " class="form-group m-form__group row"
+                                 [formControlStyle]="validationForm"
+                                 formComponent="p-multiSelect"
+                                 style="margin: 20px 0px;">
+                                <label class="col-3 col-form-label">Preferred Bank
+                                    <i class="text-danger">*Choose max 2
+                                        bank</i>
+                                </label>
+                                <div class="col-sm-8">
+                                    <div class="col-sm-8" [busyIf]="bankListLoading"
+                                         formComponent="p-multiSelect">
+                                        <p-multiSelect #hasMessage id="PreferredBank" [options]="bankList"
+                                                       [(ngModel)]="selectedBankTemp"
+                                                       formControlName="preferredbank"
+                                                       (onChange)="onChangeBank(selectedBankTemp)">
+                                        </p-multiSelect>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <p style="margin-top: 0.5rem;">
+                                            Selected :
+                                            <button type="button" class="btn btn-danger btn-xs selected"
+                                                    *ngFor="let _selectedBankText of selectedBankText"
+                                                    style="font-size: 10px;padding: 0px;">
+                                                {{_selectedBankText}}
+                                            </button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                                <label class="col-3 col-form-label">Priority Pass Price (Rp.)
+                                    <i class="text-danger">*</i>
+                                </label>
+                                <div class="col-sm-8">
+                                    <div class="col-sm-8" [busyIf]="getPriorityPriceLoading">
+                                        <p-spinner #hasMessage size="30" [(ngModel)]="modelPriorityPp"
+                                                   [ngModelOptions]="{standalone: true}" placeholder="Pass Price"
+                                                   styleClass="my-spiner" disabled>
+                                        </p-spinner>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" [formControlStyle]="validationForm"
+                                 style="margin: 20px 0px;">
+                                <label class="col-3 col-form-label">Priority Pass Quantity
+                                    <i class="text-danger">*</i>
+                                </label>
+                                <div class="col-sm-8">
+                                    <div class="col-sm-3">
+                                        <input #hasMessage formControlName="priorityQuantity"
+                                               [(ngModel)]="modelPriorityQuantity" class="form-control m-input"
+                                               (ngModelChange)="totalPrice()" type="number">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" style="margin: 20px 0px;">
+                                <label class="col-3 col-form-label">Total Price</label>
+                                <div class="col-sm-8">
+                                    <div class="col-sm-8" [busyIf]="totalPriceLoading">
+                                        <p-spinner size="30" [(ngModel)]="totalPricePp" placeholder="Total Price"
+                                                   [ngModelOptions]="{standalone: true}"
+                                                   styleClass="my-spiner" disabled>
+                                        </p-spinner>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="button" [disabled]="!validationForm.valid || ppLoading" 
+                                [ngClass]="ppLoading ? 'm-loader m-loader--light m-loader--right' : ''"
+                                        class="btn btn-danger pull-right" (click)="trBuyPPOnline()">Order
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

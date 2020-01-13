@@ -1,0 +1,190 @@
+<div bsModal #paymentCheckingModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="paymentCheckingModal" aria-hidden="true" [config]="{keyboard:false,backdrop: 'static'}">
+    <div class="modal-dialog modal-lg modal-size2" role="document" [busyIf]="saving">
+        <form [formGroup]="validationForm" class="m-form m-form--state">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 *ngIf="actionForm" class="modal-title" id="exampleModalLabel">
+                        Create Payment
+                    </h5>
+                    <h5 *ngIf="!actionForm" class="modal-title" id="exampleModalLabel">
+                        View Payment
+                    </h5>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">
+                            Close
+                        </span>
+                    </button>
+                </div>
+                <div class="modal-body" >
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-12 label2">
+                                    <b>Order Info</b>
+                                </label>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-4 col-form-label">
+                                    Order Code
+                                </label>
+                                <div class="col-lg-8">
+                                    <input #orderCode [(ngModel)]="dataRecord.orderCode"
+                                        [ngModelOptions]="{standalone: true}" name="orderCode" id="orderCode"
+                                        class="form-control m-input" placeholder="Enter Order Code" type="text"
+                                        disabled>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-4 col-form-label">
+                                    Project
+                                </label>
+                                <div class="col-lg-8">
+                                    <input [(ngModel)]="dataRecord.projectCode" [ngModelOptions]="{standalone: true}"
+                                        id="projectName" name="projectName" class="form-control m-input"
+                                        placeholder="Enter Project" type="text" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-4 col-form-label">
+                                    Customer
+                                </label>
+                                <div class="col-lg-8">
+                                    <input [(ngModel)]="dataRecord.customerName" [ngModelOptions]="{standalone: true}"
+                                        id="customerName" name="customerName" class="form-control m-input"
+                                        placeholder="Enter Customer" type="text" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-12 label2">
+                                    <b>Amount To Pay</b>
+                                </label>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-4 col-form-label">
+                                    Total Amount
+                                </label>
+                                <div class="col-lg-8">
+                                    <p-spinner size="30" [(ngModel)]="dataRecord.amount" styleClass="my-spiner"
+                                        [ngModelOptions]="{standalone: true}" id="totalAmount" name="totalAmount"
+                                        disabled>
+                                    </p-spinner>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div *ngIf="actionForm">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group m-form__group row">
+                                    <label class="col-lg-12 label2">
+                                        <b>Payment Transaction</b>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group m-form__group row" [formControlStyle]="validationForm">
+                                    <label class="col-lg-4 col-form-label">
+                                        Payment Date <i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-lg-8">
+                                        <div class='input-group date' id=''>
+                                            <input #hasMessage id="paymentDate"
+                                                (selectedDateChange)="onSelectedDate($event)" datePicker="datepicker"
+                                                formControlName="paymentDate" [(ngModel)]="input.paymentDateStr "
+                                                date-format="DD-MM-YYYY" name="paymentDate"
+                                                class="form-date m-input paymentDate" placeholder="YYY-mm-DD" readonly>
+                                            <!-- [attr.disabled]="orderStatus?'':null" -->
+
+                                            <span class="input-group-addon">
+                                                <i class="la la-calendar"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row" formComponent="select"
+                                    [formControlStyle]="validationForm">
+                                    <label class="col-lg-4 col-form-label">
+                                        Payment Type <i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-lg-8">
+                                        <div [busyIf]="paymentTypeLoading">
+                                            <select #hasMessage class="form-control form-control-sm paymentType"
+                                                id="paymentType" jq-plugin="selectpicker" formControlName="paymentType"
+                                                title="Choose Payment Type" [(ngModel)]="input.paymentTypeID">
+                                                <option value="">Nothing Selected</option>
+                                                <option *ngFor="let _paymentType of paymentType"
+                                                    [value]="_paymentType.paymentType">{{_paymentType.paymentTypeName}}
+                                                </option>
+                                            </select>
+                                            <!-- [attr.disabled]="orderStatus?'':null" -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row" [formControlStyle]="validationForm">
+                                    <label class="col-lg-4 col-form-label">
+                                        Bank <i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" formControlName="bankList"
+                                            [(ngModel)]="input.bankName">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group m-form__group row" [formControlStyle]="select">
+                                    <label class="col-lg-5 col-form-label">
+                                        Account<i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <div [busyIf]="accountLoading">
+                                            <select #hasMessage class="form-control form-control-sm accountList"
+                                                id="accountList" jq-plugin="selectpicker" formControlName="accountList"
+                                                title="Choose Account" [(ngModel)]="input.accountID">
+                                                <option value="">Nothing Selected</option>
+                                                <option *ngFor="let _account of accountList"
+                                                    [value]="_account.accountID">{{_account.accountCode}} -
+                                                    {{_account.accountName}} - {{_account.accountNo}}
+                                                </option>
+                                            </select>
+                                            <!-- [attr.disabled]="orderStatus?'':null" -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row" [formControlStyle]="validationForm">
+                                    <label class="col-lg-5 col-form-label">
+                                        Account No, Name <i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <input #hasMessage [(ngModel)]="input.accountNo" formControlName="accountNo"
+                                            id="accountNo" name="accountNo" class="form-control m-input"
+                                            placeholder="Enter Account No" type="text">
+                                        <!-- [readonly]="orderStatus" -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="actionForm" class="modal-footer m-form__actions m-form__actions--solid">
+                    <button [disabled]="saving" type="button" class="btn btn-metal" (click)="close()">
+                        <i class="fa fa-close"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" [disabled]="!validationForm.valid" class="btn btn-danger"
+                        (click)="createPayment()">
+                        <i class="fa fa-save"></i>
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
