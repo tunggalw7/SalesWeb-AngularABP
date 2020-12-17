@@ -156,7 +156,7 @@
     "@types/toastr": "^2.1.33",
     "angular-datatables": "^5.0.0",
     "codelyzer": "^4.0.1",
-    "datatables.net": "^1.10.16",
+    "datatables.net": "^1.10.22",
     "datatables.net-dt": "^1.10.16",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "^4.2.1",
